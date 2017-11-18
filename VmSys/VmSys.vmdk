@@ -1,0 +1,21 @@
+# Disk DescriptorFile
+version=1
+encoding="GBK"
+CID=fffffffe
+parentCID=ffffffff
+isNativeSnapshot="no"
+createType="twoGbMaxExtentSparse"
+
+# Extent description
+RW 208896 SPARSE "VmSys-s001.vmdk"
+
+# The Disk Data Base 
+#DDB
+
+ddb.adapterType = "ide"
+ddb.geometry.cylinders = "207"
+ddb.geometry.heads = "16"
+ddb.geometry.sectors = "63"
+ddb.longContentID = "0103b5404a276c5a56cf1b4bfffffffe"
+ddb.uuid = "60 00 C2 95 81 d5 77 17-c5 ee 98 a0 88 89 92 79"
+ddb.virtualHWVersion = "12"

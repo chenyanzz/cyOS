@@ -1,1 +1,3 @@
-.svn/
+.*/
+build/
+bochsout.txt
