@@ -1,3 +1,22 @@
 # cyOS
-An interesting & less developing OS refers to linux by Chenyan  
-for details,see README_ZH.md
+
+# 项目简介
+这是一个岩岩小天使正在做的操作系统【有参考linux】  
+目前正在超级超级初级开发阶段，仅仅完成了
+- 用户态双线程切换
+- 进入main函数之前的引导部分
+- 屏幕输出相关my stdio函数
+
+# 依赖软件
+- xmake 用做构建系统
+- mingw 用来编译生成
+- bochs 用来调试与执行,推荐 
+- qemu 功能与bochs相同，但是速度比bochs快，只不过调试用的是gdb（我不会用）
+- 一款好用的开发环境，我用的是vscode
+
+# 关于作者
+QQ/微信：740310894  
+是一个正在广中念初三的小天使  
+欢迎感兴趣人士一同研究，一同开发  
+@wxy【邪魅一笑】  
+正准备搞个工作室，一起写点超级小项目（web app，游戏之类的）
