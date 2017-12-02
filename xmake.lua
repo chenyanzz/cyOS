@@ -1,4 +1,4 @@
-set_project("cySystem")
+set_project("cyOS")
 
 set_languages("cxx11")
 
@@ -20,11 +20,24 @@ add_subdirs("./boot/")
 add_subdirs("./libs/")
 add_subdirs("./kernel/")
 
+set_objectdir("$(buildir)")
+set_targetdir("$(buildir)")
+set_headerdir("include")
 
-target("sySystem.img")
-    add_deps("boot","libs","kernel")
-    
+target("cyOS")
+    add_deps("boot","kernel")
 	on_build(function ()
-        os.run("dd if=boot/boot.bin of=$(buildir)/cySystem.img bs=512 count=3")
-        os.run("dd if=$(buildir)/kernel.bin of=$(buildir)/cySystem.img bs=512 count=100 seek=3")
+        os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cySystem.img bs=512 count=3")
+        os.vrun("dd if=$(buildir)/kernel.bin of=$(buildir)/cySystem.img bs=512 count=100 seek=3")
+        cprint("${blue}cyOS has been built successfully")
     end)
+
+    if is_mode("release") then
+        on_run(function ()
+            os.run("./run.bat")
+        end)
+    else
+        on_run(function ()
+            os.run("./debug.bat")
+        end)
+    end

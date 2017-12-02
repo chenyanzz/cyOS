@@ -10,7 +10,7 @@ SETUP_SIZE_KB equ 1
 jmp boot_main
 
 str:
-db 10,13,"cySystem loading...",10,13
+db 10,13,"cyOS",10,13,"loading image...",10,13
 strend:
 
 ;bootloader main
