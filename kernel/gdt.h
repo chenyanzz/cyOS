@@ -66,7 +66,7 @@ typedef segment_descriptor local_descriptor;
 
 global_descriptor GDT[256];
 
-void set_GDT(int index,global_descriptor gd);
+// void set_GDT(int index,global_descriptor gd);
 void init_GDT();
 
 #endif //GDT_H

@@ -25,19 +25,22 @@
 
 --     end)
 target("kernel")
-    set_kind("static")
+    set_kind("object")
     add_deps("libs")
     --source
     add_files("**.c","**.cpp")
 
+    --add_ldflags("-Wl,-Tkernel/link.lds","-lstdc++","-nostartfiles","-e_main","-m32","-static-libgcc","-static-libstdc++","-static","-nostdinc","-fno-builtin",{force=true})
+
     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
     after_build(function ()
-        os.vrun("gcc $(buildir)/libkernel.a $(buildir)/liblibs.a -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -nostartfiles -e _main -m32")
+
+        os.vrun("gcc $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -nostdinc -fno-builtin")
 
         --disassemble
-        os.vrun("echo (objdump -S $(buildir)/kernel.o -M intel) > d_kernel.txt")
-
+        --os.vrun("objdump -S $(buildir)/kernel.o -M intel|echo > d_kernel.txt")
+        --os.vrun("objdump -S $(buildir)/kernel/kernel/main.cpp.o -M intel|echo > d_main.txt")
         --cut into plain code
 	    os.vrun("objcopy -O binary $(buildir)/kernel.o $(buildir)/kernel.bin")
 

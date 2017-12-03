@@ -3,7 +3,7 @@
 KERNELSEG equ 1000h
 DATASEG equ 9000h
 SETUPSEG equ 9020h
-KERNEL_SIZE_KB equ 12
+;KERNEL_SIZE_KB equ 12 --later define on cmd -dxxx=xx
 
 save_bios_data:
 ;save bios data to DATASEG:
@@ -101,13 +101,13 @@ move_sys_end:
 ;set gdt
 ;---------------------------------------------------------
 set_gdt:
-    mov ax,SETUPSEG
+    mov ax,SETUPSEG     ;0x9028d
     mov ds,ax
     lgdt [gdt_decriptor]
-    jmp set_gdt_end
+    jmp set_gdt_end     ;0x90297
 
-gdt_decriptor:
-    dw 2048    ;size 256*(8B per)
+gdt_decriptor:      ;48bits=6bytes
+    dw 2048    ;size 256*(8 per)
     dd 0x90200+gdt_data;gdt addr
 
 gdt_data:

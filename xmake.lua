@@ -24,12 +24,30 @@ set_objectdir("$(buildir)")
 set_targetdir("$(buildir)")
 set_headerdir("include")
 
+set_strip("all")
+
+
 target("cyOS")
-    add_deps("boot","kernel")
+    add_deps("kernel","boot")
+
+
 	on_build(function ()
-        os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cySystem.img bs=512 count=3")
-        os.vrun("dd if=$(buildir)/kernel.bin of=$(buildir)/cySystem.img bs=512 count=100 seek=3")
+        -- import("filelen")
+        -- local kernel_len_kb = filelen_kb("$(buildir)/kernel.bin")
+        -- local boot_len_kb = filelen_kb("$(buildir)/boot.bin")
+        local kernel_len_kb = 10
+        local boot_len_kb = 3
+        os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
+            bs=1024 count=%d conv=notrunc,sync"
+            ,boot_len_kb)
+        os.vrun("dd if=$(buildir)/kernel.bin of=$(buildir)/cyOS.img \
+            bs=1024 count=%d seek=%d conv=notrunc,sync"
+            ,kernel_len_kb,boot_len_kb)
         cprint("${blue}cyOS has been built successfully")
+    end)
+
+    on_clean(function () 
+        os.rmdir("build")
     end)
 
     if is_mode("release") then

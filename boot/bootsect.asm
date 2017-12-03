@@ -2,15 +2,15 @@ org 7c00h
 
 SETUPSEG equ 9020h
 KERNELSEG equ 1000h
-KERNEL_SIZE_KB equ 12
-SETUP_SIZE_KB equ 1
+;KERNEL_SIZE_KB equ 12--later define on cmd -dxxx=xx
+;SETUP_SIZE_KB equ 1--later define on cmd -dxxx=xx
 
 ;program starts here
 ;=========================================================
 jmp boot_main
 
 str:
-db 10,13,"cyOS",10,13,"loading image...",10,13
+db 10,13,"cyOS is starting",10,13,"loading image...",10,13
 strend:
 
 ;bootloader main

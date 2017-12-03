@@ -1,1 +1,1 @@
-xmake f -p mingw -a i386 -m debug -o .\build
+xmake f -p mingw -a i386 -m release -o .\build  --ld=gcc
