@@ -3,7 +3,7 @@
 KERNELSEG equ 1000h
 DATASEG equ 9000h
 SETUPSEG equ 9020h
-;KERNEL_SIZE_KB equ 12 --later define on cmd -dxxx=xx
+;KERNEL_SIZE_512 --later define on cmd -dxxx=xx
 
 save_bios_data:
 ;save bios data to DATASEG:
@@ -86,7 +86,7 @@ mov di,0
 
 mov ax,1;num of current kb
 do_move:
-cmp ax,KERNEL_SIZE_KB
+cmp ax,KERNEL_SIZE_512*2
 jg move_sys_end;if current >limit break
 mov cx,1024;move 1k
 rep movsb

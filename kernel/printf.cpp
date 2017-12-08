@@ -3,6 +3,7 @@
 #include "stringUtils.h"
 
 static char x,y;//屏幕光标位置
+
 static char TextColor;//当前颜色设置
 
 //显存里字符结构体
@@ -16,7 +17,7 @@ struct character* screen[40];//[40][80]{text,color} 字符显存
 //struct character screen[40][80];//调试版*数组显存
 const struct character SPACE = {' ',0};//空格
 
-void setTerminalColorAttr(char a)
+void setTerminalColorAttr(char a)//8bits: lrgb(text) lrgb (bg)		&&l means light up
 {
 	TextColor = a;
 }

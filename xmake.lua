@@ -32,17 +32,17 @@ target("cyOS")
 
 
 	on_build(function ()
-        -- import("filelen")
+        import("filelen")
         -- local kernel_len_kb = filelen_kb("$(buildir)/kernel.bin")
         -- local boot_len_kb = filelen_kb("$(buildir)/boot.bin")
-        local kernel_len_kb = 10
-        local boot_len_kb = 3
+        local kernel_len_512 = 10
+        local boot_len_512 = 2
         os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
-            bs=1024 count=%d conv=notrunc,sync"
-            ,boot_len_kb)
+            bs=512 count=%d"
+            ,boot_len_512)
         os.vrun("dd if=$(buildir)/kernel.bin of=$(buildir)/cyOS.img \
-            bs=1024 count=%d seek=%d conv=notrunc,sync"
-            ,kernel_len_kb,boot_len_kb)
+            bs=512 count=%d seek=%d"
+            ,kernel_len_512,boot_len_512)
         cprint("${blue}cyOS has been built successfully")
     end)
 

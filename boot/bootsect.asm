@@ -2,8 +2,8 @@ org 7c00h
 
 SETUPSEG equ 9020h
 KERNELSEG equ 1000h
-;KERNEL_SIZE_KB equ 12--later define on cmd -dxxx=xx
-;SETUP_SIZE_KB equ 1--later define on cmd -dxxx=xx
+
+;KERNEL_SIZE_512,SETUP_SIZE_512 --later define on cmd -dxxx=xx
 
 ;program starts here
 ;=========================================================
@@ -37,12 +37,12 @@ boot_main:
 load_setup:
     ;read disk
     mov dx,0;diskA head0
-    mov cl,2;sector
+    mov cl,2;start sector
     mov ax,SETUPSEG
     mov es,ax;read-to segment
     mov bx,0;read-to offset
-    mov ah,2;start sector
-    mov al,SETUP_SIZE_KB*2;count sector(512byte)s
+    mov ah,2;int 13,ah=2 -> read from device
+    mov al,SETUP_SIZE_512;count sector(512byte)s
     int 13h
     jnc load_setup_end;jump if read success
     jmp load_setup;error->repeat
@@ -54,11 +54,11 @@ load_sys:
     ;read disk
     mov dx,0;diskA head0
     mov ch,0
-    mov cl,2+SETUP_SIZE_KB*2;sector
+    mov cl,2+SETUP_SIZE_512;sector
     mov ax,KERNELSEG
     mov es,ax;read-to segment
     mov bx,0;read-to offset
-    mov al,KERNEL_SIZE_KB*2;count sector(512byte)s
+    mov al,KERNEL_SIZE_512;count sector(512byte)s
     mov ah,2
     int 13h
     jnc load_success;jump if read success
