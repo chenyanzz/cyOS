@@ -5,3 +5,4 @@ include/
 *.o
 *.a
 xmake_os.code-workspace
+*.disk

@@ -26,6 +26,6 @@
 #define KNL_PROGRAM_SEG gknlseg(1)
 #define KNL_DATA_SEG gknlseg(2)
 
-#define bit(n,nb) (n&(1<<nb))
+#define bit(n,nb) (n&(1<<nb) !=0)
 
 #endif

@@ -1,6 +1,5 @@
+ENTRY(_start)
 SECTIONS
 {
-.text :{*(.text)}
-.data :{*(.data)}
-.bss :{*(.bss)}
+.text 0:{build/kernel/kernel/main.cpp.o (.text) *(.text)}
 }

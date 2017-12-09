@@ -4,4 +4,4 @@ target("libs")
     set_kind("object")
 
     --source
-    add_files("**.c","**.cpp")
+    add_files("**.cpp")

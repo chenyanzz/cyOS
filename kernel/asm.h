@@ -8,11 +8,14 @@
 
 #define asm __asm__ __volatile__
 
-inline void cli();
-inline void sti();
+void cli();
+void sti();
 
-inline byte inb(u16 port);
-inline void outb(u16 port, byte b);
-inline void outw(u16 port, word b);
+void nop();
+
+byte inb(word port);
+void outb(word port, byte b);
+
+void outw(word port, word b);
 
 #endif

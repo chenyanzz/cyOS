@@ -6,6 +6,9 @@ static char x,y;//屏幕光标位置
 
 static char TextColor;//当前颜色设置
 
+const int width=80;
+const int height=25;
+
 //显存里字符结构体
 struct character
 {
@@ -13,7 +16,7 @@ struct character
 	char color;
 };
 
-struct character* screen[40];//[40][80]{text,color} 字符显存
+struct character* screen[80];//[40][80]{text,color} 字符显存
 //struct character screen[40][80];//调试版*数组显存
 const struct character SPACE = {' ',0};//空格
 
@@ -30,18 +33,18 @@ void init_terminal()
 	TextColor = defult_attr;
 	//填补screen数组
 	screen[0]=(struct character*)p_firstChar;
-	for(int i=1;i<40;i++)
+	for(int i=1;i<height;i++)
 	{
-		screen[i]=screen[i-1]+80;
+		screen[i]=screen[i-1]+width;
 	}
 }
 
 //清屏
 void cls()
 {
-	for(int j=0;j<40;j++)
+	for(int j=0;j<height;j++)
 	{
-		for(int i=0;i<160;i++)
+		for(int i=0;i<width;i++)
 		{
 			screen[j][i]=SPACE;
 		}
@@ -52,32 +55,32 @@ void cls()
 void lineup()
 {
 	//将这一行数据挪到上一行
-	for(int i=1;i<40;i++)
+	for(int i=1;i<height;i++)
 	{
-		for(int j=0;j<80;j++)
+		for(int j=0;j<width;j++)
 		{
 			screen[i-1][j]=screen[i][j];
 		}
 	}
 
 	//屏幕上39行补空格
-	for(int i=0;i<80;i++)
+	for(int i=0;i<width;i++)
 	{
-		screen[39][i]=SPACE;
+		screen[height-1][i]=SPACE;
 	}
 }
 
 //判断光标行溢出则换行，列溢出则上滚
 void checkXY()
 {
-	if(x>=80)
+	if(x>=width)
 	{
 		x=0;
 		y++;
 	}
-	if(y>=40)
+	if(y>=height)
 	{
-		y=39;
+		y=height-1;
 		lineup();
 	}
 }
@@ -97,7 +100,7 @@ void printChar(char ch)
 		x--;
 		if(x<0)
 		{
-			x=79;
+			x=width-1;
 			y--;
 			if(y<0)y=0;
 		}

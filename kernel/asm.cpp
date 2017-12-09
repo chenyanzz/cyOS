@@ -1,16 +1,12 @@
 #include "asm.h"
+#include "printf.h"
+void cli() { asm("cli"); }
 
-void cli()
-{
-    asm("cli");
-}
+void sti() { asm("sti"); }
 
-void sti()
-{
-    asm("sti");
-}
+void nop() { asm("nop"); }
 
-byte inb(u16 port)
+byte inb(word port)
 {
     byte b;
 
@@ -21,11 +17,11 @@ byte inb(u16 port)
         
         :"=g"(b)::"dx","ax"
     );
-  
+    printf("read port %d:%d\n",(int)port,(int)b);
     return b;
 }
 
-void outb(u16 port, byte b)
+void outb(word port, byte b)
 {
     asm("mov dx,%0"::"g"(port));
     asm(
@@ -34,9 +30,10 @@ void outb(u16 port, byte b)
         
         ::"g"(b):"dx","ax"
     );
+    printf("write port %d:%d\n",(int)port,(int)b);
 }
 
-void outw(u16 port, word w)
+void outw(word port, word w)
 {
     asm("mov dx,%0"::"g"(port));
     asm(
@@ -45,4 +42,5 @@ void outw(u16 port, word w)
         
         ::"g"(w):"dx","ax"
     );
+    printf("write port %d:%d\n",(int)port,(int)w);
 }

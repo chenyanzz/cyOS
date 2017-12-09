@@ -28,15 +28,13 @@ target("kernel")
     set_kind("object")
     add_deps("libs")
     --source
-    add_files("**.c","**.cpp")
-
-    --add_ldflags("-Wl,-Tkernel/link.lds","-lstdc++","-nostartfiles","-e_main","-m32","-static-libgcc","-static-libstdc++","-static","-nostdinc","-fno-builtin",{force=true})
+    add_files("**.cpp")
+    -- add_cxflags("-nostartfiles","-m32","-fno-builtin",{force=true})
 
     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
     after_build(function ()
-
-        os.vrun("gcc $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -lm -nostartfiles -m32 -static-libstdc++ -static -fno-builtin")
+        os.vrun("gcc $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds,-e,_start -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -fno-builtin")
 
         --disassemble
         --os.vrun("objdump -S $(buildir)/kernel.o -M intel|echo > d_kernel.txt")

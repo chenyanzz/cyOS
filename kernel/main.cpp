@@ -1,22 +1,21 @@
 #include "stdio.h"
 using namespace std;
 #include "thread/thread.h"
-extern "C"{
-
+#include "disk/basic_io.h"
 /** 
  * @brief  cy
  * @note   32位主程序入口
  * @retval 不返回
  */
+
+byte buf[1024];
+
+extern "C"
 int start()
 {
 	init_terminal();
-	printf("starting kernel..\n");
 	setTerminalColorAttr(0b00000110);
-	printf("--Helloworld!--\n");
-	while(1);
+	disk_read(buf,1024,{0,0,0});
+	while(true);
 	return 0;
-}
-
-
 }
