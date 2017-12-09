@@ -36,7 +36,7 @@ target("kernel")
 
     after_build(function ()
 
-        os.vrun("gcc $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -nostdinc -fno-builtin")
+        os.vrun("gcc $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -lm -nostartfiles -m32 -static-libstdc++ -static -fno-builtin")
 
         --disassemble
         --os.vrun("objdump -S $(buildir)/kernel.o -M intel|echo > d_kernel.txt")

@@ -26,13 +26,13 @@ void switch_to_t2()
 
 	//出栈新寄存器
 	asm(
-			"popf;"
-			"pop gs;"
-			"pop fs;"
-			"pop es;"
-			"pop ds;"
-			"pop ebp;"
-			"popa;"
+		"popf;"
+		"pop gs;"
+		"pop fs;"
+		"pop es;"
+		"pop ds;"
+		"pop ebp;"
+		"popa;"
     );
 }
 
@@ -40,13 +40,13 @@ void switch_to_t1()
 {
 	//压栈原来的寄存器
 	asm(
-			"pusha;"
-			"push ebp;"
-			"push ds;"
-			"push es;"
-			"push fs;"
-			"push gs;"
-			"pushf;"
+		"pusha;"
+		"push ebp;"
+		"push ds;"
+		"push es;"
+		"push fs;"
+		"push gs;"
+		"pushf;"
     );
     
 	//存储栈顶指针
@@ -60,13 +60,13 @@ void switch_to_t1()
 
 	//弹栈新寄存器
 	asm(
-			"popf;"
-			"pop gs;"
-			"pop fs;"
-			"pop es;"
-			"pop ds;"
-			"pop ebp;"
-			"popa;"
+		"popf;"
+		"pop gs;"
+		"pop fs;"
+		"pop es;"
+		"pop ds;"
+		"pop ebp;"
+		"popa;"
 	);
 }
 
@@ -94,13 +94,13 @@ void test_thread()
     asm("push %0"::"g"(tcb2.esp));
 
 	asm(
-            "pusha;"
-			"push ebp;"
-			"push ds;"
-			"push es;"
-			"push fs;"
-			"push gs;"
-            "pushf;"
+        "pusha;"
+		"push ebp;"
+		"push ds;"
+		"push es;"
+		"push fs;"
+		"push gs;"
+        "pushf;"
 	);
 
 	//储存当前堆栈帧为开始状态

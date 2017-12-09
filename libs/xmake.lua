@@ -1,7 +1,7 @@
 target("libs")
 
     --settings
-    set_kind("static")
+    set_kind("object")
 
     --source
     add_files("**.c","**.cpp")

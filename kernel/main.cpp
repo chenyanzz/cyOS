@@ -1,8 +1,13 @@
 #include "stdio.h"
+using namespace std;
 #include "thread/thread.h"
 extern "C"{
 
-
+/** 
+ * @brief  cy
+ * @note   32位主程序入口
+ * @retval 不返回
+ */
 int start()
 {
 	init_terminal();

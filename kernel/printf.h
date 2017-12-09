@@ -11,77 +11,66 @@
 */
 void init_terminal();
 
-/**
-* 清空屏幕
-*/
+/** 
+ * @brief  cy
+ * @note   清空命令行内容
+ * @retval None
+ */
 void cls();
 
-
-/**
- * 设置字符前景色与背景色
+/** 
+ * @brief  cy
+ * @note   设置命令行字符前景色与背景色
+ * @param  a: 8位分别 lrgb(text) lrgb (bg)		l为高亮
+ * @retval None
  */
 void setTerminalColorAttr(char a);
 
-/**
-* 控制台打印单个字符
-* @param c 打印的字符
-*/
+/** 
+ * @brief  cy
+ * @note   控制台打印单个字符
+ * @param  c: 那个字符
+ * @retval None
+ */
 void printChar(char c);
 
-/**
-* 控制台打印字符串
-* @param str 字符串
-*/
+/** 
+ * @brief  cy
+ * @note   控制台打印字符串
+ * @param  str: 字符串
+ * @retval None
+ */
 void printStr(char* str);
 
-/**
-* 控制台打印无符号整数
-* @param val 值
-*/
+/** 
+ * @brief  cy
+ * @note   打印不同类型数字
+ * @param  val: 数值 
+ * @retval None
+ */
 void printUInt(unsigned int val);
-
-/**
-* 控制台打印有符号整数
-* @param val 值
-*/
 void printInt(int val);
-
-/**
-* 控制台打印有符号长整数
-* @param val 值
-*/
 void printLong(long val);
-
-/**
-* 控制台打印无符号长整数
-* @param val 值
-*/
 void printULong(unsigned long val);
-
-/**
-* 控制台打印有符号长长整数
-* @param val 值
-*/
 void printLongLong(long long val);
-
-/**
-* 控制台打印无符号长长整数
-* @param val 值
-*/
 void printULongLong(unsigned long long val);
 
-/**
-* 控制台打印浮点数
-* @param val 值
-* @param dp 小数点后长度
-*/
+/** 
+ * @brief  cy
+ * @note   控制台打印浮点数
+ * @param  val: 值
+ * @param  dp: 小数点后长度
+ * @retval None
+ */
 void printDouble(double val, int dp);
 
-/**
-* 控制台打印带格式字符串
-* @param format 字符串格式
-* @param ... 填充参数
-*/
+/** 
+ * @brief  cy
+ * @note   实现标准库中printf
+ * @param  format: 格式字符串
+ * @param  ...: 填充参数
+ * @retval None
+ */
 void printf(const char* const format, ...);
 
 #endif

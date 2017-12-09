@@ -13,9 +13,6 @@ add_cxflags("-nostdinc","-masm=intel","-W","-fno-builtin")
 add_cxflags("-include $(projectdir)/kernel/define.h")
 add_cxflags("-include $(projectdir)/kernel/gcc_disable_warnings.h")
 
-add_cflags("-D LANG_C")
-add_cxxflags("-D LANG_CPP")
-
 add_subdirs("./boot/")
 add_subdirs("./libs/")
 add_subdirs("./kernel/")

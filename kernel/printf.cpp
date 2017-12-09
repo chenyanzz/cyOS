@@ -1,6 +1,6 @@
 #include "stdarg.h"
 #include "printf.h"
-#include "stringUtils.h"
+#include "stdlib.h"
 
 static char x,y;//屏幕光标位置
 
@@ -17,7 +17,7 @@ struct character* screen[40];//[40][80]{text,color} 字符显存
 //struct character screen[40][80];//调试版*数组显存
 const struct character SPACE = {' ',0};//空格
 
-void setTerminalColorAttr(char a)//8bits: lrgb(text) lrgb (bg)		&&l means light up
+void setTerminalColorAttr(char a)
 {
 	TextColor = a;
 }
