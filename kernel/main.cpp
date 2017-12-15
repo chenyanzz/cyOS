@@ -15,7 +15,8 @@ int start()
 {
 	init_terminal();
 	setTerminalColorAttr(0b00000110);
-	disk_read(buf,1024,{0,0,0});
+	disk_read(buf,4,{0,0,0});
+	printHex(buf[0]);
 	while(true);
 	return 0;
 }

@@ -16,6 +16,7 @@ void nop();
 byte inb(word port);
 void outb(word port, byte b);
 
+word inw(word port);
 void outw(word port, word b);
 
 #endif

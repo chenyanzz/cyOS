@@ -17,7 +17,7 @@ byte inb(word port)
         
         :"=g"(b)::"dx","ax"
     );
-    printf("read port %d:%d\n",(int)port,(int)b);
+    printf("read port %xd:%xd\n",(int)port,(int)b);
     return b;
 }
 
@@ -30,7 +30,22 @@ void outb(word port, byte b)
         
         ::"g"(b):"dx","ax"
     );
-    printf("write port %d:%d\n",(int)port,(int)b);
+    printf("write port %xd:%xd\n",(int)port,b);
+}
+
+word inw(word port)
+{
+    word w;
+
+    asm("mov dx,%0"::"g"(port));
+    asm(
+        "in ax, dx;"
+        "mov %0, ax;"
+        
+        :"=g"(w)::"dx","ax"
+    );
+    printf("read port %xd:%xd\n",(int)port,(int)w);
+    return w;
 }
 
 void outw(word port, word w)
@@ -42,5 +57,5 @@ void outw(word port, word w)
         
         ::"g"(w):"dx","ax"
     );
-    printf("write port %d:%d\n",(int)port,(int)w);
+    printf("write port %xd:%xd\n",(int)port,(int)w);
 }

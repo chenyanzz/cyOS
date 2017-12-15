@@ -73,6 +73,13 @@ clear_disk1:
     rep stosb
 copy_data_end:
 
+;reset disk
+    mov ah,00h  ;reset
+    mov dl,90h ; >80h : harddisk
+    int 13h     ;disk service
+    mov ah,0dh  ;reset
+    mov dl,90h ; >80h : harddisk
+    int 13h     ;disk service
 ;move binary image from KERNELSEG to 0
 ;---------------------------------------------------------
 move_sys:

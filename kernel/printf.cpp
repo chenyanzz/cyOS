@@ -131,37 +131,17 @@ void printStr(char* str)
 	}
 }
 
-void printInt(int val)
-{
-	printLongLong(val);
-}
-
-void printUInt(unsigned int val)
-{
-	printULongLong(val);
-}
-
-void printLong(long val)
-{
-	printLongLong(val);
-}
-
-void printULong(unsigned long val)
-{
-	printULongLong(val);
-}
-
-void printLongLong(long long val)
+void printInt(long long val)
 {
 	if (val < 0)
 	{
 		printChar('-');
 		val = -val;
 	}
-	printULongLong(val);
+	printUInt(val);
 }
 
-void printULongLong(unsigned long long val)
+void printUInt(unsigned long long val)
 {
 	if (val == 0)printChar('0');
 	char str[30];
@@ -171,6 +151,39 @@ void printULongLong(unsigned long long val)
 	{
 		str[pos] = '0' + val % 10;
 		val /= 10;
+	}
+	strReverse(str, pos);
+	printStr(str);
+}
+
+void printHex(unsigned long long val)
+{
+	printStr("0x");
+	const char nums[16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	if (val == 0)printChar('0');
+	char str[30];
+	strFill(str, 0, 30);
+	int pos;
+	for (pos = 0; val != 0; pos++)
+	{
+		str[pos] = nums[val % 16];
+		val >>= 4;
+	}
+	strReverse(str, pos);
+	printStr(str);
+}
+
+void printBinary(unsigned long long val)
+{
+	printStr("0b");
+	if (val == 0)printChar('0');
+	char str[32];
+	strFill(str, 0, 32);
+	int pos;
+	for (pos = 0; val != 0; pos++)
+	{
+		str[pos] = '0' + val % 2;
+		val >>= 1;
 	}
 	strReverse(str, pos);
 	printStr(str);
@@ -258,8 +271,7 @@ void printf(const char* const format,...)
 		//判断%后的字符是什么
 		pc++;
 		parseAttr(&pc,vl);
-		if(*pc=='%')		printChar('%');
-		else if(*pc=='c')	printChar(va_arg(vl, char));
+		if(*pc=='c')	printChar(va_arg(vl, char));
 		else if(*pc=='s')	printStr(va_arg(vl, char*));
 		else if(*pc=='u')	printUInt(va_arg(vl, unsigned int));
 		else if(*pc=='d')	printInt(va_arg(vl, int));
@@ -267,15 +279,51 @@ void printf(const char* const format,...)
 		else if(*pc=='l')
 		{
 			pc++;
-			if(*pc=='u')		printULong(va_arg(vl, unsigned long));
-			else if(*pc=='d')	printLong(va_arg(vl, long));
+			if(*pc=='u')		printUInt(va_arg(vl, unsigned long));
+			else if(*pc=='d')	printInt(va_arg(vl, long));
 			else if(*pc=='f')	printDouble(va_arg(vl, double),2);
 			else if(*pc=='l')
 			{
 				pc++;
-				if(*pc=='u')		printULongLong(va_arg(vl, unsigned long long));
-				else if(*pc=='d')	printLongLong(va_arg(vl, long long));
+				if(*pc=='u')		printUInt(va_arg(vl, unsigned long long));
+				else if(*pc=='d')	printInt(va_arg(vl, long long));
 			}
+		}
+		//%x
+		else if(*pc=='x')
+		{
+			pc++;
+			if(*pc=='c')		printHex(va_arg(vl, char));
+			else if(*pc=='d')	printHex(va_arg(vl, int));
+			else if(*pc=='l')
+			{
+				pc++;
+				if(*pc=='d')	printHex(va_arg(vl, long));
+				else if(*pc=='l')
+				{
+				pc++;
+				if(*pc=='d')	printHex(va_arg(vl, long long));
+				}
+			}
+			else 				printHex(va_arg(vl, char));
+		}
+		//%b
+		else if(*pc=='b')
+		{
+			pc++;
+			if(*pc=='c')		printBinary(va_arg(vl, char));
+			else if(*pc=='d')	printBinary(va_arg(vl, int));
+			else if(*pc=='l')
+			{
+				pc++;
+				if(*pc=='d')	printBinary(va_arg(vl, long));
+				else if(*pc=='l')
+				{
+				pc++;
+				if(*pc=='d')	printBinary(va_arg(vl, long long));
+				}
+			}
+			else 				printBinary(va_arg(vl, char));
 		}
 		else	printChar(*pc);
 		pc++;

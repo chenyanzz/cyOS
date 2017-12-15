@@ -1,0 +1,21 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "gdb",
+			"request": "attach",
+			"name": "Attach to qemu",
+			"gdbpath": "C:/Program Files/MinGW/bin/gdb.exe",
+			"target": "localhost:1234",
+			"executable": "debug/kernel.o",
+			"remote": true,
+			"valuesFormatting": "prettyPrinters",
+			"cwd": "${workspaceRoot}",
+			"debugger_args": [
+			],
+			"autorun": [
+				"file build/kernel.o",
+			]
+		}
+	]
+}

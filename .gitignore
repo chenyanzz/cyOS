@@ -1,8 +1,7 @@
-.*/
+.xmake/
 build/
 include/
 *.txt
 *.o
 *.a
-xmake_os.code-workspace
 *.disk
