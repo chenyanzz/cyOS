@@ -4,7 +4,7 @@
 
 static char x,y;//屏幕光标位置
 
-static char TextColor;//当前颜色设置
+static char color;//当前颜色设置
 
 const int width=80;
 const int height=25;
@@ -18,11 +18,11 @@ struct character
 
 struct character* screen[80];//[40][80]{text,color} 字符显存
 //struct character screen[40][80];//调试版*数组显存
-const struct character SPACE = {' ',0};//空格
+const struct character SPACE = {' ',defultColor};//空格
 
-void setTerminalColorAttr(char a)
+void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
-	TextColor = a;
+	color = makeColor(tc,bc)|(blink<<7);
 }
 
 void init_terminal()
@@ -30,7 +30,7 @@ void init_terminal()
 	//获取当前光标位置
 	x = *p_cursor_x;
 	y = *p_cursor_y;
-	TextColor = defult_attr;
+	setTerminalColor(defultTextColor);
 	//填补screen数组
 	screen[0]=(struct character*)p_firstChar;
 	for(int i=1;i<height;i++)
@@ -115,7 +115,7 @@ void printChar(char ch)
 	}else
 	{
 		screen[y][x].text=ch;
-		screen[y][x].color = TextColor;
+		screen[y][x].color = color;
 		x++;
 		checkXY();
 	}

@@ -17,11 +17,11 @@
 
 
 //将段号（0~2047）变成段选择符号
-#define gknlseg(n) (SEGMENT)(n<<3+0b000)
-#define gusrseg(n) (SEGMENT)(n<<3+0x011)
+#define gknlseg(n) (SEGMENT)((n)<<3+0b000)
+#define gusrseg(n) (SEGMENT)((n)<<3+0x011)
 
-#define lknlseg(n) (SEGMENT)(n<<3+0b100)
-#define lusrseg(n) (SEGMENT)(n<<3+0b111)
+#define lknlseg(n) (SEGMENT)((n)<<3+0b100)
+#define lusrseg(n) (SEGMENT)((n)<<3+0b111)
 
 #define KNL_PROGRAM_SEG gknlseg(1)
 #define KNL_DATA_SEG gknlseg(2)

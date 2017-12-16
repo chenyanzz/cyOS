@@ -9,7 +9,7 @@ add_includedirs("$(projectdir)/kernel/")
 for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
 --compile params
-add_cxflags("-nostdinc","-masm=intel","-W","-fno-builtin")
+add_cxflags("-nostdinc","-masm=intel","-W","-fno-builtin","-Wall","-werror")
 add_cxflags("-include $(projectdir)/kernel/define.h")
 add_cxflags("-include $(projectdir)/kernel/gcc_disable_warnings.h")
 

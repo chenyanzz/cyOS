@@ -14,9 +14,9 @@ extern "C"
 int start()
 {
 	init_terminal();
-	setTerminalColorAttr(0b00000110);
-	disk_read(buf,4,{0,0,0});
-	printHex(buf[0]);
+
+	disk_read(buf,25,{0,0,0});
+	printf(buf);
 	while(true);
 	return 0;
 }

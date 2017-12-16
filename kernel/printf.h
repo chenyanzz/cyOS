@@ -1,10 +1,59 @@
 #ifndef STD_OUT_H
 #define STD_OUT_H
 
-#define tab_size 8
-#define defult_attr 7//黑底白字
-
 #include "define.h"
+
+const int tab_size = 8;
+
+
+enum TextColor
+{
+	BLACK		= 0b0000,
+	DARKGRAY	= 8&BLACK,
+	
+	RED			= 0b0100,
+	LIGHTRED	= 8&RED,
+	TOMATO		= LIGHTRED,
+
+	GREEN		= 0b0010,
+	LIGHTGREEN	= 8&GREEN,
+	LAWNGREEN	= LIGHTGREEN,
+
+	BLUE		= 0b0001,
+	SKYBLUE		= 8&BLUE,
+	LIGHTBLUE	= SKYBLUE,
+	
+	ORANGE		= 0b0110,
+	YELLOW		= 8&ORANGE,
+
+	PURPLE		= 0b0101,
+	PINK		= 8&PURPLE,
+
+	CYAN		= 0b0011,
+	LIGHTSYAN	= 8&CYAN,
+
+	WHITE		= 0b0111,
+	LIGHTGRAY	= WHITE,
+	LIGHTWHITE	= 8&WHITE
+};
+
+enum BgColor
+{
+	bgBLACK		= 0b0000,
+	bgRED		= 0b0100,
+	bgGREEN		= 0b0010,
+	bgBLUE		= 0b0001,
+	bgORANGE	= 0b0110,
+	bgPURPLE	= 0b0101,
+	bgCYAN		= 0b0011,
+	bgWHITE		= 0b0111
+};
+
+#define makeColor(textcolor,bgcolor) ((textcolor)+((bgcolor)<<4))
+
+const TextColor defultTextColor = WHITE;
+const BgColor defultBgColor = bgBLACK;
+const byte defultColor = makeColor(defultTextColor,defultBgColor);
 
 /** 
  * 初始化控制台
@@ -17,10 +66,12 @@ void init_terminal();
 void cls();
 
 /** 
- * 设置命令行字符前景色与背景色
- * @param  a: 8位分别 lrgb(text) lrgb (bg)		l为高亮
+ * 设置命令行颜色属性
+ * @param  tc: 前景字符色
+ * @param  bc: 背景色
+ * @param  blink: 是否闪烁
  */
-void setTerminalColorAttr(char a);
+void setTerminalColor(TextColor tc, BgColor bc=defultBgColor, bool blink=false);
 
 /** 
  * 控制台打印单个字符
