@@ -17,7 +17,7 @@ byte inb(word port)
         
         :"=g"(b)::"dx","ax"
     );
-    printf("read port %xd:%xd\n",(int)port,(int)b);
+    // printf("read port %xd:%xd\n",(int)port,(int)b);
     return b;
 }
 
@@ -30,7 +30,7 @@ void outb(word port, byte b)
         
         ::"g"(b):"dx","ax"
     );
-    printf("write port %xd:%xd\n",(int)port,b);
+    // printf("write port %xd:%xd\n",(int)port,b);
 }
 
 word inw(word port)
@@ -44,7 +44,7 @@ word inw(word port)
         
         :"=g"(w)::"dx","ax"
     );
-    printf("read port %xd:%xd\n",(int)port,(int)w);
+    // printf("read port %xd:%xd\n",(int)port,(int)w);
     return w;
 }
 
@@ -57,5 +57,5 @@ void outw(word port, word w)
         
         ::"g"(w):"dx","ax"
     );
-    printf("write port %xd:%xd\n",(int)port,(int)w);
+    // printf("write port %xd:%xd\n",(int)port,(int)w);
 }

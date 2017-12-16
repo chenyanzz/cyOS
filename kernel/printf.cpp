@@ -17,7 +17,7 @@ struct character
 };
 
 struct character* screen[80];//[40][80]{text,color} 字符显存
-//struct character screen[40][80];//调试版*数组显存
+
 const struct character SPACE = {' ',defultColor};//空格
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)

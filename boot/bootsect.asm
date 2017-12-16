@@ -62,7 +62,9 @@ load_sys:
     mov ah,2
     int 13h
     jnc load_success;jump if read success
-    jmp load_sys;error->repeat
+
+    ;cuz kernel size is changing
+    ;jmp load_sys;error->repeat
 load_success:
     jmp SETUPSEG:0
 ;ending

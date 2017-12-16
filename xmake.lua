@@ -32,7 +32,7 @@ target("cyOS")
         import("filelen")
         -- local kernel_len_kb = filelen_kb("$(buildir)/kernel.bin")
         -- local boot_len_kb = filelen_kb("$(buildir)/boot.bin")
-        local kernel_len_512 = 18
+        local kernel_len_512 = 100
         local boot_len_512 = 2
         os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
             bs=512 count=%d"

@@ -1,1 +1,1 @@
-qemu-system-i386 -boot a -fda build/cyOS.img -hda ./cyOS.disk -gdb tcp::1234 -S
+qemu-system-i386 -boot a -fda build/cyOS.img -hda ./hd.img -gdb tcp::1234 -S
