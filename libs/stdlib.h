@@ -40,7 +40,9 @@ void numLen(long long num);
 */
 int parseNum(const char* pc);
 
-
-int 
+/**
+ * 获取字符串长度，0为结尾
+ */
+int strlen(char* str);
 
 #endif //STDLIB_H
