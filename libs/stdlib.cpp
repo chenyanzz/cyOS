@@ -1,29 +1,29 @@
 #include "stdlib.h"
 
-void memset(void*addr,char val,int size)
+void memset(void *addr, char val, int size)
 {
-    asm("pushf");
-    asm("cld");
-    asm("rep stosb"::"c"(size),"a"(val),"D"(addr));
-    asm("popf");
+	asm("pushf");
+	asm("cld");
+	asm("rep stosb" ::"c"(size), "a"(val), "D"(addr));
+	asm("popf");
 }
 
-void memcpy(void*to,void*from,int size)
+void memcpy(void *to, void *from, int size)
 {
-    asm("pushf");
-    asm("cld");
-    asm("rep movsb"::"c"(size),"S"(from),"D"(to));
-    asm("popf");
+	asm("pushf");
+	asm("cld");
+	asm("rep movsb" ::"c"(size), "S"(from), "D"(to));
+	asm("popf");
 }
 
-void swap(char* a, char* b)
+void swap(char *a, char *b)
 {
 	char buf = *a;
 	*a = *b;
 	*b = buf;
 }
 
-void strReverse(char* str, int len)
+void strReverse(char *str, int len)
 {
 	int lpos = 0, rpos = len - 1;
 	char buf;
@@ -36,7 +36,7 @@ void strReverse(char* str, int len)
 	}
 }
 
-void strFill(char* str, char c, int len)
+void strFill(char *str, char c, int len)
 {
 	int i;
 	for (i = 0; i < len; i++)
@@ -45,10 +45,10 @@ void strFill(char* str, char c, int len)
 	}
 }
 
-int parseNum(const char* pc)
+int parseNum(const char *pc)
 {
-	int num =-1;
-	while(*pc>='0'&&*pc<='9')
+	int num = -1;
+	while (*pc >= '0' && *pc <= '9')
 	{
 		num *= 10;
 		num += *pc - '0';

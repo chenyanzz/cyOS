@@ -2,12 +2,12 @@
 #define BASIC_IO_H
 
 #include "types.h"
-#include "../asm.h"
-
 /**
  * 初始化硬盘
  */
-void disk_init();
+bool init_disk();
+
+typedef u64 lba48;
 
 /** 
  * 硬盘读写
@@ -17,7 +17,7 @@ void disk_init();
  * @param  lba:逻辑块号
  * @retval 是否成功
  */
-bool disk_read(void* pbuf, u16 nSec, u6b lba);
-bool disk_write(void* pbuf, u16 nSec, u6b lba);
+bool disk_read(void* pbuf, u16 nSec, lba48 i64lba);
+bool disk_write(void* pbuf, u16 nSec, lba48 i64lba);
 
 #endif //BASIC_IO_H

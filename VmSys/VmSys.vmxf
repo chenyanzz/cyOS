@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<Foundry>
-<VM>
-<VMId type="string">52 95 6a 4b 9b 19 53 99-e6 d8 35 c6 b8 10 b0 3c</VMId>
-<ClientMetaData>
-<clientMetaDataAttributes/>
-<HistoryEventList/></ClientMetaData>
-<vmxPathName type="string">VmSys.vmx</vmxPathName></VM></Foundry>

@@ -1,24 +1,52 @@
 #include "stdio.h"
-using namespace std;
 #include "thread/thread.h"
-#include "disk/basic_io.h"
+#include "disk/fs.h"
+
+#define init(name) 	\
+	if(init_##name())	\
+	{	\
+		setTerminalColor(WHITE);	\
+		printf("init %s\t\t",#name);	\
+		setTerminalColor(BLUE);	\
+		printf("[succeed]\n");	\
+	}else	\
+	{	\
+		setTerminalColor(WHITE);	\
+		printf("init %s\t\t",#name);	\
+		setTerminalColor(RED);	\
+		printf("[failed]\n");	\
+	}	\
+	setTerminalColor(WHITE)
+
+
 /** 
- * @brief  cy
- * @note   32位主程序入口
- * @retval 不返回
+ * 32位主程序入口
  */
-
-
 extern "C"
-int start()
-{
-	char buf[1024] = "Hia Hia Hia -#_#- Xiao Yang Handsome\n\0";
-	init_terminal();
 
-	// disk_read(buf,25,{0,0,0});
-	//printf(buf);
-	disk_write(buf,2,{0,0,0});
-	printf("wrote.\n");
+void start()
+{
+	init(terminal);
+	init(disk);
+	format_disk();
+	init(fs);
+	// cls();
+	// char data[] = "Xiao Yang Handsome";
+
+	// int i=0;
+	// switch(i)
+	// {
+	// case 0:
+	// printInt(0);
+	// break;
+	// case 1:
+	// printInt(1);
+	// }
+	
+	printf("%d",10231);
+
+	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
+	// sync();
+
 	while(true);
-	return 0;
 }

@@ -5,4 +5,4 @@ log: bochsout.txt
 megs: 512
 ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
 ata0-master: type=disk, path="cyOS.disk", cylinders=20, heads=16, spt=63, mode=flat
-ata0-master: type=disk, path="hd.img", mode=flat
+ata0-master: type=disk, path="hdqemu.raw", mode=flat

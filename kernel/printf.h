@@ -1,40 +1,40 @@
 #ifndef STD_OUT_H
 #define STD_OUT_H
 
-#include "define.h"
+#include "types.h"
 
-const int tab_size = 8;
+#define tab_size (8)
 
 
 enum TextColor
 {
 	BLACK		= 0b0000,
-	DARKGRAY	= 8&BLACK,
+	DARKGRAY	= BLACK+0b1000,
 	
 	RED			= 0b0100,
-	LIGHTRED	= 8&RED,
+	LIGHTRED	= RED+0b1000,
 	TOMATO		= LIGHTRED,
 
 	GREEN		= 0b0010,
-	LIGHTGREEN	= 8&GREEN,
+	LIGHTGREEN	= GREEN+0b1000,
 	LAWNGREEN	= LIGHTGREEN,
 
 	BLUE		= 0b0001,
-	SKYBLUE		= 8&BLUE,
+	SKYBLUE		= BLUE+0b1000,
 	LIGHTBLUE	= SKYBLUE,
 	
 	ORANGE		= 0b0110,
-	YELLOW		= 8&ORANGE,
+	YELLOW		= ORANGE+0b1000,
 
 	PURPLE		= 0b0101,
-	PINK		= 8&PURPLE,
+	PINK		= PURPLE+0b1000,
 
 	CYAN		= 0b0011,
-	LIGHTSYAN	= 8&CYAN,
+	LIGHTSYAN	= CYAN+0b1000,
 
 	WHITE		= 0b0111,
 	LIGHTGRAY	= WHITE,
-	LIGHTWHITE	= 8&WHITE
+	LIGHTWHITE	= WHITE+0b1000
 };
 
 enum BgColor
@@ -51,14 +51,14 @@ enum BgColor
 
 #define makeColor(textcolor,bgcolor) ((textcolor)+((bgcolor)<<4))
 
-const TextColor defultTextColor = WHITE;
-const BgColor defultBgColor = bgBLACK;
-const byte defultColor = makeColor(defultTextColor,defultBgColor);
+#define defaultTextColor (WHITE)
+#define defaultBgColor (bgBLACK)
+const byte defaultColor = makeColor(defaultTextColor,defaultBgColor);
 
 /** 
  * 初始化控制台
  */
-void init_terminal();
+bool init_terminal();
 
 /** 
  * 清空命令行内容
@@ -71,7 +71,7 @@ void cls();
  * @param  bc: 背景色
  * @param  blink: 是否闪烁
  */
-void setTerminalColor(TextColor tc, BgColor bc=defultBgColor, bool blink=false);
+void setTerminalColor(TextColor tc, BgColor bc=defaultBgColor, bool blink=false);
 
 /** 
  * 控制台打印单个字符

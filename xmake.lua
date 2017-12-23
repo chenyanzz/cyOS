@@ -10,8 +10,6 @@ for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir)
 
 --compile params
 add_cxflags("-nostdinc","-masm=intel","-W","-fno-builtin","-Wall","-werror")
-add_cxflags("-include $(projectdir)/kernel/define.h")
-add_cxflags("-include $(projectdir)/kernel/gcc_disable_warnings.h")
 
 add_subdirs("./boot/")
 add_subdirs("./libs/")
@@ -26,10 +24,14 @@ set_strip("all")
 
 target("cyOS")
     add_deps("kernel","boot")
-
-
+    
 	on_build(function ()
-        import("filelen")
+    import("filelen")
+    -- local filename = "$(buildir)/kernel.bin"
+    -- local fh = io.open(filename, "rb")
+    -- local len = fh:seek("end")
+    -- print(len)
+
         -- local kernel_len_kb = filelen_kb("$(buildir)/kernel.bin")
         -- local boot_len_kb = filelen_kb("$(buildir)/boot.bin")
         local kernel_len_512 = 100

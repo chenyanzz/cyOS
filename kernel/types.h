@@ -7,39 +7,35 @@
 typedef char 	int8;
 typedef short 	int16;
 typedef int 	int32;
-typedef char 	i8;
-typedef short 	i16;
-typedef int 	i32;
-typedef char 	i1b;
-typedef short 	i2b;
-typedef int 	i4b;
+typedef long long int64;
+typedef int8 	i8;
+typedef int16 	i16;
+typedef int32 	i32;
+typedef int64	i64;
+typedef i8 		i1b;
+typedef i16 	i2b;
+typedef i32 	i4b;
+typedef i64		i8b;
 
 typedef unsigned char 	uint8;
 typedef unsigned short 	uint16;
 typedef unsigned int 	uint32;
-typedef unsigned char 	u8;
-typedef unsigned short 	u16;
-typedef unsigned int 	u32;
-typedef unsigned char 	u1b;
-typedef unsigned short 	u2b;
-typedef unsigned int 	u4b;
+typedef unsigned long long uint64;
 
-typedef int8 	byte;
-typedef int16 	word;
-typedef int32 	dword;
+typedef uint8 	u8;
+typedef uint16 	u16;
+typedef uint32 	u32;
+typedef uint64 	u64;
 
-typedef union u6b
-{
-	byte bytes[6];
-	word words[3];
-} u48;
+typedef u8 	u1b;
+typedef u16	u2b;
+typedef u32	u4b;
+typedef u64 uint64;
 
-typedef union u8b
-{
-	byte bytes[8];
-	word words[4];
-} u64;
-
+typedef uint8 	byte;
+typedef uint16 	word;
+typedef uint32 	dword;
+typedef uint64 	qword;
 
 typedef void*	MEM_ADDR;
 
@@ -49,6 +45,9 @@ typedef void*	MEM_ADDR;
 typedef byte 	bool;
 const bool true  = 1;
 const bool false = 0;
+
+#define _in const
+#define _out
 
 #endif
 

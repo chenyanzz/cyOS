@@ -1,6 +1,7 @@
 #include "stdarg.h"
 #include "printf.h"
 #include "stdlib.h"
+#include "asm.h"
 
 static char x,y;//屏幕光标位置
 
@@ -18,25 +19,26 @@ struct character
 
 struct character* screen[80];//[40][80]{text,color} 字符显存
 
-const struct character SPACE = {' ',defultColor};//空格
+const struct character SPACE = {' ',defaultColor};//空格
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
 	color = makeColor(tc,bc)|(blink<<7);
 }
 
-void init_terminal()
+bool init_terminal()
 {
 	//获取当前光标位置
 	x = *p_cursor_x;
 	y = *p_cursor_y;
-	setTerminalColor(defultTextColor);
+	setTerminalColor(defaultTextColor);
 	//填补screen数组
 	screen[0]=(struct character*)p_firstChar;
 	for(int i=1;i<height;i++)
 	{
 		screen[i]=screen[i-1]+width;
 	}
+	return true;
 }
 
 //清屏
@@ -49,6 +51,7 @@ void cls()
 			screen[j][i]=SPACE;
 		}
 	}
+	x=0;	y=0;
 }
 
 //控制台内容整体上移一行
@@ -251,7 +254,7 @@ void parseAttr(const char** ppc, va_list vl)
 	if (attr.dp == 0)attr.dp = 2;
 }
 
-void printf(const char* const format,...)
+void printf(const char* format,...)
 {
 	//准备可变参数
 	va_list vl;
@@ -271,61 +274,115 @@ void printf(const char* const format,...)
 		//判断%后的字符是什么
 		pc++;
 		parseAttr(&pc,vl);
-		if(*pc=='c')	printChar(va_arg(vl, char));
-		else if(*pc=='s')	printStr(va_arg(vl, char*));
-		else if(*pc=='u')	printUInt(va_arg(vl, unsigned int));
-		else if(*pc=='d')	printInt(va_arg(vl, int));
-		else if(*pc=='f')	printDouble(va_arg(vl, double),attr.dp);
-		else if(*pc=='l')
+		switch(*pc)
 		{
+		case 'c':
+			printChar(va_arg(vl, char));
+			break;
+		case 's':
+			printStr(va_arg(vl, char*));
+			break;
+		case 'u':
+			printStr(va_arg(vl, char*));
+			break;
+		case 'd':
+			printInt(va_arg(vl, int));
+			break;
+		case 'f':
+			printDouble(va_arg(vl, double),attr.dp);
+			break;
+		case 'l':
 			pc++;
-			if(*pc=='u')		printUInt(va_arg(vl, unsigned long));
-			else if(*pc=='d')	printInt(va_arg(vl, long));
-			else if(*pc=='f')	printDouble(va_arg(vl, double),2);
-			else if(*pc=='l')
+			switch(*pc)
 			{
+			case 'u':
+				printUInt(va_arg(vl, unsigned long));
+				break;
+			case 'd':
+				printInt(va_arg(vl, long));
+				break;
+			case 'f':
+				printDouble(va_arg(vl, double),2);
+				break;
+			case 'l':
 				pc++;
-				if(*pc=='u')		printUInt(va_arg(vl, unsigned long long));
-				else if(*pc=='d')	printInt(va_arg(vl, long long));
-			}
-		}
-		//%x
-		else if(*pc=='x')
-		{
-			pc++;
-			if(*pc=='c')		printHex(va_arg(vl, char));
-			else if(*pc=='d')	printHex(va_arg(vl, int));
-			else if(*pc=='l')
-			{
-				pc++;
-				if(*pc=='d')	printHex(va_arg(vl, long));
-				else if(*pc=='l')
+				switch(*pc)
 				{
-				pc++;
-				if(*pc=='d')	printHex(va_arg(vl, long long));
+				case 'u':
+					printUInt(va_arg(vl, unsigned long long));
+					break;
+				case 'd':
+					printInt(va_arg(vl, long long));
+					break;
 				}
+				break;
 			}
-			else 				printHex(va_arg(vl, char));
-		}
-		//%b
-		else if(*pc=='b')
-		{
+			break;
+		case 'x':
 			pc++;
-			if(*pc=='c')		printBinary(va_arg(vl, char));
-			else if(*pc=='d')	printBinary(va_arg(vl, int));
-			else if(*pc=='l')
+			switch(*pc)
 			{
+			case 'c':
+				printHex(va_arg(vl, char));
+				break;
+			case 'd':
+				printHex(va_arg(vl, int));
+				break;
+			case 'l':
 				pc++;
-				if(*pc=='d')	printBinary(va_arg(vl, long));
-				else if(*pc=='l')
+				switch(*pc)
 				{
-				pc++;
-				if(*pc=='d')	printBinary(va_arg(vl, long long));
+				case 'd':
+					printHex(va_arg(vl, long));
+					break;
+				case 'l':
+					pc++;
+					switch(*pc)
+					{
+					case 'd':
+						printHex(va_arg(vl, long long));
+						break;
+					}
 				}
+				break;
+			default:
+				printHex(va_arg(vl, char));
 			}
-			else 				printBinary(va_arg(vl, char));
+			break;
+		case 'b':
+			pc++;
+			switch(*pc)
+			{
+			case 'c':
+				printBinary(va_arg(vl, char));
+				break;
+			case 'd':
+				printBinary(va_arg(vl, int));
+				break;
+			case 'l':
+				pc++;
+				switch(*pc)
+				{
+				case 'd':
+					printBinary(va_arg(vl, long));
+					break;
+				case 'l':
+					pc++;
+					switch(*pc)
+					{
+					case 'd':
+						printBinary(va_arg(vl, long long));
+						break;
+					}
+				}
+				break;
+			default:
+				printBinary(va_arg(vl, char));
+			}
+			break;
+		default:
+			printChar(*pc);
 		}
-		else	printChar(*pc);
 		pc++;
 	}
 	va_end(vl);
