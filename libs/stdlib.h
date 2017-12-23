@@ -40,7 +40,4 @@ void numLen(long long num);
 */
 int parseNum(const char* pc);
 
-
-int 
-
 #endif //STDLIB_H
