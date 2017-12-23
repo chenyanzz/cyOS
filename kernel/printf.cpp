@@ -51,7 +51,8 @@ void cls()
 			screen[j][i]=SPACE;
 		}
 	}
-	x=0;	y=0;
+	x=0;
+	y=0;
 }
 
 //控制台内容整体上移一行
@@ -386,4 +387,10 @@ void printf(const char* format,...)
 		pc++;
 	}
 	va_end(vl);
+}
+
+void setXY(const int newx, const int newy)
+{
+	x = newx;
+	y = newy;
 }

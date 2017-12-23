@@ -118,4 +118,9 @@ void printDouble(double val, int dp);
  */
 void printf(const char* const format, ...);
 
+/** 
+ * 控制输出光标
+ * @author wxy
+ */
+void setXY(const int newx, const int newy);
 #endif
