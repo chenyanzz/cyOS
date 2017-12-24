@@ -21,20 +21,15 @@ void printColorStr(char* format)
     int i = 0;
     for (i = 0; format[i] != '\0'; i++)
     {
-        if (format[i] != '%')
+        if (format[i] == '$' && format[++i] == '{')
         {
-            setTerminalColor(WHITE, bgBLACK, false);//默认
-            printChar(format[i]);
+
         }
         else
         {
-            if(format[i++] == '%')
-            {
-                printChar('%');
-            }
-            else
-            {
-            }
+            i--;
+            setTerminalColor(WHITE, bgBLACK, false);//默认
+            printChar(format[i]);
         }
     }
 }

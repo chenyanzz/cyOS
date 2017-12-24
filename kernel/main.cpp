@@ -32,7 +32,7 @@ void start()
 	//format_disk();
 	init(fs);
 
-	// bootScreen();
+	bootScreen();
 
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
