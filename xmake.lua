@@ -21,21 +21,16 @@ set_headerdir("include")
 
 set_strip("all")
 
+add_moduledirs("./")
 
 target("cyOS")
     add_deps("kernel","boot")
     
 	on_build(function ()
-    import("filelen")
-    -- local filename = "$(buildir)/kernel.bin"
-    -- local fh = io.open(filename, "rb")
-    -- local len = fh:seek("end")
-    -- print(len)
-
-        -- local kernel_len_kb = filelen_kb("$(buildir)/kernel.bin")
-        -- local boot_len_kb = filelen_kb("$(buildir)/boot.bin")
-        local kernel_len_512 = 100
-        local boot_len_512 = 2
+        import("filelen")
+        local kernel_len_512 = math.ceil(filelen.kb("$(buildir)/kernel.bin")*2)
+        local boot_len_512 = math.ceil(filelen.kb("$(buildir)/boot.bin")*2)
+        
         os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
             bs=512 count=%d"
             ,boot_len_512)

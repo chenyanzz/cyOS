@@ -1,7 +1,7 @@
 #include "FGUI.h"
 #include "stdlib.h"
 
-char * color[] = 
+char * strcolor[] = 
 {
     "BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO" , "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBULE", "ORANGE", "YELLOW", "PURPLE", "PINK" ,"CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE", //TextColor有可能会打错
     "bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE"//BgColor有可能会打错，P(打错BgColor) < P(打错TextColor)
