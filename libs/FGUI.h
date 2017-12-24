@@ -1,7 +1,10 @@
 //Fake Graphical User Interface
 #include "stdio.h"
 
-void bootScreen(void);
+/**
+ * 显示启动界面
+ */
+void showBootScreen(void);
 
 void printColorStr(char* format);
 
