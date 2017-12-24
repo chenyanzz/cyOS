@@ -46,11 +46,17 @@ int strlen(char *str)
 		;
 	return i;
 }
+#include "stdio.h"
 
-int strcmp(char *s1, char *s2)
+int strcmp(char *s1, char *s2, bool isCaseSensitive)
 {
-	int i;
-	for (i = 0; s1[i] == s2[i]; i++)
-		;
+	int i=0;
+	for (i = 0; (~(((~(s1[i] ^ s2[i]))|((!isCaseSensitive)<<5))))==0; i++)
+	{}
 	return s1[i] - s2[i];
+}
+
+bool isEmpty(char* str)
+{
+	return (str==0)||str[0]==0;
 }

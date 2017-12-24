@@ -1,4 +1,4 @@
-//#define OS_DEBUG
+#define OS_DEBUG
 
 #include "stdio.h"
 #include "thread/thread.h"
@@ -38,13 +38,12 @@ extern "C" void start()
 	//format_disk();
 	init(fs);
 
-	int c = printf("%d%s%c",123,"aaa",'Z');
-	printf("--%d--",c);
 	// showBootScreen();
 
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
+	//printf("${BLUE}colorful printf!!\n");
 	while (true)
 	{
 	}

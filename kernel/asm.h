@@ -18,7 +18,7 @@ void outb(word port, byte b);
 word inw(word port);
 void outw(word port, word b);
 
-/*汇编程序啧的变量指针*/
+/*汇编程序里的变量指针*/
 
 #define p_cursor_x				((u8*)0x90000)
 #define p_cursor_y  			((u8*)0x90001)

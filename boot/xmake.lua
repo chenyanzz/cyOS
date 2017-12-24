@@ -2,9 +2,8 @@ target("boot")
     add_deps("kernel") --to get the size of kernel and write it in asm
 
     on_build(function ()
-    
-        local kernel_len_512 = 26
-        local setup_len_512 = 1
+        import("filelen")
+        local kernel_len_512 = math.ceil(filelen.kb("$(buildir)/kernel.bin")*2)
         os.mkdir("$(buildir)/boot")
 
         -- cprint("${blue}building boot/setup.o")
@@ -12,6 +11,7 @@ target("boot")
          -dKERNEL_SIZE_512=%d",
          kernel_len_512)
 
+        local setup_len_512 = math.ceil(filelen.kb("$(buildir)/boot/setup.o")*2)
         -- cprint("${blue}building boot/bootsect.o")
         os.vrun("nasm boot/bootsect.asm -o $(buildir)/boot/bootsect.o \
          -dKERNEL_SIZE_512=%d -dSETUP_SIZE_512=%d",

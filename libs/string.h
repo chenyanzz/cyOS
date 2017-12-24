@@ -39,8 +39,9 @@ int strlen(char* str);
  *	=0 字符串相等
  *	>0 s1比s2字符多或同下标字符靠后
  *	<0 反之
+ @param isCaseSensitive 是否大小写敏感
 */
-int strcmp(char* s1,char* s2);
+int strcmp(char* s1,char* s2,bool isCaseSensitive);
 
 /**
  * 从字符串开头解析整数
@@ -50,13 +51,20 @@ int strcmp(char* s1,char* s2);
 int parseNum(const char* pc);
 
 /**
+ * 未实现
  * 查找字符串
  * @param str 整个字符串
  * @param pat 寻找的子字符串
  * @return 字符串偏移
  * 	-1表示没找到
  */
-
 int strFind(char* str, char* pat);
+
+/**
+ * 返回字符串是否为空：
+ * 	字符串指针=0
+ * 	或字符串首字符=0
+ */
+bool isEmpty(char* str);
 
 #endif //STRING_H
