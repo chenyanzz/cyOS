@@ -7,8 +7,8 @@ static char x,y;//屏幕光标位置
 
 static char color;//当前颜色设置
 
-const int width=80;
-const int height=25;
+const int width = 80;
+const int height = 25;
 
 //显存里字符结构体
 struct character
