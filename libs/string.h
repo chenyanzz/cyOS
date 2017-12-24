@@ -41,7 +41,7 @@ int strlen(char* str);
  *	<0 反之
  @param isCaseSensitive 是否大小写敏感
 */
-int strcmp(char* s1,char* s2,bool isCaseSensitive);
+int strcmp(char* s1,char* s2,bool isCaseSensitive=true);
 
 /**
  * 从字符串开头解析整数

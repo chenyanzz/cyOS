@@ -52,7 +52,12 @@ int strcmp(char *s1, char *s2, bool isCaseSensitive)
 {
 	int i=0;
 	for (i = 0; (~(((~(s1[i] ^ s2[i]))|((!isCaseSensitive)<<5))))==0; i++)
-	{}
+	{
+		if((s1[i]&&s2[i])==0)
+		{
+			break;
+		}
+	}
 	return s1[i] - s2[i];
 }
 

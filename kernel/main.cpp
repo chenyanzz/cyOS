@@ -4,6 +4,7 @@
 #include "thread/thread.h"
 #include "disk/fs.h"
 #include "FGUI.h"
+#include "stdlib.h"
 
 #ifdef OS_DEBUG
 
@@ -43,7 +44,8 @@ extern "C" void start()
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
-	//printf("${BLUE}colorful printf!!\n");
+	printf("${TOMATO}colorful printf!!\n");
+
 	while (true)
 	{
 	}

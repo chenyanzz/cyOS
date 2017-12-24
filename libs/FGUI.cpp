@@ -21,40 +21,5 @@ void showBootScreen(void)
     cls();
     setXY((WIDTH - strlen(str)) / 2, HEIGHT / 2);
     //printf(str);
-    printColorStr(str);
-}
-
-void printColorStr(char *colorStr, ...)
-{
-    //准备可变参数
-	va_list vl;
-	va_start(vl, colorStr);
-    char buf[10];
-    char *str_start;//送给printf的字符串开始指针
-
-    //对于每个字符循环
-    for (; *colorStr != '\0'; colorStr++)
-    {
-
-        //检测当前字符是否是${
-        if (*colorStr == '$')
-        {
-            colorStr++;
-            if (*colorStr == '$')
-            {
-                continue;
-            }
-            if (*colorStr == '{')
-            {
-                colorStr++;
-                int i;
-                for(i = 0; *colorStr != '}'; i++)
-                {
-                    buf[i] = *colorStr;
-                    colorStr++;
-                }
-                buf[i] = '\0';
-            }
-        }
-    }
+    printf(str);
 }

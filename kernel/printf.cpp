@@ -321,6 +321,7 @@ int printf(const char *format, ...)
 					buf[i] = *pc;
 					pc++;
 				}
+				pc++;
 				buf[i] = '\0';
 				//判断buf是不是两个颜色用|分隔
 				for(int j=0;j<i;j++)
@@ -340,7 +341,7 @@ int printf(const char *format, ...)
 				{
 					tc = getValue(buf,color_key,color_value);
 				}
-				if(!isEmpty(buf2))
+				if(buf2[0]=='}')
 				{
 					bc = getValue(buf2,color_key,color_value);
 				}
