@@ -1,4 +1,4 @@
-function filelen_kb(filename)
+function kb(filename)
     local fh = io.open(filename, "rb")
     local lenb = fh:seek("end")
     fh:close()
