@@ -1,6 +1,9 @@
 #ifndef STDLIB_H
 #define STDLIB_H
 
+#include "string.h"
+
+
 void memset(void*addr,char val,int size);
 void memcpy(void*to,void*from,int size);
 

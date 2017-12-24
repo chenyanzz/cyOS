@@ -45,8 +45,18 @@ int strcmp(char* s1,char* s2);
 /**
  * 从字符串开头解析整数
  * @param pc 字符串
- * @return 整数（找不到为0）
+ * @return 那个整数（找不到为0）
  */
 int parseNum(const char* pc);
+
+/**
+ * 查找字符串
+ * @param str 整个字符串
+ * @param pat 寻找的子字符串
+ * @return 字符串偏移
+ * 	-1表示没找到
+ */
+
+int strFind(char* str, char* pat);
 
 #endif //STRING_H
