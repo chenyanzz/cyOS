@@ -73,6 +73,10 @@ void cls();
  */
 void setTerminalColor(TextColor tc, BgColor bc=defaultBgColor, bool blink=false);
 
+/**
+ * 另一种重载，直接传入color字节
+ */
+void setTerminalColor(byte c);
 /** 
  * 控制台打印单个字符
  * @param  c: 那个字符
@@ -123,4 +127,5 @@ void printf(const char* const format, ...);
  * @author wxy
  */
 void setXY(const int newx, const int newy);
+
 #endif

@@ -23,7 +23,11 @@ const struct character SPACE = {' ',defaultColor};//空格
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
-	color = makeColor(tc,bc)|(blink<<7);
+	color = makeColor(tc,bc|0b1000);
+}
+void setTerminalColor(byte c)
+{
+	color = c;
 }
 
 bool init_terminal()
@@ -162,7 +166,7 @@ void printUInt(unsigned long long val)
 
 void printHex(unsigned long long val)
 {
-	printStr("0x");
+	// printStr("0x");
 	const char nums[16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 	if (val == 0)printChar('0');
 	char str[30];
@@ -181,7 +185,7 @@ void printBinary(unsigned long long val)
 {
 	printStr("0b");
 	if (val == 0)printChar('0');
-	char str[32];
+	char str[64];
 	strFill(str, 0, 32);
 	int pos;
 	for (pos = 0; val != 0; pos++)

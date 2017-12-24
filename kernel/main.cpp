@@ -4,14 +4,16 @@
 #include "FGUI.h"
 
 #define init(name) 	\
-	setTerminalColor(WHITE);	\
-	printf("init %s\t\t",#name);	\
 	if(init_##name())	\
 	{	\
+		setTerminalColor(WHITE);	\
+		printf("init %s\t\t",#name);	\
 		setTerminalColor(BLUE);	\
 		printf("[succeed]\n");	\
 	}else	\
 	{	\
+		setTerminalColor(WHITE);	\
+		printf("init %s\t\t",#name);	\
 		setTerminalColor(RED);	\
 		printf("[failed]\n");	\
 	}	\
@@ -25,27 +27,18 @@ extern "C"
 
 void start()
 {
-	init_terminal();
-	bootScreen();
-
+	init(terminal);
 	init(disk);
-	format_disk();
+	//format_disk();
 	init(fs);
-	// cls();
-	// char data[] = "Xiao Yang Handsome";
 
-	// int i=0;
-	// switch(i)
-	// {
-	// case 0:
-	// printInt(0);
-	// break;
-	// case 1:
-	// printInt(1);
-	// }
-	
-	printf("%d",10231);
-
+	// bootScreen();
+	for(byte i=0;i<255;i++)
+	{
+		setTerminalColor(i);
+		printHex(i);
+		printChar(' ');
+	}
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
