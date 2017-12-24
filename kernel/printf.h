@@ -69,14 +69,14 @@ void cls();
  * 设置命令行颜色属性
  * @param  tc: 前景字符色
  * @param  bc: 背景色
- * @param  blink: 是否闪烁
+ * @param  blink: 是否闪烁（注：在某些显卡上（比如qemu模拟出来的），blink表示是否高亮背景）
  */
 void setTerminalColor(TextColor tc, BgColor bc=defaultBgColor, bool blink=false);
 
 /**
- * 另一种重载，直接传入color字节
+ * 另一种方式，直接传入color字节
  */
-void setTerminalColor(byte c);
+void setTerminalColorByte(byte c);
 /** 
  * 控制台打印单个字符
  * @param  c: 那个字符

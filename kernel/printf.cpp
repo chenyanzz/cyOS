@@ -23,9 +23,9 @@ const struct character SPACE = {' ',defaultColor};//空格
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
-	color = makeColor(tc,bc|0b1000);
+	color = makeColor(tc,bc)|(blink<<7);
 }
-void setTerminalColor(byte c)
+void setTerminalColorByte(byte c)
 {
 	color = c;
 }
@@ -35,7 +35,7 @@ bool init_terminal()
 	//获取当前光标位置
 	x = *p_cursor_x;
 	y = *p_cursor_y;
-	setTerminalColor(defaultTextColor);
+	setTerminalColor(defaultTextColor,defaultBgColor,false);
 	//填补screen数组
 	screen[0]=(struct character*)p_firstChar;
 	for(int i=1;i<height;i++)

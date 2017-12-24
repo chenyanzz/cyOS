@@ -33,12 +33,7 @@ void start()
 	init(fs);
 
 	// bootScreen();
-	for(byte i=0;i<255;i++)
-	{
-		setTerminalColor(i);
-		printHex(i);
-		printChar(' ');
-	}
+
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
