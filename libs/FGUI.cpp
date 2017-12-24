@@ -1,6 +1,7 @@
 #include "FGUI.h"
 #include "printf.h"
 #include "stdlib.h"
+#include "stdarg.h"
 
 char *color[] =
     {
@@ -23,25 +24,37 @@ void showBootScreen(void)
     printColorStr(str);
 }
 
-void printColorStr(char *colorStr)
+void printColorStr(char *colorStr, ...)
 {
-    int i = 0;
-    int j = 0;
+    //准备可变参数
+	va_list vl;
+	va_start(vl, colorStr);
     char buf[10];
+    char *str_start;//送给printf的字符串开始指针
+
+    //对于每个字符循环
     for (; *colorStr != '\0'; colorStr++)
     {
-        if (*colorStr == '$' && *(++colorStr) == '{')
+
+        //检测当前字符是否是${
+        if (*colorStr == '$')
         {
             colorStr++;
-            for(i = 0; *colorStr != '}'; i++)
+            if (*colorStr == '$')
             {
-                buf[i] = *colorStr;
-                colorStr++;
+                continue;
             }
-            buf[i] = '\0';
-            continue;
+            if (*colorStr == '{')
+            {
+                colorStr++;
+                int i;
+                for(i = 0; *colorStr != '}'; i++)
+                {
+                    buf[i] = *colorStr;
+                    colorStr++;
+                }
+                buf[i] = '\0';
+            }
         }
-        setTerminalColor(WHITE, bgBLACK, false); //默认
-        printChar(*colorStr);
     }
 }

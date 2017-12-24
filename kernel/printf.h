@@ -118,9 +118,11 @@ void printDouble(double val, int dp);
  * 		1.特别地%f和%lf一定要传入double值
  * 		2.%x打印十六进制，%b打印十六进制。
  * 		默认都是一个字节，可以后面加d|ld|lld改变大小
- * @retval None
+ * 		3.为了迎合其他打印函数，%******可以跳过此部分不输出
+ * 			还有%$输出$
+ * @retval 返回使用了几个可变参数
  */
-void printf(const char* const format, ...);
+int printf(const char* const format, ...);
 
 /** 
  * 控制输出光标

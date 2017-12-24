@@ -31,21 +31,21 @@
 /** 
  * 32位主程序入口
  */
-extern "C"
-
-	void
-	start()
+extern "C" void start()
 {
 	init(terminal);
 	init(disk);
 	//format_disk();
 	init(fs);
 
-	showBootScreen();
+	int c = printf("%d%s%c",123,"aaa",'Z');
+	printf("--%d--",c);
+	// showBootScreen();
 
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
 	while (true)
-		;
+	{
+	}
 }

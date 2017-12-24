@@ -259,11 +259,14 @@ void parseAttr(const char** ppc, va_list vl)
 	if (attr.dp == 0)attr.dp = 2;
 }
 
-void printf(const char* format,...)
+int printf(const char* format,...)
 {
 	//准备可变参数
 	va_list vl;
 	va_start(vl, format);
+
+	int params=0;
+
 	const char* pc = format;
 	int i=0;
 	while (*pc != 0)
@@ -279,6 +282,19 @@ void printf(const char* format,...)
 		//判断%后的字符是什么
 		pc++;
 		parseAttr(&pc,vl);
+
+		if(*pc=='*')
+		{
+			while(*pc=='*')pc++;
+			continue;
+		}
+		if(*pc=='$')
+		{
+			printChar(*pc);
+			pc++;
+			continue;
+		}
+		params++;
 		switch(*pc)
 		{
 		case 'c':
@@ -387,10 +403,12 @@ void printf(const char* format,...)
 			break;
 		default:
 			printChar(*pc);
+			params--;
 		}
 		pc++;
 	}
 	va_end(vl);
+	return params;
 }
 
 void setXY(const int newx, const int newy)
