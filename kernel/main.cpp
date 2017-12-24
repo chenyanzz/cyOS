@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "thread/thread.h"
 #include "disk/fs.h"
+#include "FGUI.h"
 
 #define init(name) 	\
 	if(init_##name())	\
@@ -45,6 +46,7 @@ void start()
 	
 	printf("%d",10231);
 
+	bootScreen();
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
