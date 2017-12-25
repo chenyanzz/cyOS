@@ -39,13 +39,12 @@ extern "C" void start()
 	//format_disk();
 	init(fs);
 
-	// showBootScreen();
+	showBootScreen();
 
 	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
 	// sync();
 
-	printf("${TOMATO}colorful printf!!\n");
-
+	//printf("${TOMATO}colorful printf!!\n");
 	while (true)
 	{
 	}

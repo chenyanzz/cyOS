@@ -67,4 +67,12 @@ int strFind(char* str, char* pat);
  */
 bool isEmpty(char* str);
 
+/**
+ * 获取有彩色指令字符串长度，计算长度时将不考虑彩色指令的长度，\0为结尾
+ * @param str 字符串指针
+ * @retval 长度
+ * @锅:要是出错了,就是xy的锅
+ */
+int colorStrlen(char* str);
+
 #endif //STRING_H
