@@ -25,14 +25,20 @@ const struct character SPACE = {' ', defaultColor}; //空格
 
 char *color_key[] =
     {
-        "BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO", "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBLUE", "ORANGE", "YELLOW", "PURPLE", "PINK", "CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE", //TextColor有可能会打错
-        "bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE"                                                                                                                                 //BgColor有可能会打错，P(打错BgColor) < P(打错TextColor)
+        "BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO", "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBLUE", "ORANGE", "YELLOW", "PURPLE", "PINK", "CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE",
+
+        "bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE",
+
+		"normal","defult","default",0
 };
 
 char color_value[] =
     {
-        BLACK, DARKGRAY, RED, LIGHTRED, TOMATO, GREEN, LIGHTGREEN, LAWNGREEN, BLUE, SKYBLUE, LIGHTBLUE, ORANGE, YELLOW, PURPLE, PINK, CYAN, LIGHTCYAN, WHITE, LIGHTGRAY, LIGHTWHITE, //TextColor有可能会打错
-        bgBLACK, bgRED, bgGREEN, bgBLUE, bgORANGE, bgPURPLE, bgCYAN, bgWHITE                                                                                                         //BgColor有可能会打错，P(打错BgColor) < P(打错TextColor)
+        BLACK, DARKGRAY, RED, LIGHTRED, TOMATO, GREEN, LIGHTGREEN, LAWNGREEN, BLUE, SKYBLUE, LIGHTBLUE, ORANGE, YELLOW, PURPLE, PINK, CYAN, LIGHTCYAN, WHITE, LIGHTGRAY, LIGHTWHITE,
+        
+		bgBLACK, bgRED, bgGREEN, bgBLUE, bgORANGE, bgPURPLE, bgCYAN, bgWHITE,
+
+		defaultColor,defaultColor,defaultColor
 };
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
@@ -336,14 +342,14 @@ int printf(const char *format, ...)
 
 				//比较buf与各种颜色
 				byte tc = color&0b00001111;
-				byte bc = color>>4;
+				byte bc = color&0b11110000;
 				if(!isEmpty(buf))
 				{
-					tc = getValue(buf,color_key,color_value);
+					tc = getValue(buf,color_key,color_value,-1,false);
 				}
 				if(buf2[0]=='}')
 				{
-					bc = getValue(buf2,color_key,color_value);
+					bc = getValue(buf2,color_key,color_value,-1,false);
 				}
 				color = makeColor(tc,bc);
 			}

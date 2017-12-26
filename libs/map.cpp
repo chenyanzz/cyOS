@@ -2,7 +2,7 @@
 #include "types.h"
 #include "stdlib.h"
 
-VALUE getValue(KEY key, KEY keys[], VALUE values[], int size, bool isCaseSensitive)
+VALUE getValue(KEY key, KEY keys[], VALUE values[], int size=-1, bool isCaseSensitive = false)
 {
 	//如果size=-1，自动获取keys长度为size
 	if (size < 0)

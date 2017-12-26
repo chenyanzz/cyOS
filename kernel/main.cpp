@@ -36,12 +36,12 @@
 extern "C" void start()
 {
 	init(terminal);
-	init(IDT);
+	// init(IDT);
 	// init(disk);
 	//format_disk();
 	// init(fs);
-	asm("int 0x50");
-
+	// asm("int 0x50");
+	printf("${PINK|bgblue}hello ${LAWNGREEN}handsome ${normal}wxy!!!\n");
 	while (true)
 	{
 	}

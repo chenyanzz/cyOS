@@ -11,10 +11,10 @@ typedef char VALUE;
  * @param key 要检索的key
  * @param keys key数组
  * @param values value数组
- * @param isCaseSensitive 是否区分大小写
- * @param size 映射个数,-1的话以keys[n]=0位结尾
+ * @param isCaseSensitive 是否区分大小写,默认不区分
+ * @param size 映射个数,-1的话以keys[n]=0位结尾，默认-1
  * @return 返回索引到的value,没有返回-1
  */
-VALUE getValue(KEY key, KEY keys[], VALUE values[], int size = -1, bool isCaseSensitive = true);
+VALUE getValue(KEY key, KEY keys[], VALUE values[], int size, bool isCaseSensitive);
 
 #endif //MAP_H

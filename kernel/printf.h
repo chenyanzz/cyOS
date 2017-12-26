@@ -5,55 +5,54 @@
 
 #define tab_size (8)
 
-
 enum TextColor
 {
-	BLACK		= 0b0000,
-	DARKGRAY	= BLACK+0b1000,
-	
-	RED			= 0b0100,
-	LIGHTRED	= RED+0b1000,
-	TOMATO		= LIGHTRED,
+	BLACK = 0b0000,
+	DARKGRAY = BLACK + 0b1000,
 
-	GREEN		= 0b0010,
-	LIGHTGREEN	= GREEN+0b1000,
-	LAWNGREEN	= LIGHTGREEN,
+	RED = 0b0100,
+	LIGHTRED = RED + 0b1000,
+	TOMATO = LIGHTRED,
 
-	BLUE		= 0b0001,
-	SKYBLUE		= BLUE+0b1000,
-	LIGHTBLUE	= SKYBLUE,
-	
-	ORANGE		= 0b0110,
-	YELLOW		= ORANGE+0b1000,
+	GREEN = 0b0010,
+	LIGHTGREEN = GREEN + 0b1000,
+	LAWNGREEN = LIGHTGREEN,
 
-	PURPLE		= 0b0101,
-	PINK		= PURPLE+0b1000,
+	BLUE = 0b0001,
+	SKYBLUE = BLUE + 0b1000,
+	LIGHTBLUE = SKYBLUE,
 
-	CYAN		= 0b0011,
-	LIGHTCYAN	= CYAN+0b1000,
+	ORANGE = 0b0110,
+	YELLOW = ORANGE + 0b1000,
 
-	WHITE		= 0b0111,
-	LIGHTGRAY	= WHITE,
-	LIGHTWHITE	= WHITE+0b1000
+	PURPLE = 0b0101,
+	PINK = PURPLE + 0b1000,
+
+	CYAN = 0b0011,
+	LIGHTCYAN = CYAN + 0b1000,
+
+	WHITE = 0b0111,
+	LIGHTGRAY = WHITE,
+	LIGHTWHITE = WHITE + 0b1000
 };
 
 enum BgColor
 {
-	bgBLACK		= 0b0000,
-	bgRED		= 0b0100,
-	bgGREEN		= 0b0010,
-	bgBLUE		= 0b0001,
-	bgORANGE	= 0b0110,
-	bgPURPLE	= 0b0101,
-	bgCYAN		= 0b0011,
-	bgWHITE		= 0b0111
+	bgBLACK = 0b0000 << 4,
+	bgRED = 0b0100 << 4,
+	bgGREEN = 0b0010 << 4,
+	bgBLUE = 0b0001 << 4,
+	bgORANGE = 0b0110 << 4,
+	bgPURPLE = 0b0101 << 4,
+	bgCYAN = 0b0011 << 4,
+	bgWHITE = 0b0111 << 4
 };
 
-#define makeColor(textcolor,bgcolor) ((textcolor)+((bgcolor)<<4))
+#define makeColor(textcolor, bgcolor) ((textcolor) + (bgcolor))
 
 #define defaultTextColor (WHITE)
 #define defaultBgColor (bgBLACK)
-const byte defaultColor = makeColor(defaultTextColor,defaultBgColor);
+const byte defaultColor = makeColor(defaultTextColor, defaultBgColor);
 
 /** 
  * 初始化控制台
@@ -71,7 +70,7 @@ void cls();
  * @param  bc: 背景色
  * @param  blink: 是否闪烁（注：在某些显卡上（比如qemu模拟出来的），blink表示是否高亮背景）
  */
-void setTerminalColor(TextColor tc, BgColor bc=defaultBgColor, bool blink=false);
+void setTerminalColor(TextColor tc, BgColor bc = defaultBgColor, bool blink = false);
 
 /**
  * 另一种方式，直接传入color字节
@@ -87,7 +86,7 @@ void printChar(char c);
  * 控制台打印字符串
  * @param  str: 字符串
  */
-void printStr(char* str);
+void printStr(char *str);
 
 /** 
  * 打印不同类型数字（十进制）
@@ -99,7 +98,7 @@ void printUInt(unsigned long long val);
 /** 
  * 打印十六进制值||二进制
  * @param  val: 数值
- */ 
+ */
 void printHex(unsigned long long val);
 void printBinary(unsigned long long val);
 
@@ -122,7 +121,7 @@ void printDouble(double val, int dp);
  * 			还有%$输出$
  * @retval 返回使用了几个可变参数
  */
-int printf(const char* const format, ...);
+int printf(const char *const format, ...);
 
 /** 
  * 控制输出光标
