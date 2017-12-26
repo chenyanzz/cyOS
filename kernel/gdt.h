@@ -2,6 +2,7 @@
 #define GDT_H
 
 #include "types.h"
+#include "asm.h"
 
 //number of global descriptors
 #define GDT_NUM 256
@@ -29,11 +30,7 @@ struct segment_descriptor
         SYSTEM=0,//莫名其妙，一般选第二个
         CODE_DATA=1
     }s          				:1;
-    enum RPL//权限级别
-    {
-        KERNEL=0,//内核态ring0
-        USER=1//用户态ring3
-    }rpl	                    :3;
+    RPL rpl	                    :2;
 	bool present			    :1;//是否存在
     //48
 	unsigned seglmt_16_19		:4;
@@ -64,9 +61,7 @@ struct gdt_descriptor//in gdtr
 typedef segment_descriptor global_descriptor;
 typedef segment_descriptor local_descriptor;
 
-global_descriptor GDT[256];
-
 // void set_GDT(int index,global_descriptor gd);
-void init_GDT();
+bool init_GDT();
 
 #endif //GDT_H

@@ -4,3 +4,4 @@ include/
 *.txt
 *.o
 *.a
+hdqemu.raw.lock

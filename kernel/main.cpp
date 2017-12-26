@@ -5,7 +5,8 @@
 #include "disk/fs.h"
 #include "FGUI.h"
 #include "stdlib.h"
-
+#include "idt.h"
+#include "asm.h"
 #ifdef OS_DEBUG
 
 #define init(name)                    \
@@ -35,16 +36,12 @@
 extern "C" void start()
 {
 	init(terminal);
-	init(disk);
+	init(IDT);
+	// init(disk);
 	//format_disk();
-	init(fs);
+	// init(fs);
+	asm("int 0x50");
 
-	showBootScreen();
-
-	// FILE f = create_file("myXiaoYang.txt", data, sizeof(data));
-	// sync();
-
-	//printf("${TOMATO}colorful printf!!\n");
 	while (true)
 	{
 	}

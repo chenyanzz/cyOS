@@ -38,6 +38,15 @@ typedef uint32 	dword;
 typedef uint64 	qword;
 
 typedef void*	MEM_ADDR;
+typedef int16    SEGMENT;
+typedef int32    THREAD_ID;
+typedef void (*RUNNABLE)();
+
+enum RPL
+{
+	KERNEL = 0,
+	USER = 3
+};
 
 //给C语言定义bool类型
 #ifndef __cplusplus

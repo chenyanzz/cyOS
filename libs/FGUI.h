@@ -3,9 +3,6 @@
 
 //Fake Graphical User Interface
 #include "stdio.h"
-#include "printf.h"
-#include "stdlib.h"
-#include "stdarg.h"
 
 /**
  * 显示启动界面
