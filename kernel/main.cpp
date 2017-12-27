@@ -42,6 +42,7 @@ extern "C" void start()
 	// init(fs);
 	// asm("int 0x50");
 	printf("${PINK|bgblue}hello ${LAWNGREEN}handsome ${normal}wxy!!!\n");
+	showBootScreen();
 	while (true)
 	{
 	}
