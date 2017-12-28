@@ -22,24 +22,21 @@ struct character *screen[80]; //[40][80]{text,color} 字符显存
 
 const struct character SPACE = {' ', defaultColor}; //空格
 
-
 char *color_key[] =
-    {
-        "BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO", "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBLUE", "ORANGE", "YELLOW", "PURPLE", "PINK", "CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE",
+	{
+		"BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO", "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBLUE", "ORANGE", "YELLOW", "PURPLE", "PINK", "CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE",
 
-        "bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE",
+		"bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE",
 
-		"normal","defult","default",0
-};
+		"normal", "defult", "default", 0};
 
 char color_value[] =
-    {
-        BLACK, DARKGRAY, RED, LIGHTRED, TOMATO, GREEN, LIGHTGREEN, LAWNGREEN, BLUE, SKYBLUE, LIGHTBLUE, ORANGE, YELLOW, PURPLE, PINK, CYAN, LIGHTCYAN, WHITE, LIGHTGRAY, LIGHTWHITE,
-        
+	{
+		BLACK, DARKGRAY, RED, LIGHTRED, TOMATO, GREEN, LIGHTGREEN, LAWNGREEN, BLUE, SKYBLUE, LIGHTBLUE, ORANGE, YELLOW, PURPLE, PINK, CYAN, LIGHTCYAN, WHITE, LIGHTGRAY, LIGHTWHITE,
+
 		bgBLACK, bgRED, bgGREEN, bgBLUE, bgORANGE, bgPURPLE, bgCYAN, bgWHITE,
 
-		defaultColor,defaultColor,defaultColor
-};
+		defaultColor, defaultColor, defaultColor};
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
@@ -310,8 +307,8 @@ int printf(const char *format, ...)
 		if (*pc == '$')
 		{
 			char buf[30];
-			strFill(buf,0,30);
-			char* buf2=0;
+			strFill(buf, 0, 30);
+			char *buf2 = 0;
 			pc++;
 			if (*pc == '$')
 			{
@@ -329,29 +326,30 @@ int printf(const char *format, ...)
 				}
 				pc++;
 				buf[i] = '\0';
+				buf2 = 0;
 				//判断buf是不是两个颜色用|分隔
-				for(int j=0;j<i;j++)
+				for (int j = 0; j < i; j++)
 				{
-					if(buf[j]=='|')
+					if (buf[j] == '|')
 					{
-						buf[j]='\0';
-						buf2=buf+1;
+						buf[j] = '\0';
+						buf2 = buf + j + 1;
 						break;
 					}
 				}
 
 				//比较buf与各种颜色
-				byte tc = color&0b00001111;
-				byte bc = color&0b11110000;
-				if(!isEmpty(buf))
+				byte tc = defaultTextColor;
+				byte bc = defaultBgColor;
+				if (!isEmpty(buf))
 				{
-					tc = getValue(buf,color_key,color_value,-1,false);
+					tc = getValue(buf, color_key, color_value, -1, false);
 				}
-				if(buf2[0]=='}')
+				if ((!isEmpty(buf2)) && buf2[0] != '}')
 				{
-					bc = getValue(buf2,color_key,color_value,-1,false);
+					bc = getValue(buf2, color_key, color_value, -1, false);
 				}
-				color = makeColor(tc,bc);
+				color = makeColor(tc, bc);
 			}
 			continue;
 		}

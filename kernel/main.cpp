@@ -12,17 +12,13 @@
 #define init(name)                    \
 	if (init_##name())                \
 	{                                 \
-		setTerminalColor(WHITE);      \
 		printf("init %s\t\t", #name); \
-		setTerminalColor(BLUE);       \
-		printf("[succeed]\n");        \
+		printf("${blue}[succeed]\n"); \
 	}                                 \
 	else                              \
 	{                                 \
-		setTerminalColor(WHITE);      \
 		printf("init %s\t\t", #name); \
-		setTerminalColor(RED);        \
-		printf("[failed]\n");         \
+		printf("${red}[failed]\n");   \
 	}                                 \
 	setTerminalColor(WHITE)
 
@@ -41,8 +37,8 @@ extern "C" void start()
 	//format_disk();
 	// init(fs);
 	// asm("int 0x50");
-	printf("${PINK|bgblue}hello ${LAWNGREEN}handsome ${normal}wxy!!!\n");
-	showBootScreen();
+	printf("${PINK|bgblue}hello ${LAWNGREEN|bgred}handsome ${normal}wxy!!!\n");
+	// showBootScreen();
 	while (true)
 	{
 	}
