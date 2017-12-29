@@ -27,28 +27,32 @@ void set_gate(u8 index, INTERRUPT_CALLBACK callback, GateType gatetype)
 	item.rpl = KERNEL;
 	item.zero = 0;
 	item.type = gatetype;
-	//printf("%lld\n",*(u64*)&item);
-	//printf("%lld\n",*(u64*)&item.zero);
-	// printf("%d\n",sizeof(idt_descriptor));
-	// printf("%d\n",sizeof(interrupt_decriptor));
-	// while(1);
 	set_idt_item(index, item);
 }
 
-INTERRUPT_HANDLER TEST()
+INTERRUPT_HANDLER general_protection_fault_handler()
 {
-	printf("int called!\n");
+	push_reg();
+
+	printf("${RED}fatal:\tAn fatal error occured  !Please reboot your computer!\n");
+	while(true);
+
+	pop_reg();
 }
 
 bool init_IDT()
 {
+
+	//初始化idt表
 	memset(IDT, 0, sizeof(IDT));
 	memset(&IDTR, 0, sizeof(IDTR));
 
-	set_gate(0, TEST, INT_GATE);
 	IDTR.addr = IDT;
 	IDTR.size = IDT_NUM * 8;
 	lidt(IDTR);
-	
+
+	//设置各种中断函数
+	set_gate(13,general_protection_fault_handler,INT_GATE);
+
 	return true;
 }

@@ -1,20 +1,13 @@
 #include "thread.h"
 #include "stdio.h"
+#include "asm.h"
 
 struct TCB tcb1, tcb2;
 
 void switch_to_t2()
 {
     //压栈原来的寄存器
-	asm(
-        "pusha;"
-        "push ebp;"
-        "push ds;"
-        "push es;"
-        "push fs;"
-        "push gs;"
-        "pushf;"
-    );
+	push_reg();
 
 	//存储栈顶指针
 	asm("mov %0, ss":"=g"(tcb1.ss));
@@ -25,29 +18,13 @@ void switch_to_t2()
 	asm("mov esp, %0"::"g"(tcb2.esp));
 
 	//出栈新寄存器
-	asm(
-		"popf;"
-		"pop gs;"
-		"pop fs;"
-		"pop es;"
-		"pop ds;"
-		"pop ebp;"
-		"popa;"
-    );
+	pop_reg();
 }
 
 void switch_to_t1()
 {
 	//压栈原来的寄存器
-	asm(
-		"pusha;"
-		"push ebp;"
-		"push ds;"
-		"push es;"
-		"push fs;"
-		"push gs;"
-		"pushf;"
-    );
+	push_reg();
     
 	//存储栈顶指针
 	asm("mov %0, ss":"=g"(tcb2.ss));
@@ -59,15 +36,7 @@ void switch_to_t1()
     asm("mov esp, %0"::"g"(tcb1.esp));
 
 	//弹栈新寄存器
-	asm(
-		"popf;"
-		"pop gs;"
-		"pop fs;"
-		"pop es;"
-		"pop ds;"
-		"pop ebp;"
-		"popa;"
-	);
+	pop_reg();
 }
 
 extern void t1();

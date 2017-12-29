@@ -7,6 +7,8 @@
 #include "stdlib.h"
 #include "idt.h"
 #include "asm.h"
+
+
 #ifdef OS_DEBUG
 
 #define init(name)                    \
@@ -36,7 +38,7 @@ extern "C" void start()
 	// init(disk);
 	// init(fs);
 	printf("will int\n");
-	asm("int 0");
+	asm("jmp 0:10000");
 	printf("int end!\n");
 	while (true)
 	{

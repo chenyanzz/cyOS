@@ -41,4 +41,13 @@ void set_idt_item(u8 index,interrupt_decriptor item);
 
 void set_gate(u8 index, INTERRUPT_CALLBACK func, GateType gatetype);
 
+/*以下函数处理中断*/
+
+/**
+ * int 13 一般性捕获异常
+ * 
+ */
+INTERRUPT_HANDLER general_protection_fault_handler();
+
+
 #endif //IDT_H

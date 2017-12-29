@@ -18,6 +18,30 @@ void outb(word port, byte b);
 word inw(word port);
 void outw(word port, word b);
 
+#define int(index) asm("int "#index)
+
+#define push_reg()	\
+	asm(			\
+		"pusha;"	\
+		"push ebp;"	\
+		"push ds;"	\
+		"push es;"	\
+		"push fs;"	\
+		"push gs;"	\
+		"pushf;"	\
+    )
+
+#define pop_reg()	\
+	asm(			\
+		"popf;"		\
+		"pop gs;"	\
+		"pop fs;"	\
+		"pop es;"	\
+		"pop ds;"	\
+		"pop ebp;"	\
+		"popa;"		\
+	)
+
 /*汇编程序里的变量指针*/
 
 #define p_cursor_x ((u8 *)0x90000)

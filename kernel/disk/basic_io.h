@@ -2,6 +2,8 @@
 #define BASIC_IO_H
 
 #include "types.h"
+#include "asm.h"
+
 /**
  * 初始化硬盘
  */
