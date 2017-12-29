@@ -23,6 +23,8 @@ set_strip("all")
 
 add_moduledirs("./")
 
+add_cxflags("-ggdb3","-m32","-fno-builtin","-fpack-struct=1","-mno-ms-bitfields")
+
 target("cyOS")
     add_deps("kernel","boot")
     

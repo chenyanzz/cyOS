@@ -18,8 +18,6 @@ void outb(word port, byte b);
 word inw(word port);
 void outw(word port, word b);
 
-void iret();
-
 /*汇编程序里的变量指针*/
 
 #define p_cursor_x ((u8 *)0x90000)

@@ -30,8 +30,7 @@ target("kernel")
     --source
     add_files("**.cpp")
     -- add_cxflags("-nostartfiles","-m32","-fno-builtin",{force=true})
-    
-    add_cxflags("-ggdb3")
+
 
     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 

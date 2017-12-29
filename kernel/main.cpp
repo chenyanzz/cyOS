@@ -32,13 +32,12 @@
 extern "C" void start()
 {
 	init(terminal);
-	// init(IDT);
+	init(IDT);
 	// init(disk);
-	//format_disk();
 	// init(fs);
-	// asm("int 0x50");
-	printf("${PINK|bgblue}hello ${LAWNGREEN|bgred}handsome ${normal}wxy!!!\n");
-	// showBootScreen();
+	printf("will int\n");
+	asm("int 0");
+	printf("int end!\n");
 	while (true)
 	{
 	}

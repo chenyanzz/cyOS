@@ -7,8 +7,6 @@ void sti() { asm("sti"); }
 
 void nop() { asm("nop"); }
 
-void iret() { asm("iret"); }
-
 byte inb(word port)
 {
     byte b;

@@ -122,6 +122,7 @@ void printDouble(double val, int dp);
  * @retval 返回使用了几个可变参数
  */
 int printf(const char *const format, ...);
+//__attribute__ ((format (printf, 1, 2)));
 
 /** 
  * 控制输出光标

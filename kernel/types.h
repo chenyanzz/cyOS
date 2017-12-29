@@ -38,8 +38,8 @@ typedef uint32 	dword;
 typedef uint64 	qword;
 
 typedef void*	MEM_ADDR;
-typedef int16    SEGMENT;
-typedef int32    THREAD_ID;
+typedef int16	SEGMENT;
+typedef int32	THREAD_ID;
 typedef void (*RUNNABLE)();
 
 enum RPL
