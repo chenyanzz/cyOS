@@ -9,20 +9,20 @@
 
 #ifdef OS_DEBUG
 
-#define init(name)                    \
-	if (init_##name())                \
-	{                                 \
-		printf("init %s\t\t", #name); \
-		printf("${blue}[succeed]\n"); \
-	}                                 \
-	else                              \
-	{                                 \
-		printf("init %s\t\t", #name); \
-		printf("${red}[failed]\n");   \
-	}                                 \
+#define init(name)                           \
+	if (init_##name())                       \
+	{                                        \
+		printf("${blue}[succeed]${normal}"); \
+		printf("init %s\n", #name);          \
+	}                                        \
+	else                                     \
+	{                                        \
+		printf("${red}[failed]${normal}");   \
+		printf("init %s\n", #name);          \
+	}                                        \
 	setTerminalColor(WHITE)
 
-#else  //OS_DEBUG
+#else //OS_DEBUG
 #define init(name) init_##name()
 #endif //OS_DEBUG
 
