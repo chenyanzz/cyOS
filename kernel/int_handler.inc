@@ -1,2 +1,2 @@
-;int 13 一般性保护异常
 extern _general_protection_fault_handler
+extern _devide_zero_handler

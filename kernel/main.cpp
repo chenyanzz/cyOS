@@ -1,5 +1,3 @@
-#define OS_DEBUG
-
 #include "stdio.h"
 #include "thread/thread.h"
 #include "disk/fs.h"
@@ -37,8 +35,9 @@ extern "C" void start()
 	init(IDT);
 	// init(disk);
 	// init(fs);
-	printf("will int\n");
-	asm("jmp 0:10000");
+	printf("will int!\n");
+	int i=100;
+	i/=0;
 	printf("int end!\n");
 	while (true)
 	{

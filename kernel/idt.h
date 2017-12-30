@@ -18,8 +18,9 @@ struct idt_descriptor//in idtr
 
 enum GateType
 {
-	INT_GATE	= 0b01110,
-	TRAP_GATE	= 0b01111
+	INTE	= 0b01110,
+	FAULT	= 0b01110,//重新执行触发的命令
+	TRAP	= 0b01111,//执行触发的命令的下一条
 };
 
 struct interrupt_decriptor

@@ -25,6 +25,10 @@ add_moduledirs("./")
 
 add_cxflags("-ggdb3","-m32","-fno-builtin","-fpack-struct=1","-mno-ms-bitfields")
 
+if is_mode("debug") then
+    add_defines("OS_DEBUG")
+end
+
 target("cyOS")
     add_deps("kernel","boot")
     

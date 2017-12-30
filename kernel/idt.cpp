@@ -44,8 +44,9 @@ bool init_IDT()
 	lidt(IDTR);
 
 	//设置各种中断函数
-	set_gate(13,deal_int_13,INT_GATE);
-
+	set_gate(13,deal_int_13,FAULT);
+	set_gate(0,deal_int_0,FAULT);
+	
 	sti();
 	return true;
 }
