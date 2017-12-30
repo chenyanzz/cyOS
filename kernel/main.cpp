@@ -1,11 +1,12 @@
+#include "asm.h"
 #include "stdio.h"
-#include "thread/thread.h"
 #include "disk/fs.h"
 #include "FGUI.h"
 #include "stdlib.h"
-#include "idt.h"
-#include "asm.h"
-#include "timer.h"
+#include "thread/thread.h"
+#include "interrupt/idt.h"
+#include "interrupt/timer.h"
+#include "interrupt/keyboard.h"
 
 #ifdef OS_DEBUG
 
@@ -35,18 +36,8 @@ extern "C" void start()
 {
 	init(terminal);
 	init(IDT);
-
-	setCursor(0,0);
-	for(int x=0;x<80;x++)
-	{
-		for(int y=0;y<24;y++)
-		{
-			printf("${bgblue} ");
-		}
-	}
-	printf("${bgblack}                            ${white|bgblue}cyOS has failed!--HUAJI!!!");
-
-	// init(timer);
+	init(timer);
+	init(keyboard);
 	// init(disk);
 	// init(fs);
 	while (true)

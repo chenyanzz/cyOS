@@ -47,6 +47,7 @@ bool init_IDT()
 	set_gate(13,deal_int_13,FAULT);//一般性保护异常
 	set_gate(0,deal_int_0,FAULT);//除0报错
 	set_gate(IRQ(0),deal_irq_0,INT);//时钟中断
+	set_gate(IRQ(1),deal_irq_1,INT);//键盘中断
 
 	sti();
 	return true;

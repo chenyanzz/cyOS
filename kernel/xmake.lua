@@ -1,29 +1,3 @@
--- target("kernel.bin")
-
---     --settings
---     set_kind("binary")
-
---     --source
---     add_files("**.c","**.cpp")
-
---     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
-
---     --link params
---     add_cxflags("-Wl,-T$(projectdir)/kernel/link.lds","-nostartfiles","-e ___main",{force=true})
---     add_ldflags("-Wl,-T$(projectdir)/kernel/link.lds","-nostartfiles","-e ___main",{force=true})
---     add_links("stdc++")
---     --add_deps("libs")
-
---     --after build
---     after_build(function ()
-
---         --disassemble
---         os.run("objdump -S $(buildir)/libkernel.a -M intel > $(projectdir)/d_kernel.txt")
-
---         --cut into plain code
--- 	    os.run("objcopy -O binary $(buildir)/libkernel.a $(buildir)/kernel.bin")
-
---     end)
 target("kernel")
     set_kind("object")
     add_deps("libs")
@@ -35,7 +9,8 @@ target("kernel")
 
     after_build(function ()
 
-        os.vrun("nasm kernel/deal_int.asm -o$(buildir)/kernel/deal_int.o -p kernel/int_handler.inc -f elf32")
+        os.mkdir("$(buildir)/kernel/kernel/interrupt")
+        os.vrun("nasm kernel/interrupt/deal_int.asm -o$(buildir)/kernel/kernel/interrupt/deal_int.o -p kernel/interrupt/int_handler.inc -f elf32")
 
         -- 链接kernel
         os.vrun("gcc -ggdb3 $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds,-e,_start -lstdc++ -nostartfiles -nostdinc -m32 -static-libstdc++ -static -fno-builtin")

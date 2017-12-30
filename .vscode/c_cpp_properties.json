@@ -3,9 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceRoot}",
-                "${workspaceRoot}/kernel/",
-                "${workspaceRoot}/libs/"
+                "${workspaceRoot}/**",
+                "${workspaceRoot}/kernel/**",
+                "${workspaceRoot}/libs/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -14,9 +14,7 @@
             "intelliSenseMode": "msvc-x64",
             "browse": {
                 "path": [
-                    "${workspaceRoot}",
-                    "${workspaceRoot}/kernel/**",
-                    "${workspaceRoot}/libs/**"
+                    "${workspaceRoot}/**"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""

@@ -1,11 +1,13 @@
 #include "timer.h"
 #include "printf.h"
 #include "asm.h"
+#include "types.h"
 
-int msec=0;
+u32 ticks;
 
 bool init_timer()
 {
+	ticks=0;
 	set_timer(TICK_PER_SECOND);
 	start_timer();
 
@@ -33,10 +35,8 @@ void start_timer()
 extern "C"
 void timer_tick()
 {
-	msec+=10;
-	if((msec%1000)==0)
-	{
-		printInt(msec/1000);
-	}
+	ticks++;
+	
+	//accept next tick
 	outb(0x20, 0x20);
 }

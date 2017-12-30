@@ -1,3 +1,4 @@
 extern _general_protection_fault_handler
 extern _devide_zero_handler
 extern _timer_tick
+extern _key_state_changed

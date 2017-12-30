@@ -45,4 +45,6 @@ void devide_zero_handler()
 
 extern void timer_tick();
 
+extern void key_state_changed();
+
 } //extern "C"
