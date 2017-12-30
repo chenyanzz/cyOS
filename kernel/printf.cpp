@@ -110,13 +110,34 @@ void checkXY()
 	}
 }
 
+void setCursor(u8 nx, u8 ny)
+{
+	x = nx;
+	y = ny;
+	checkXY();
+
+	//计算光标的线性位置
+	u16 cursor_pos = y * 80 + x;
+
+	//告诉地址寄存器要接下来要使用14号寄存器
+	outb(0x03d4, 14);
+
+	//向光标位置高位寄存器写入值
+	outb(0x03d5, (cursor_pos >> 8) & 0xff);
+
+	//告诉地址寄存器要接下来要使用15号寄存器
+	outb(0x03d4, 15);
+
+	//向光标位置高位寄存器写入值
+	outb(0x03d5, cursor_pos & 0xff);
+}
+
 void printChar(char ch)
 {
 	if (ch == '\n') //换行回车
 	{
 		y++;
 		x = 0;
-		checkXY();
 	}
 	else if (ch == '\r') //回车
 	{
@@ -138,7 +159,6 @@ void printChar(char ch)
 		if (x % tab_size == 0)
 			return;
 		x = (x / tab_size + 1) * tab_size;
-		checkXY();
 	}
 	else if (ch == '\v' || ch == '\f') //换页||垂直制表
 	{
@@ -149,8 +169,8 @@ void printChar(char ch)
 		screen[y][x].text = ch;
 		screen[y][x].color = color;
 		x++;
-		checkXY();
 	}
+	setCursor(x,y);
 }
 
 void printStr(char *str)

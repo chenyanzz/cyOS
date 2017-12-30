@@ -76,6 +76,13 @@ void setTerminalColor(TextColor tc, BgColor bc = defaultBgColor, bool blink = fa
  * 另一种方式，直接传入color字节
  */
 void setTerminalColorByte(byte c);
+
+/**
+ * 设定指针位置
+ * @param x,y设定的指针位置
+ */
+void setCursor(u8 x, u8 y);
+
 /** 
  * 控制台打印单个字符
  * @param  c: 那个字符
