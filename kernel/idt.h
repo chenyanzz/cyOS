@@ -5,7 +5,7 @@
 
 #define IDT_NUM 256
 
-#define INTERRUPT_HANDLER void
+#define NAKED __attribute__((fastcall))
 
 typedef void (*INTERRUPT_CALLBACK) ();
 
@@ -40,14 +40,5 @@ void lidt(interrupt_decriptor lidt);
 void set_idt_item(u8 index,interrupt_decriptor item);
 
 void set_gate(u8 index, INTERRUPT_CALLBACK func, GateType gatetype);
-
-/*以下函数处理中断*/
-
-/**
- * int 13 一般性捕获异常
- * 
- */
-INTERRUPT_HANDLER general_protection_fault_handler();
-
 
 #endif //IDT_H

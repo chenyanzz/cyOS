@@ -28,13 +28,15 @@ target("kernel")
     set_kind("object")
     add_deps("libs")
     --source
-    add_files("**.cpp")
+    add_files("**.cpp","**.c")
     -- add_cxflags("-nostartfiles","-m32","-fno-builtin",{force=true})
-
 
     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
     after_build(function ()
+
+        os.vrun("nasm kernel/deal_int.asm -o$(buildir)/kernel/deal_int.o -p kernel/int_handler.inc -f elf32")
+
         -- 链接kernel
         os.vrun("gcc -ggdb3 $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds,-e,_start -lstdc++ -nostartfiles -nostdinc -m32 -static-libstdc++ -static -fno-builtin")
 

@@ -257,11 +257,18 @@ init_8259A:;such a messy procedure...
     jmp init_8259A_end
 init_8259A_end:
 
+;enable a20 for memory beyond 1MB
+;---------------------------------------------------------
+enable_a20:
+    mov	al, 0xdd  ;  0xdd - on & 0xdf - off
+    out	0x64, al   ;Command Register 
+enable_a20_end:
+
 ;jump to protected mode
 ;and jump to kernel
 ;---------------------------------------------------------
 jump_to_protected_mode:
-    mov eax,cr0;9020:0156
+    mov eax,cr0
     or eax,1
     mov cr0,eax
     mov ax,10h;10 00 0
@@ -271,15 +278,6 @@ jump_to_protected_mode:
     mov fs,ax
     mov gs,ax
     cli
-
-    ; mov eax,0xb8000
-    ; mov esi,eax
-    ; mov cx,100
-    ; disp:
-    ; mov byte [ds:esi],0
-    ; add esi,2
-    ; loop disp
-    ; jmp $
 
     jmp 8:0;segment selector : 1 00 0;
     ;vb 8:0

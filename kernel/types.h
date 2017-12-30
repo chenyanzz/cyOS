@@ -48,18 +48,4 @@ enum RPL
 	USER = 3
 };
 
-//给C语言定义bool类型
-#ifndef __cplusplus
-
-typedef byte 	bool;
-const bool true  = 1;
-const bool false = 0;
-
-#define _in const
-#define _out
-
-#define NULL 0
-
-#endif
-
 #endif //TYPES_H

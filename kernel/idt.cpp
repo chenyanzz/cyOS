@@ -2,6 +2,8 @@
 #include "stdlib.h"
 #include "asm.h"
 #include "stdio.h"
+#include "deal_int.h"
+
 
 interrupt_decriptor IDT[IDT_NUM];
 idt_descriptor IDTR;
@@ -30,16 +32,6 @@ void set_gate(u8 index, INTERRUPT_CALLBACK callback, GateType gatetype)
 	set_idt_item(index, item);
 }
 
-INTERRUPT_HANDLER general_protection_fault_handler()
-{
-	push_reg();
-
-	printf("${RED}fatal:\tAn fatal error occured  !Please reboot your computer!\n");
-	while(true);
-
-	pop_reg();
-}
-
 bool init_IDT()
 {
 
@@ -52,7 +44,8 @@ bool init_IDT()
 	lidt(IDTR);
 
 	//设置各种中断函数
-	set_gate(13,general_protection_fault_handler,INT_GATE);
+	set_gate(13,deal_int_13,INT_GATE);
 
+	sti();
 	return true;
 }
