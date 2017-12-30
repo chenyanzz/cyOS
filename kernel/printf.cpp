@@ -156,8 +156,6 @@ void printChar(char ch)
 	}
 	else if (ch == '\t') //制表
 	{
-		if (x % tab_size == 0)
-			return;
 		x = (x / tab_size + 1) * tab_size;
 	}
 	else if (ch == '\v' || ch == '\f') //换页||垂直制表
