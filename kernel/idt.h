@@ -9,6 +9,8 @@
 
 typedef void (*INTERRUPT_CALLBACK) ();
 
+#define IRQ(n) (32+(n))
+
 struct idt_descriptor//in idtr
 {
 	//word SPACER;
@@ -18,7 +20,7 @@ struct idt_descriptor//in idtr
 
 enum GateType
 {
-	INTE	= 0b01110,
+	INT	= 0b01110,
 	FAULT	= 0b01110,//重新执行触发的命令
 	TRAP	= 0b01111,//执行触发的命令的下一条
 };

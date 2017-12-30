@@ -5,7 +5,7 @@
 #include "stdlib.h"
 #include "idt.h"
 #include "asm.h"
-
+#include "timer.h"
 
 #ifdef OS_DEBUG
 
@@ -22,7 +22,7 @@
 	}                                 \
 	setTerminalColor(WHITE)
 
-#else
+#else  //OS_DEBUG
 #define init(name) init_##name()
 #endif //OS_DEBUG
 
@@ -33,12 +33,9 @@ extern "C" void start()
 {
 	init(terminal);
 	init(IDT);
+	init(timer);
 	// init(disk);
 	// init(fs);
-	printf("will int!\n");
-	int i=100;
-	i/=0;
-	printf("int end!\n");
 	while (true)
 	{
 	}

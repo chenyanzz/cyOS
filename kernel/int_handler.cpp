@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "timer.h"
 
 #ifdef OS_DEBUG
 
@@ -22,8 +23,10 @@ void general_protection_fault_handler()
 {
 	COMMON_HANDLE_INT(13);
 	FATAL("general_protection_fault");
+
 	while (true)
-		;
+	{
+	}
 }
 
 /**
@@ -39,5 +42,7 @@ void devide_zero_handler()
 	{
 	}
 }
+
+extern void timer_tick();
 
 } //extern "C"
