@@ -8,10 +8,8 @@ void swap(char *a, char *b)
 void strReverse(char *str, int len)
 {
 	int lpos = 0, rpos = len - 1;
-	char buf;
 	while (lpos < rpos)
 	{
-		buf = str[lpos];
 		swap(str + lpos, str + rpos);
 		lpos++;
 		rpos--;

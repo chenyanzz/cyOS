@@ -42,5 +42,11 @@ extern "C" void start()
 	// init(fs);
 	while (true)
 	{
+		char c = get_charbuf();
+		/*这里，为什么会无缘无故返回空格字符32？！*/
+		if((c!=0)&&(c!=' '))
+		{
+			printChar(c);
+		}
 	}
 }

@@ -4,7 +4,8 @@ target("kernel")
     --source
     add_files("**.cpp","**.c")
     -- add_cxflags("-nostartfiles","-m32","-fno-builtin",{force=true})
-
+    set_headerdir("include/kernel")
+    add_headers("kernel/(**.h)")
     for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
     after_build(function ()

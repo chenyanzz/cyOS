@@ -153,6 +153,7 @@ void printChar(char ch)
 			if (y < 0)
 				y = 0;
 		}
+		screen[y][x].text=' ';
 	}
 	else if (ch == '\t') //制表
 	{

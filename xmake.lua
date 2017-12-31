@@ -23,7 +23,7 @@ set_strip("all")
 
 add_moduledirs("./")
 
-add_cxflags("-ggdb3","-m32","-fno-builtin","-fpack-struct=1","-mno-ms-bitfields")
+add_cxflags("-ggdb3","-m32","-fno-builtin","-fpack-struct=1","-mno-ms-bitfields","-fpermissive")
 
 if is_mode("debug") then
     add_defines("OS_DEBUG")
