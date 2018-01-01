@@ -26,7 +26,7 @@ char *color_key[] =
 
 		"bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE",
 
-		"normal", "defult", "default", 0};//以0结尾
+		"normal", "defult", "default", 0}; //以0结尾
 
 char color_value[] =
 	{
@@ -206,10 +206,9 @@ void printUInt(unsigned long long val)
 	printStr(str);
 }
 
-void printHex(unsigned long long val)
+void printOct(unsigned long long val)
 {
-	// printStr("0x");
-	const char nums[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	const char nums[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
 	if (val == 0)
 		printChar('0');
 	char str[30];
@@ -217,7 +216,26 @@ void printHex(unsigned long long val)
 	int pos;
 	for (pos = 0; val != 0; pos++)
 	{
-		str[pos] = nums[val % 16];
+		str[pos] = nums[val % 8];
+		val >>= 3;
+	}
+	strReverse(str, pos);
+	printStr(str);
+}
+
+void printHex(unsigned long long val, bool isCapital)
+{
+	const char nums[2][16] = {
+		{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'},
+		{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'}};
+	if (val == 0)
+		printChar('0');
+	char str[30];
+	strFill(str, 0, 30);
+	int pos;
+	for (pos = 0; val != 0; pos++)
+	{
+		str[pos] = nums[isCapital][val % 16];
 		val >>= 4;
 	}
 	strReverse(str, pos);
@@ -226,7 +244,6 @@ void printHex(unsigned long long val)
 
 void printBinary(unsigned long long val)
 {
-	printStr("0b");
 	if (val == 0)
 		printChar('0');
 	char str[64];
@@ -243,7 +260,12 @@ void printBinary(unsigned long long val)
 
 void printDouble(double val, int dp)
 {
+	dp%=100;
+
 	int intval = val;
+
+	char buf[100];
+	
 	printInt(intval);
 	val -= intval;
 	if (dp < 1)
@@ -272,38 +294,93 @@ static struct output_attrbutes attr;
 * @param ppc 字符串指针
 * @param vl 可变参数列表，用于读取*代替属性值
 */
-void parseAttr(const char **ppc, va_list vl)
+void parseAttr(const char *&pc, va_list vl)
 {
 	//sign
-	if (**ppc == '-' || **ppc == '+' || **ppc == ' ')
+	if (*pc == '-' || *pc == '+' || *pc == ' ' || *pc == '#')
 	{
-		attr.sign = **ppc;
-		*ppc++;
+		attr.sign = *pc;
+		pc++;
 	}
 	else
+	{
 		attr.sign = 0;
+	}
 
 	//width.dp
 	attr.width = 0;
-	while (**ppc >= '0' && **ppc <= '9')
+	while (*pc >= '0' && *pc <= '9')
 	{
 		attr.width *= 10;
-		attr.width += **ppc - '0';
-		*ppc++;
+		attr.width += *pc - '0';
+		pc++;
 	}
-	if (**ppc != '.')
+	if (*pc != '.')
 	{
 		return;
 	}
 	attr.dp = 0;
-	while (**ppc >= '0' && **ppc <= '9')
+	while (*pc >= '0' && *pc <= '9')
 	{
 		attr.dp *= 10;
-		attr.dp += **ppc - '0';
-		*ppc++;
+		attr.dp += *pc - '0';
+		pc++;
 	}
 	if (attr.dp == 0)
 		attr.dp = 2;
+}
+
+void parseColor(const char *&pc)
+{
+	//检测当前字符是否是${
+	if (*pc == '$')
+	{
+		char buf[30];
+		strFill(buf, 0, 30);
+		char *buf2 = 0;
+		pc++;
+		if (*pc == '$')
+		{
+			printChar(*pc);
+		}
+		else if (*pc == '{')
+		{
+			pc++;
+			int i;
+			//把{}间的部分存入buf
+			for (i = 0; *pc != '}'; i++)
+			{
+				buf[i] = *pc;
+				pc++;
+			}
+			pc++;
+			buf[i] = '\0';
+			buf2 = 0;
+			//判断buf是不是两个颜色用|分隔
+			for (int j = 0; j < i; j++)
+			{
+				if (buf[j] == '|')
+				{
+					buf[j] = '\0';
+					buf2 = buf + j + 1;
+					break;
+				}
+			}
+
+			//比较buf与各种颜色
+			byte tc = defaultTextColor;
+			byte bc = defaultBgColor;
+			if (!isEmpty(buf))
+			{
+				tc = getValue(buf, color_key, color_value, -1, false);
+			}
+			if ((!isEmpty(buf2)) && buf2[0] != '}')
+			{
+				bc = getValue(buf2, color_key, color_value, -1, false);
+			}
+			color = makeColor(tc, bc);
+		}
+	}
 }
 
 int printf(const char *format, ...)
@@ -315,61 +392,10 @@ int printf(const char *format, ...)
 	int params = 0;
 
 	const char *pc = format;
-	int i = 0;
 	while (*pc != 0)
 	{
 		//判断是否是设置颜色的${。。。}
-
-		//检测当前字符是否是${
-		if (*pc == '$')
-		{
-			char buf[30];
-			strFill(buf, 0, 30);
-			char *buf2 = 0;
-			pc++;
-			if (*pc == '$')
-			{
-				printChar(*pc);
-			}
-			else if (*pc == '{')
-			{
-				pc++;
-				int i;
-				//把{}间的部分存入buf
-				for (i = 0; *pc != '}'; i++)
-				{
-					buf[i] = *pc;
-					pc++;
-				}
-				pc++;
-				buf[i] = '\0';
-				buf2 = 0;
-				//判断buf是不是两个颜色用|分隔
-				for (int j = 0; j < i; j++)
-				{
-					if (buf[j] == '|')
-					{
-						buf[j] = '\0';
-						buf2 = buf + j + 1;
-						break;
-					}
-				}
-
-				//比较buf与各种颜色
-				byte tc = defaultTextColor;
-				byte bc = defaultBgColor;
-				if (!isEmpty(buf))
-				{
-					tc = getValue(buf, color_key, color_value, -1, false);
-				}
-				if ((!isEmpty(buf2)) && buf2[0] != '}')
-				{
-					bc = getValue(buf2, color_key, color_value, -1, false);
-				}
-				color = makeColor(tc, bc);
-			}
-			continue;
-		}
+		parseColor(pc);
 
 		//如果不是%则正常的输出
 		if (*pc != '%')
@@ -381,20 +407,10 @@ int printf(const char *format, ...)
 
 		//判断%后的字符是什么
 		pc++;
-		parseAttr(&pc, vl);
 
-		if (*pc == '*')
-		{
-			while (*pc == '*')
-				pc++;
-			continue;
-		}
-		if (*pc == '$')
-		{
-			printChar(*pc);
-			pc++;
-			continue;
-		}
+		//%[sign][width][.dp]  捕获%后面属性
+		parseAttr(pc, vl);
+
 		params++;
 		switch (*pc)
 		{
@@ -410,6 +426,12 @@ int printf(const char *format, ...)
 		case 'd':
 			printInt(va_arg(vl, int));
 			break;
+		case 'x':
+			printHex(va_arg(vl, unsigned int), false);
+			break;
+		case 'X':
+			printHex(va_arg(vl, unsigned int), true);
+			break;
 		case 'f':
 			printDouble(va_arg(vl, double), attr.dp);
 			break;
@@ -422,6 +444,12 @@ int printf(const char *format, ...)
 				break;
 			case 'd':
 				printInt(va_arg(vl, long));
+				break;
+			case 'x':
+				printHex(va_arg(vl, unsigned long), false);
+				break;
+			case 'X':
+				printHex(va_arg(vl, unsigned long), true);
 				break;
 			case 'f':
 				printDouble(va_arg(vl, double), 2);
@@ -436,70 +464,50 @@ int printf(const char *format, ...)
 				case 'd':
 					printInt(va_arg(vl, long long));
 					break;
+				case 'x':
+					printHex(va_arg(vl, unsigned long long), false);
+					break;
+				case 'X':
+					printHex(va_arg(vl, unsigned int), true);
+					break;
 				}
 				break;
 			}
 			break;
-		case 'x':
+		case 'h':
 			pc++;
 			switch (*pc)
 			{
-			case 'c':
-				printHex(va_arg(vl, char));
+			case 'u':
+				printUInt(va_arg(vl, unsigned short));
 				break;
 			case 'd':
-				printHex(va_arg(vl, int));
+				printInt(va_arg(vl, short));
 				break;
-			case 'l':
+			case 'x':
+				printHex(va_arg(vl, unsigned short), false);
+				break;
+			case 'X':
+				printHex(va_arg(vl, unsigned short), true);
+				break;
+			case 'h':
 				pc++;
 				switch (*pc)
 				{
-				case 'd':
-					printHex(va_arg(vl, long));
+				case 'u':
+					printUInt(va_arg(vl, unsigned char));
 					break;
-				case 'l':
-					pc++;
-					switch (*pc)
-					{
-					case 'd':
-						printHex(va_arg(vl, long long));
-						break;
-					}
+				case 'd':
+					printInt(va_arg(vl, char));
+					break;
+				case 'x':
+					printHex(va_arg(vl, unsigned char), false);
+					break;
+				case 'X':
+					printHex(va_arg(vl, unsigned char), true);
+					break;
 				}
 				break;
-			default:
-				printHex(va_arg(vl, char));
-			}
-			break;
-		case 'b':
-			pc++;
-			switch (*pc)
-			{
-			case 'c':
-				printBinary(va_arg(vl, char));
-				break;
-			case 'd':
-				printBinary(va_arg(vl, int));
-				break;
-			case 'l':
-				pc++;
-				switch (*pc)
-				{
-				case 'd':
-					printBinary(va_arg(vl, long));
-					break;
-				case 'l':
-					pc++;
-					switch (*pc)
-					{
-					case 'd':
-						printBinary(va_arg(vl, long long));
-						break;
-					}
-				}
-				break;
-			default:
-				printBinary(va_arg(vl, char));
 			}
 			break;
 		default:

@@ -106,13 +106,14 @@ void printUInt(unsigned long long val);
  * 打印十六进制值||二进制
  * @param  val: 数值
  */
-void printHex(unsigned long long val);
+void printHex(unsigned long long val, bool isCapital=true);
+void printOct(unsigned long long val);
 void printBinary(unsigned long long val);
 
 /** 
  * 控制台打印浮点数
  * @param  val: 值
- * @param  dp: 小数点后长度
+ * @param  dp: 小数点后长度 注意dp要不大于100
  * @retval None
  */
 void printDouble(double val, int dp);
@@ -124,8 +125,6 @@ void printDouble(double val, int dp);
  * 		1.特别地%f和%lf一定要传入double值
  * 		2.%x打印十六进制，%b打印十六进制。
  * 		默认都是一个字节，可以后面加d|ld|lld改变大小
- * 		3.为了迎合其他打印函数，%******可以跳过此部分不输出
- * 			还有%$输出$
  * @retval 返回使用了几个可变参数
  */
 int printf(const char *const format, ...);
