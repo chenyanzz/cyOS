@@ -18,9 +18,9 @@ target("boot")
          kernel_len_512,setup_len_512)
         
         -- cprint("${blue}building boot.bin")
-        os.vrun("dd if=$(buildir)/boot/bootsect.o of=$(buildir)/boot.bin \
+        os.run("dd if=$(buildir)/boot/bootsect.o of=$(buildir)/boot.bin \
          bs=512 count=1")
-	    os.vrun("dd if=$(buildir)/boot/setup.o of=$(buildir)/boot.bin \
+	    os.run("dd if=$(buildir)/boot/setup.o of=$(buildir)/boot.bin \
          bs=512 count=%d seek=1",
          setup_len_512) -- +1 to make file size a full kb
     end)

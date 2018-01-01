@@ -4,6 +4,27 @@ global _deal_irq_0
 global _deal_irq_1
 
 [section .text]
+
+%macro push_reg 0
+	pushad
+	push ds
+	push es
+	push ss
+	push fs
+	push gs
+	pushf
+%endmacro
+
+%macro pop_reg 0
+	popf
+	pop gs
+	pop fs
+	pop ss
+	pop es
+	pop ds
+	popad
+%endmacro
+
 _deal_int_13:
 	call _general_protection_fault_handler
 	iret
@@ -13,13 +34,13 @@ _deal_int_0:
 	iret
 
 _deal_irq_0:
-	cli
+	push_reg
 	call _timer_tick
-	sti
+	pop_reg
 	iret
 
 _deal_irq_1:
-	cli
+	push_reg
 	call _key_state_changed
-	sti
+	pop_reg
 	iret

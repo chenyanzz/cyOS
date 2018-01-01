@@ -42,10 +42,15 @@ extern "C" void start()
 	// init(fs);
 	while (true)
 	{
-		char c = get_charbuf();
-		/*这里，为什么会无缘无故返回空格字符32？！*/
-		if((c!=0)&&(c!=' '))
+		char c = read_charbuf();
+		/*
+		这里，为什么会无缘无故返回空格字符32？！
+		ans:中断程序改动了寄存器的值
+		*/
+		// printf("\n%xd",(int)c);
+		if((c!=0))
 		{
+			// printf("\t%xd",(int)c);
 			printChar(c);
 		}
 	}

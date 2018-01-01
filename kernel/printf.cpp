@@ -20,15 +20,13 @@ struct character
 
 struct character *screen[80]; //[40][80]{text,color} 字符显存
 
-const struct character SPACE = {' ', defaultColor}; //空格
-
 char *color_key[] =
 	{
 		"BLACK", "DARKGRAY", "RED", "LIGHTRED", "TOMATO", "GREEN", "LIGHTGREEN", "LAWNGREEN", "BLUE", "SKYBLUE", "LIGHTBLUE", "ORANGE", "YELLOW", "PURPLE", "PINK", "CYAN", "LIGHTCYAN", "WHITE", "LIGHTGRAY", "LIGHTWHITE",
 
 		"bgBLACK", "bgRED", "bgGREEN", "bgBLUE", "bgORANGE", "bgPURPLE", "bgCYAN", "bgWHITE",
 
-		"normal", "defult", "default", 0};
+		"normal", "defult", "default", 0};//以0结尾
 
 char color_value[] =
 	{
@@ -69,7 +67,7 @@ void cls()
 	{
 		for (int i = 0; i < width; i++)
 		{
-			screen[j][i] = SPACE;
+			screen[j][i].text = ' ';
 		}
 	}
 	x = 0;
@@ -91,7 +89,7 @@ void lineup()
 	//屏幕上39行补空格
 	for (int i = 0; i < width; i++)
 	{
-		screen[height - 1][i] = SPACE;
+		screen[height - 1][i].text = ' ';
 	}
 }
 
@@ -153,7 +151,7 @@ void printChar(char ch)
 			if (y < 0)
 				y = 0;
 		}
-		screen[y][x].text=' ';
+		screen[y][x].text = ' ';
 	}
 	else if (ch == '\t') //制表
 	{
@@ -169,7 +167,7 @@ void printChar(char ch)
 		screen[y][x].color = color;
 		x++;
 	}
-	setCursor(x,y);
+	setCursor(x, y);
 }
 
 void printStr(char *str)

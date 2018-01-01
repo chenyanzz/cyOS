@@ -8,22 +8,27 @@ for _, dir in ipairs(os.dirs("$(projectdir)/libs/**")) do add_includedirs(dir) e
 add_includedirs("$(projectdir)/kernel/")
 for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
---compile params
-add_cxflags("-nostdinc","-masm=intel","-W","-fno-builtin","-Wall","-werror")
+--gcc params
+add_cxflags("-fpermissive","-W","-Wall","-werror")--dealing compiler error
+add_cxflags("-nostdinc","-fno-builtin","-fpack-struct=1",
+            "-mno-ms-bitfields","-masm=intel")--compiling&linking
+add_cxflags("-m32")--platform
+add_cxflags("-ggdb3")--debugging
 
 add_subdirs("./boot/")
 add_subdirs("./libs/")
 add_subdirs("./kernel/")
 
+--set output dirs
 set_objectdir("$(buildir)")
 set_targetdir("$(buildir)")
 set_headerdir("include")
 
 set_strip("all")
 
+
 add_moduledirs("./")
 
-add_cxflags("-ggdb3","-m32","-fno-builtin","-fpack-struct=1","-mno-ms-bitfields","-fpermissive")
 
 if is_mode("debug") then
     add_defines("OS_DEBUG")
@@ -37,10 +42,10 @@ target("cyOS")
         local kernel_len_512 = math.ceil(filelen.kb("$(buildir)/kernel.bin")*2)
         local boot_len_512 = math.ceil(filelen.kb("$(buildir)/boot.bin")*2)
         
-        os.vrun("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
+        os.run("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
             bs=512 count=%d"
             ,boot_len_512)
-        os.vrun("dd if=$(buildir)/kernel.bin of=$(buildir)/cyOS.img \
+        os.run("dd if=$(buildir)/kernel.bin of=$(buildir)/cyOS.img \
             bs=512 count=%d seek=%d"
             ,kernel_len_512,boot_len_512)
         cprint("${blue}cyOS has been built successfully")
@@ -52,10 +57,10 @@ target("cyOS")
 
     if is_mode("release") then
         on_run(function ()
-            os.run("./run.bat")
+            os.run("./scripts/run.bat")
         end)
     else
         on_run(function ()
-            os.run("./debug.bat")
+            os.run("./scripts/debug.bat")
         end)
     end

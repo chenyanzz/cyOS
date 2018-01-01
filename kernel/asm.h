@@ -22,7 +22,7 @@ void outw(word port, word b);
 
 #define push_reg()	\
 	asm(			\
-		"pusha;"	\
+		"pushad;"	\
 		"push ebp;"	\
 		"push ds;"	\
 		"push es;"	\
@@ -39,7 +39,7 @@ void outw(word port, word b);
 		"pop es;"	\
 		"pop ds;"	\
 		"pop ebp;"	\
-		"popa;"		\
+		"popad;"	\
 	)
 
 /*汇编程序里的变量指针*/

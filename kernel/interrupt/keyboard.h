@@ -21,11 +21,16 @@ void start_keyboard_int();
 /**
  * 向字符缓冲区中添加一个字符
  */
-void set_charbuf(char c);
+void write_charbuf(char c);
 
 /**
  * 从字符缓冲区中读取一个字符
  */
-char get_charbuf();
+char read_charbuf();
+
+/**
+ * 响应功能键
+ */
+void func_key(char key);
 
 #endif //KEYBOAR_H

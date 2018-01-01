@@ -25,9 +25,6 @@ bool init_keyboard()
 	memset(charbuf, 0, sizeof(charbuf));
 	pRead = 0;
 	pWrite = 0;
-	// set_charbuf('w');
-	// set_charbuf('x');
-	// set_charbuf('y');
 	start_keyboard_int();
 	return true;
 }
@@ -66,10 +63,17 @@ extern "C" void key_state_changed()
 		kstat.isSclLk = isDown;
 		break;
 	}
-	
-	if (isDown)
+
+	if (keys[key][kstat.isShift ^ kstat.isShift] != 0)
 	{
-		set_charbuf(keys[key][kstat.isShift]);
+		if (isDown)
+		{
+			write_charbuf(keys[key][kstat.isShift ^ kstat.isShift]);
+		}
+	}
+	else
+	{
+		func_key(key);
 	}
 
 	//清除键盘状态可以接受新按键
@@ -91,8 +95,13 @@ void start_keyboard_int()
 //POS(pos-1)
 #define LAST(pos) ((pos - 1) == -1 ? MAX_KEYBUF - 1 : (pos - 1))
 
-void set_charbuf(char c)
+void write_charbuf(char c)
 {
+	if (c == 0)
+	{
+		return;
+	}
+
 	//如果写满了缓冲区，丢掉后面的
 	if (NEXT(pWrite) != pRead)
 	{
@@ -101,18 +110,23 @@ void set_charbuf(char c)
 	}
 }
 
-char get_charbuf()
+char read_charbuf()
 {
+	char c=0;
+
 	//如果缓冲区空了，返回0
 	//tip: pWrite是还没写的那个字符
-	if (pRead == pWrite)
+	if (pRead != pWrite)
 	{
-		return 0;
+		c = charbuf[pRead];
+		pRead = NEXT(pRead);
 	}
 
-	char c = charbuf[pRead];
-	pRead = NEXT(pRead);
-
+	// printf("%xd",(int)c);
 	//返回字符
 	return c;
+}
+
+void func_key(char key)
+{
 }
