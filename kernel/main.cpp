@@ -40,12 +40,14 @@ extern "C" void start()
 	init(keyboard);
 	// init(disk);
 	// init(fs);
-	while (true)
-	{
-		char c = read_charbuf();
-		if((c!=0))
-		{
-			printChar(c);
-		}
-	}
+	printf("%d %f %c %s %x\n",12345,(double)1.2345,'z',"yyyyy",222);
+	while(1);
+	// while (true)
+	// {
+	// 	char c = read_charbuf();
+	// 	if((c!=0))
+	// 	{
+	// 		printChar(c);
+	// 	}
+	// }
 }

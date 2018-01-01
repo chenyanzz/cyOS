@@ -29,7 +29,6 @@ set_strip("all")
 
 add_moduledirs("./")
 
-
 if is_mode("debug") then
     add_defines("OS_DEBUG")
 end

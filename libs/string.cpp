@@ -48,10 +48,10 @@ int strlen(char *str)
 
 int strcmp(char *s1, char *s2, bool isCaseSensitive)
 {
-	int i=0;
-	for (i = 0; (~(((~(s1[i] ^ s2[i]))|((!isCaseSensitive)<<5))))==0; i++)
+	int i = 0;
+	for (i = 0; (~(((~(s1[i] ^ s2[i])) | ((!isCaseSensitive) << 5)))) == 0; i++)
 	{
-		if((s1[i]&&s2[i])==0)
+		if ((s1[i] && s2[i]) == 0)
 		{
 			break;
 		}
@@ -59,9 +59,18 @@ int strcmp(char *s1, char *s2, bool isCaseSensitive)
 	return s1[i] - s2[i];
 }
 
-bool isEmpty(char* str)
+int strcpy(char *to, char *from)
 {
-	return (str==0)||str[0]==0;
+	int i;
+	for (i = 0; (to[i] = from[i]) != 0; i++)
+	{
+	}
+	return i;
+}
+
+bool isEmpty(char *str)
+{
+	return (str == 0) || str[0] == 0;
 }
 
 int colorStrlen(char *str)
@@ -72,7 +81,7 @@ int colorStrlen(char *str)
 	{
 		if (str[i] == '$' && str[++i] == '{')
 		{
-			while(str[++i] != '}')
+			while (str[++i] != '}')
 			{
 				continue;
 			}

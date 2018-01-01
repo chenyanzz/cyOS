@@ -7,7 +7,7 @@
 /**
  * 显示启动界面
  */
-void showBootScreen(void);
+// void showBootScreen();
 
 #define WIDTH 80
 

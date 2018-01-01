@@ -4,7 +4,8 @@ target("kernel")
     --source
     add_files("**.cpp","**.c")
     
-    for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
+    add_includedirs("$(projectdir)")
+    add_includedirs("$(projectdir)/libs")
 
     after_build(function ()
 

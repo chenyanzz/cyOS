@@ -5,3 +5,6 @@ target("libs")
 
     --source
     add_files("**.cpp")
+
+    add_includedirs("$(projectdir)")
+    add_includedirs("$(projectdir)/kernel")

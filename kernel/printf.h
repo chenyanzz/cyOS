@@ -1,5 +1,5 @@
-#ifndef STD_OUT_H
-#define STD_OUT_H
+#ifndef PRINTF_H
+#define PRINTF_H
 
 #include "types.h"
 
@@ -96,39 +96,16 @@ void printChar(char c);
 void printStr(char *str);
 
 /** 
- * 打印不同类型数字（十进制）
- * @param  val: 数值 
- */
-void printInt(long long val);
-void printUInt(unsigned long long val);
-
-/** 
- * 打印十六进制值||二进制
- * @param  val: 数值
- */
-void printHex(unsigned long long val, bool isCapital=true);
-void printOct(unsigned long long val);
-void printBinary(unsigned long long val);
-
-/** 
- * 控制台打印浮点数
- * @param  val: 值
- * @param  dp: 小数点后长度 注意dp要不大于100
- * @retval None
- */
-void printDouble(double val, int dp);
-
-/** 
- * 实现标准库中printf
+ * 可以打印颜色的printf
  * @param  format: 格式字符串
+ * 			其中${color}表示颜色
  * @param  ...: 填充参数
  * 		1.特别地%f和%lf一定要传入double值
  * 		2.%x打印十六进制，%b打印十六进制。
  * 		默认都是一个字节，可以后面加d|ld|lld改变大小
  * @retval 返回使用了几个可变参数
  */
-int printf(const char *const format, ...);
-//__attribute__ ((format (printf, 1, 2)));
+int printf(const char *const format, ...)__attribute__ ((format (printf, 1, 2)));
 
 /** 
  * 控制输出光标
@@ -136,4 +113,4 @@ int printf(const char *const format, ...);
  */
 void setXY(const int newx, const int newy);
 
-#endif
+#endif //PRINTF_H

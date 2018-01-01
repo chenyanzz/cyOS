@@ -1,5 +1,6 @@
 #include "stdarg.h"
 #include "printf.h"
+#include "libs/sprintf.h"
 #include "stdlib.h"
 #include "asm.h"
 #include "map.h"
@@ -10,6 +11,8 @@ static char color; //当前颜色设置
 
 const int width = 80;
 const int height = 25;
+
+extern output_attrbutes attr;
 
 //显存里字符结构体
 struct character
@@ -35,6 +38,8 @@ char color_value[] =
 		bgBLACK, bgRED, bgGREEN, bgBLUE, bgORANGE, bgPURPLE, bgCYAN, bgWHITE,
 
 		defaultColor, defaultColor, defaultColor};
+
+extern struct output_attrbutes attr;
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
@@ -157,7 +162,15 @@ void printChar(char ch)
 	{
 		x = (x / tab_size + 1) * tab_size;
 	}
-	else if (ch == '\v' || ch == '\f') //换页||垂直制表
+	else if (ch == '\f') //换页
+	{
+		cls();
+	}
+	else if (ch == '\r') //回行首
+	{
+		x = 0;
+	}
+	else if (ch == '\v') //垂直制表
 	{
 		//打印机才有用..
 	}
@@ -178,156 +191,6 @@ void printStr(char *str)
 		printChar(str[i]);
 		i++;
 	}
-}
-
-void printInt(long long val)
-{
-	if (val < 0)
-	{
-		printChar('-');
-		val = -val;
-	}
-	printUInt(val);
-}
-
-void printUInt(unsigned long long val)
-{
-	if (val == 0)
-		printChar('0');
-	char str[30];
-	strFill(str, 0, 30);
-	int pos;
-	for (pos = 0; val != 0; pos++)
-	{
-		str[pos] = '0' + val % 10;
-		val /= 10;
-	}
-	strReverse(str, pos);
-	printStr(str);
-}
-
-void printOct(unsigned long long val)
-{
-	const char nums[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
-	if (val == 0)
-		printChar('0');
-	char str[30];
-	strFill(str, 0, 30);
-	int pos;
-	for (pos = 0; val != 0; pos++)
-	{
-		str[pos] = nums[val % 8];
-		val >>= 3;
-	}
-	strReverse(str, pos);
-	printStr(str);
-}
-
-void printHex(unsigned long long val, bool isCapital)
-{
-	const char nums[2][16] = {
-		{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'},
-		{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'}};
-	if (val == 0)
-		printChar('0');
-	char str[30];
-	strFill(str, 0, 30);
-	int pos;
-	for (pos = 0; val != 0; pos++)
-	{
-		str[pos] = nums[isCapital][val % 16];
-		val >>= 4;
-	}
-	strReverse(str, pos);
-	printStr(str);
-}
-
-void printBinary(unsigned long long val)
-{
-	if (val == 0)
-		printChar('0');
-	char str[64];
-	strFill(str, 0, 32);
-	int pos;
-	for (pos = 0; val != 0; pos++)
-	{
-		str[pos] = '0' + val % 2;
-		val >>= 1;
-	}
-	strReverse(str, pos);
-	printStr(str);
-}
-
-void printDouble(double val, int dp)
-{
-	dp%=100;
-
-	int intval = val;
-
-	char buf[100];
-	
-	printInt(intval);
-	val -= intval;
-	if (dp < 1)
-	{
-		return;
-	}
-	printChar('.');
-	int i;
-	for (i = 0; i < dp; i++)
-	{
-		val *= 10;
-		printChar('0' + ((int)val % 10));
-	}
-}
-
-struct output_attrbutes
-{
-	char sign;			 //符号(符号正号空格等)——默认0
-	unsigned char width; //变量整体宽度——默认-1（无限）
-	unsigned char dp;	//小数点后位数——默认2
-};
-static struct output_attrbutes attr;
-
-/**
-* 读取输出属性到结构体
-* @param ppc 字符串指针
-* @param vl 可变参数列表，用于读取*代替属性值
-*/
-void parseAttr(const char *&pc, va_list vl)
-{
-	//sign
-	if (*pc == '-' || *pc == '+' || *pc == ' ' || *pc == '#')
-	{
-		attr.sign = *pc;
-		pc++;
-	}
-	else
-	{
-		attr.sign = 0;
-	}
-
-	//width.dp
-	attr.width = 0;
-	while (*pc >= '0' && *pc <= '9')
-	{
-		attr.width *= 10;
-		attr.width += *pc - '0';
-		pc++;
-	}
-	if (*pc != '.')
-	{
-		return;
-	}
-	attr.dp = 0;
-	while (*pc >= '0' && *pc <= '9')
-	{
-		attr.dp *= 10;
-		attr.dp += *pc - '0';
-		pc++;
-	}
-	if (attr.dp == 0)
-		attr.dp = 2;
 }
 
 void parseColor(const char *&pc)
@@ -391,6 +254,8 @@ int printf(const char *format, ...)
 
 	int params = 0;
 
+	char buf[100];
+
 	const char *pc = format;
 	while (*pc != 0)
 	{
@@ -410,7 +275,7 @@ int printf(const char *format, ...)
 
 		//%[sign][width][.dp]  捕获%后面属性
 		parseAttr(pc, vl);
-
+		bool bPrintBuf=false;
 		params++;
 		switch (*pc)
 		{
@@ -419,56 +284,71 @@ int printf(const char *format, ...)
 			break;
 		case 's':
 			printStr(va_arg(vl, char *));
+			bPrintBuf=true;
 			break;
 		case 'u':
-			printStr(va_arg(vl, char *));
+			sprintUInt(va_arg(vl, char *), buf);
+			bPrintBuf=true;
 			break;
 		case 'd':
-			printInt(va_arg(vl, int));
+			sprintInt(va_arg(vl, int), buf);
+			bPrintBuf=true;
 			break;
 		case 'x':
-			printHex(va_arg(vl, unsigned int), false);
+			sprintHex(va_arg(vl, unsigned int), buf, false);
+			bPrintBuf=true;
 			break;
 		case 'X':
-			printHex(va_arg(vl, unsigned int), true);
+			sprintHex(va_arg(vl, unsigned int), buf, true);
+			bPrintBuf=true;
 			break;
 		case 'f':
-			printDouble(va_arg(vl, double), attr.dp);
+			sprintDouble(va_arg(vl, double), attr.dp, buf);
+			bPrintBuf=true;
 			break;
 		case 'l':
 			pc++;
 			switch (*pc)
 			{
 			case 'u':
-				printUInt(va_arg(vl, unsigned long));
+				sprintUInt(va_arg(vl, unsigned long), buf);
+				bPrintBuf=true;
 				break;
 			case 'd':
-				printInt(va_arg(vl, long));
+				sprintInt(va_arg(vl, long), buf);
+				bPrintBuf=true;
 				break;
 			case 'x':
-				printHex(va_arg(vl, unsigned long), false);
+				sprintHex(va_arg(vl, unsigned long), buf, false);
+				bPrintBuf=true;
 				break;
 			case 'X':
-				printHex(va_arg(vl, unsigned long), true);
+				sprintHex(va_arg(vl, unsigned long), buf, true);
+				bPrintBuf=true;
 				break;
 			case 'f':
-				printDouble(va_arg(vl, double), 2);
+				sprintDouble(va_arg(vl, double), 2, buf);
+				bPrintBuf=true;
 				break;
 			case 'l':
 				pc++;
 				switch (*pc)
 				{
 				case 'u':
-					printUInt(va_arg(vl, unsigned long long));
+					sprintUInt(va_arg(vl, unsigned long long), buf);
+					bPrintBuf=true;
 					break;
 				case 'd':
-					printInt(va_arg(vl, long long));
+					sprintInt(va_arg(vl, long long), buf);
+					bPrintBuf=true;
 					break;
 				case 'x':
-					printHex(va_arg(vl, unsigned long long), false);
+					sprintHex(va_arg(vl, unsigned long long), buf, false);
+					bPrintBuf=true;
 					break;
 				case 'X':
-					printHex(va_arg(vl, unsigned int), true);
+					sprintHex(va_arg(vl, unsigned int), buf, true);
+					bPrintBuf=true;
 					break;
 				}
 				break;
@@ -479,32 +359,40 @@ int printf(const char *format, ...)
 			switch (*pc)
 			{
 			case 'u':
-				printUInt(va_arg(vl, unsigned short));
+				sprintUInt(va_arg(vl, unsigned short), buf);
+				bPrintBuf=true;
 				break;
 			case 'd':
-				printInt(va_arg(vl, short));
+				sprintInt(va_arg(vl, short), buf);
+				bPrintBuf=true;
 				break;
 			case 'x':
-				printHex(va_arg(vl, unsigned short), false);
+				sprintHex(va_arg(vl, unsigned short), buf, false);
+				bPrintBuf=true;
 				break;
 			case 'X':
-				printHex(va_arg(vl, unsigned short), true);
+				sprintHex(va_arg(vl, unsigned short), buf, true);
+				bPrintBuf=true;
 				break;
 			case 'h':
 				pc++;
 				switch (*pc)
 				{
 				case 'u':
-					printUInt(va_arg(vl, unsigned char));
+					sprintUInt(va_arg(vl, unsigned char), buf);
+					bPrintBuf=true;
 					break;
 				case 'd':
-					printInt(va_arg(vl, char));
+					sprintInt(va_arg(vl, char), buf);
+					bPrintBuf=true;
 					break;
 				case 'x':
-					printHex(va_arg(vl, unsigned char), false);
+					sprintHex(va_arg(vl, unsigned char), buf, false);
+					bPrintBuf=true;
 					break;
 				case 'X':
-					printHex(va_arg(vl, unsigned char), true);
+					sprintHex(va_arg(vl, unsigned char), buf, true);
+					bPrintBuf=true;
 					break;
 				}
 				break;
@@ -513,6 +401,11 @@ int printf(const char *format, ...)
 		default:
 			printChar(*pc);
 			params--;
+		}
+		if(bPrintBuf)
+		{
+			printStr(buf);
+			buf[0]=0;
 		}
 		pc++;
 	}

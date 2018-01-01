@@ -44,6 +44,14 @@ int strlen(char* str);
 int strcmp(char* s1,char* s2,bool isCaseSensitive=true);
 
 /**
+ * 字符串拷贝
+ * @param 把from拷贝到to
+ * @note 拷贝结束条件是from[n]=0
+ * @return strlen(from)
+ */
+int strcpy(char* to,char* from);
+
+/**
  * 从字符串开头解析整数
  * @param pc 字符串
  * @return 那个整数（找不到为0）
