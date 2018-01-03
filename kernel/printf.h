@@ -95,10 +95,8 @@ void printChar(char c);
  */
 void printStr(char *str);
 
-/** 
- * 可以打印颜色的printf
- * @param  format: 格式字符串
- * 			其中${color}表示颜色
+/**
+ * 标准库中的没有做attr的printf
  * @param  ...: 填充参数
  * 		1.特别地%f和%lf一定要传入double值
  * 		2.%x打印十六进制，%b打印十六进制。
@@ -106,6 +104,14 @@ void printStr(char *str);
  * @retval 返回使用了几个可变参数
  */
 int printf(const char *const format, ...)__attribute__ ((format (printf, 1, 2)));
+
+
+/** 
+ * 可以打印颜色的printf
+ * @param  format: 格式字符串
+ * 			其中${color}表示颜色
+ */
+int cprintf(const char *format, ...)__attribute__ ((format (printf, 1, 2)));
 
 /** 
  * 控制输出光标

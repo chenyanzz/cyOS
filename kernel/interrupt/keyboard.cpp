@@ -1,6 +1,7 @@
 #include "keyboard.h"
 #include "key_map.h"
 #include "asm.h"
+#include "irq.h"
 #include "stdio.h"
 #include "stdlib.h"
 
@@ -25,7 +26,6 @@ bool init_keyboard()
 	memset(charbuf, 0, sizeof(charbuf));
 	pRead = 0;
 	pWrite = 0;
-	start_keyboard_int();
 	return true;
 }
 
@@ -64,11 +64,12 @@ extern "C" void key_state_changed()
 		break;
 	}
 
-	if (keys[key][kstat.isShift ^ kstat.isShift] != 0)
+	bool isCapital = kstat.isShift ^ kstat.isCapsLk;
+	if (keys[key][isCapital] != 0)
 	{
 		if (isDown)
 		{
-			write_charbuf(keys[key][kstat.isShift ^ kstat.isShift]);
+			write_charbuf(keys[key][isCapital]);
 		}
 	}
 	else
@@ -79,13 +80,7 @@ extern "C" void key_state_changed()
 	//清除键盘状态可以接受新按键
 	outb(0x61, 0x7f);
 	//通知PIC1可以接受新中断
-	outb(0x20, 0x20);
-}
-
-void start_keyboard_int()
-{
-	//打开IRQ1的键盘中断
-	outb(0x21, inb(0x21) & 0xfd);
+	accept_new_irq();
 }
 
 //把可能超出[0,MAX_CHARBUF]的值转换为正常下标
@@ -112,7 +107,7 @@ void write_charbuf(char c)
 
 char read_charbuf()
 {
-	char c=0;
+	char c = 0;
 
 	//如果缓冲区空了，返回0
 	//tip: pWrite是还没写的那个字符

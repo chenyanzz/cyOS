@@ -93,6 +93,6 @@ struct MEM_LIST_ITEM
 /*位操作*/
 #define bit(n, nb) (((n) & (1 << nb)) != 0)
 #define setb(n, nb) ((n) |= (1 << nb))
-#define clrb(n, nb) ((n)&= ~(1<<nb)
+#define clrb(n, nb) ((n)&= ~(1<<nb))
 
 #endif

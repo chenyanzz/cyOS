@@ -14,11 +14,6 @@ bool init_keyboard();
 extern "C" void key_state_changed();
 
 /**
- * 开启键盘中断
- */
-void start_keyboard_int();
-
-/**
  * 向字符缓冲区中添加一个字符
  */
 void write_charbuf(char c);

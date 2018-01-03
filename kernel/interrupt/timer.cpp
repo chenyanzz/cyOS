@@ -2,6 +2,7 @@
 #include "printf.h"
 #include "asm.h"
 #include "types.h"
+#include "irq.h"
 
 u32 ticks;
 
@@ -9,8 +10,7 @@ bool init_timer()
 {
 	ticks=0;
 	set_timer(TICK_PER_SECOND);
-	start_timer();
-
+	
 	return true;
 }
 
@@ -26,17 +26,11 @@ void set_timer(int freq)
 	outb(0x40, divisor >> 8);
 }
 
-void start_timer()
-{
-	//打开PIC的时钟中断IRQ0
-	outb(0x21,inb(0x21) & 0xfe);
-}
-
 extern "C"
 void timer_tick()
 {
 	ticks++;
-	
-	//accept next tick
-	outb(0x20, 0x20);
+
+	//接受下一个中断
+	accept_new_irq();
 }

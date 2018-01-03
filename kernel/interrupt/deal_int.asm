@@ -6,6 +6,7 @@ global _deal_irq_1
 [section .text]
 
 %macro push_reg 0
+	cli
 	pushad
 	push ds
 	push es
@@ -13,9 +14,11 @@ global _deal_irq_1
 	push fs
 	push gs
 	pushf
+	sti
 %endmacro
 
 %macro pop_reg 0
+	cli
 	popf
 	pop gs
 	pop fs
@@ -23,6 +26,7 @@ global _deal_irq_1
 	pop es
 	pop ds
 	popad
+	sti
 %endmacro
 
 _deal_int_13:

@@ -18,7 +18,7 @@
 	}                                        	\
 	else                                     	\
 	{                                        	\
-		printf("${red}[failed ]");          	\
+		printf("${red}[failed!]");          	\
 		printf("${normal}init %s\n", #name); 	\
 	}
 
@@ -40,14 +40,17 @@ extern "C" void start()
 	init(keyboard);
 	// init(disk);
 	// init(fs);
-	printf("%d %f %c %s %x\n",12345,(double)1.2345,'z',"yyyyy",222);
+
+
+	while (true)
+	{
+		char c = read_charbuf();
+		if((c!=0))
+		{
+			printChar(c);
+		}
+	}
+
+
 	while(1);
-	// while (true)
-	// {
-	// 	char c = read_charbuf();
-	// 	if((c!=0))
-	// 	{
-	// 		printChar(c);
-	// 	}
-	// }
 }

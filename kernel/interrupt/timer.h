@@ -14,11 +14,6 @@ bool init_timer();
  */
 void set_timer(int freq);
 
-/**
- * 开启时钟
- */ 
-void start_timer();
-
 //处理时钟中断
 extern "C"
 void timer_tick();

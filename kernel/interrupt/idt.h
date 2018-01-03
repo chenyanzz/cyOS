@@ -9,8 +9,6 @@
 
 typedef void (*INTERRUPT_CALLBACK)();
 
-#define IRQ(n) (0x20 + (n))
-
 struct idt_descriptor //in idtr
 {
 	//word SPACER;

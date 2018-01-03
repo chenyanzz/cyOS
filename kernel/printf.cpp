@@ -246,6 +246,17 @@ void parseColor(const char *&pc)
 	}
 }
 
+int cprintf(const char *format, ...)
+{
+	va_list vl;
+	va_start(vl, format);
+
+	char buf [1000];
+	int r = sprintf(buf,format,vl);
+	printStr(buf);
+	return r;
+}
+
 int printf(const char *format, ...)
 {
 	//准备可变参数
@@ -327,7 +338,7 @@ int printf(const char *format, ...)
 				bPrintBuf=true;
 				break;
 			case 'f':
-				sprintDouble(va_arg(vl, double), 2, buf);
+				sprintDouble(va_arg(vl, double), attr.dp, buf);
 				bPrintBuf=true;
 				break;
 			case 'l':
