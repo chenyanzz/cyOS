@@ -7,9 +7,11 @@
 #include "interrupt/idt.h"
 #include "interrupt/timer.h"
 #include "interrupt/keyboard.h"
+#include "memory/page.h"
 
-#ifdef OS_DEBUG
-
+#ifndef OS_DEBUG
+#define init(name) init_##name()
+#else
 #define init(name)                           	\
 	if (init_##name())                       	\
 	{                                        	\
@@ -21,11 +23,6 @@
 		printf("${red}[failed!]");          	\
 		printf("${normal}init %s\n", #name); 	\
 	}
-
-#else //OS_DEBUG
-
-#define init(name) init_##name()
-
 #endif //OS_DEBUG
 
 
@@ -36,8 +33,9 @@ extern "C" void start()
 {
 	init(terminal);
 	init(IDT);
-	init(timer);
 	init(keyboard);
+	init(mem_page);
+	init(timer);
 	// init(disk);
 	// init(fs);
 
@@ -47,7 +45,8 @@ extern "C" void start()
 		char c = read_charbuf();
 		if((c!=0))
 		{
-			printChar(c);
+			void* page = getFreePage();
+			printf("%x\t",page);
 		}
 	}
 

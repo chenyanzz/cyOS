@@ -5,6 +5,72 @@ DATASEG equ 9000h
 SETUPSEG equ 9020h
 ;KERNEL_SIZE_512 --later define on cmd -dxxx=xx
 
+;enable a20 for memory beyond 1MB
+;---------------------------------------------------------
+enable_a20:
+    ;there are three methods
+    
+    ;;BIOS int
+    mov ax,0x2401
+    int 15h
+    call testa20
+    ;;port on board
+    in al,0x92
+    or al,2
+    and al,0b11111110
+    out 0x92,al
+    call testa20
+    ;;keyboard controller
+    call    empty_8042
+    mov     al,0xd1
+    out     0x64,al
+    call    empty_8042
+    mov     al,0xdf
+    out     0x60,al
+    call    empty_8042
+    call testa20
+
+
+    ;get current cursor position
+    mov bx,0;page
+    mov ax,0300h
+    int 10h
+
+    ;write error str
+    mov ax,cs
+    mov es,ax;str segment
+    mov ax,a20error_str
+    mov bp,ax;str addr
+    mov cx,a20error_str_end-a20error_str;str len
+    mov bx,7;color
+    mov ax,1301h
+    int 10h
+
+    ;die
+    jmp $
+empty_8042:
+    dw    00ebh,00ebh            
+    in    al,64h            
+    test  al,2
+    jnz   empty_8042
+    ret
+
+testa20:
+    ;0xffff:0x10 = 0x100000
+    mov ax,0
+    mov es,ax
+    mov ax,0xFFFF
+    mov gs,ax
+    mov ax,111
+    mov bx,233
+    mov [es:0x1],ax
+    mov [gs:0x11],bx
+    cmp [gs:0x11],ax
+    jne enable_a20_end
+    ret
+
+enable_a20_end:
+
 save_bios_data:
 ;save bios data to DATASEG:
 ;0000   cursor pos
@@ -183,29 +249,7 @@ set_gdt:
     lgdt [gdt_decriptor]
     jmp set_gdt_end     ;0x90297
 
-gdt_decriptor:      ;48bits=6bytes
-    dw 2048    ;size 256*(8 per)
-    dd 0x90200+gdt_data;gdt addr
 
-gdt_data:
-    ;null for first
-    dw 0,0,0,0
-    
-    ;kernel code segment
-    dw 0xFFFF;limit:8MB
-    dw 0;base addr
-    db 0
-    db 10011010b;attr
-    db 11000000b
-    db 0;base addr
-    
-    ;kernel data segment
-    dw 0xFFFF;limit:8MB
-    dw 0;base addr
-    db 0;base addr
-    db 10010010b;attr
-    db 11000000b
-    db 0;base addr
 set_gdt_end:
 
 
@@ -214,10 +258,7 @@ set_gdt_end:
 set_idt:
     lidt [idt_decriptor]
     jmp set_idt_end
-idt_decriptor:
-    dw 0
-    dw 0,0
-idt_data:
+
 
 set_idt_end:
 
@@ -257,20 +298,16 @@ init_8259A:;such a messy procedure...
     jmp init_8259A_end
 init_8259A_end:
 
-;enable a20 for memory beyond 1MB
-;---------------------------------------------------------
-enable_a20:
-    mov	al, 0xdd  ;  0xdd - on & 0xdf - off
-    out	0x64, al   ;Command Register 
-enable_a20_end:
-
 ;jump to protected mode
 ;and jump to kernel
 ;---------------------------------------------------------
 jump_to_protected_mode:
+    ;enable 32-bit
     mov eax,cr0
     or eax,1
     mov cr0,eax
+
+    ;set segment-regs to kernel-data-seg
     mov ax,10h;10 00 0
     mov ss,ax
     mov ds,ax
@@ -279,10 +316,42 @@ jump_to_protected_mode:
     mov gs,ax
     cli
 
-    jmp 8:0;segment selector : 1 00 0;
-    ;vb 8:0
-
+    call 8:0;segment selector : 1 00 0;
+    jmp $
+    
 ;delay for I/O
 delay:
 	dw 0x00eb ;jmp $+2
 	ret
+
+gdt_decriptor:      ;48bits=6bytes
+    dw 2048    ;size 256*(8 per)
+    dd 0x90200+gdt_data;gdt addr
+
+gdt_data:
+    ;null for first
+    dw 0,0,0,0
+    
+    ;kernel code segment
+    dw 0xFFFF;limit:8MB
+    dw 0;base addr
+    db 0
+    db 10011010b;attr
+    db 11000000b
+    db 0;base addr
+    
+    ;kernel data segment
+    dw 0xFFFF;limit:8MB
+    dw 0;base addr
+    db 0;base addr
+    db 10010010b;attr
+    db 11000000b
+    db 0;base addr
+
+idt_decriptor:
+    dw 0
+    dw 0,0
+
+a20error_str:
+    db "enable a20 failed! please reboot!",10,13
+a20error_str_end:

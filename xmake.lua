@@ -3,14 +3,13 @@ set_project("cyOS")
 set_languages("cxx11")
 
 --include
+add_includedirs("$(projectdir)/")
 add_includedirs("$(projectdir)/libs/")
-for _, dir in ipairs(os.dirs("$(projectdir)/libs/**")) do add_includedirs(dir) end
 add_includedirs("$(projectdir)/kernel/")
-for _, dir in ipairs(os.dirs("$(projectdir)/kernel/**")) do add_includedirs(dir) end
 
 --gcc params
 add_cxflags("-fpermissive","-W","-Wall","-werror")--dealing compiler error
-add_cxflags("-nostdinc","-fno-builtin","-fpack-struct=1",
+add_cxflags("-fno-builtin","-fpack-struct=1",
             "-mno-ms-bitfields","-masm=intel")--compiling&linking
 add_cxflags("-m32")--platform
 add_cxflags("-ggdb3")--debugging

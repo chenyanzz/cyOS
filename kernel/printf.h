@@ -92,8 +92,11 @@ void printChar(char c);
 /** 
  * 控制台打印字符串
  * @param  str: 字符串
+ * @param  bStrip:是否截取、补足字符串
+ * @param  maxlen:截取、补足长度
+ * @param  bFill:是否补足
  */
-void printStr(char *str);
+void printStr(char *str, bool bStrip = false, int maxlen = 0, bool bFill = true);
 
 /**
  * 标准库中的没有做attr的printf
@@ -103,15 +106,14 @@ void printStr(char *str);
  * 		默认都是一个字节，可以后面加d|ld|lld改变大小
  * @retval 返回使用了几个可变参数
  */
-int printf(const char *const format, ...)__attribute__ ((format (printf, 1, 2)));
-
+int printf(const char *const format, ...) __attribute__((format(printf, 1, 2)));
 
 /** 
  * 可以打印颜色的printf
  * @param  format: 格式字符串
  * 			其中${color}表示颜色
  */
-int cprintf(const char *format, ...)__attribute__ ((format (printf, 1, 2)));
+int cprintf(const char *format, ...) __attribute__((format(printf, 1, 2)));
 
 /** 
  * 控制输出光标

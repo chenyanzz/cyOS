@@ -1,7 +1,7 @@
+/*实现一些经典的常用的字符串操作*/
+
 #ifndef STRING_H
 #define STRING_H
-
-typedef char* string;
 
 /**
  * 交换两个字符位置
@@ -28,7 +28,7 @@ void strFill(char* str, char c, int len);
 /**
  * 获取字符串长度，0为结尾
  * @param str 字符串指针
- * @retval 长度
+ * @retval 长度，不包括结尾的0
  */
 int strlen(char* str);
 

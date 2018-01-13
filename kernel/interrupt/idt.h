@@ -13,7 +13,7 @@ struct idt_descriptor //in idtr
 {
 	//word SPACER;
 	word size;
-	MEM_ADDR addr;
+	void* addr;
 };
 
 enum GateType

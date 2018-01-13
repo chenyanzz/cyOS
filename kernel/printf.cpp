@@ -183,13 +183,24 @@ void printChar(char ch)
 	setCursor(x, y);
 }
 
-void printStr(char *str)
+void printStr(char *str, bool bStrip = false, int maxlen = 0, bool bFill = true)
 {
-	int i = 0;
-	while (str[i] != '\0')
+	int len = strlen(str);
+	if(bStrip)
+	{
+		len = (len > maxlen ? maxlen : len);
+	}
+	int i;
+	for (i = 0; i < len; i++)
 	{
 		printChar(str[i]);
-		i++;
+	}
+	if (bStrip&&bFill)
+	{
+		for (; i < maxlen; i++)
+		{
+			printChar(' ');
+		}
 	}
 }
 
@@ -246,16 +257,16 @@ void parseColor(const char *&pc)
 	}
 }
 
-int cprintf(const char *format, ...)
-{
-	va_list vl;
-	va_start(vl, format);
+// int cprintf(const char *format, ...)
+// {
+// 	va_list vl;
+// 	va_start(vl, format);
 
-	char buf [1000];
-	int r = sprintf(buf,format,vl);
-	printStr(buf);
-	return r;
-}
+// 	char buf[1000];
+// 	int r = sprintf(buf, format, vl);
+// 	printStr(buf);
+// 	return r;
+// }
 
 int printf(const char *format, ...)
 {
@@ -286,7 +297,7 @@ int printf(const char *format, ...)
 
 		//%[sign][width][.dp]  捕获%后面属性
 		parseAttr(pc, vl);
-		bool bPrintBuf=false;
+		bool bPrintBuf = false;
 		params++;
 		switch (*pc)
 		{
@@ -295,27 +306,26 @@ int printf(const char *format, ...)
 			break;
 		case 's':
 			printStr(va_arg(vl, char *));
-			bPrintBuf=true;
 			break;
 		case 'u':
 			sprintUInt(va_arg(vl, char *), buf);
-			bPrintBuf=true;
+			bPrintBuf = true;
 			break;
 		case 'd':
 			sprintInt(va_arg(vl, int), buf);
-			bPrintBuf=true;
+			bPrintBuf = true;
 			break;
 		case 'x':
 			sprintHex(va_arg(vl, unsigned int), buf, false);
-			bPrintBuf=true;
+			bPrintBuf = true;
 			break;
 		case 'X':
 			sprintHex(va_arg(vl, unsigned int), buf, true);
-			bPrintBuf=true;
+			bPrintBuf = true;
 			break;
 		case 'f':
 			sprintDouble(va_arg(vl, double), attr.dp, buf);
-			bPrintBuf=true;
+			bPrintBuf = true;
 			break;
 		case 'l':
 			pc++;
@@ -323,23 +333,23 @@ int printf(const char *format, ...)
 			{
 			case 'u':
 				sprintUInt(va_arg(vl, unsigned long), buf);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'd':
 				sprintInt(va_arg(vl, long), buf);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'x':
 				sprintHex(va_arg(vl, unsigned long), buf, false);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'X':
 				sprintHex(va_arg(vl, unsigned long), buf, true);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'f':
 				sprintDouble(va_arg(vl, double), attr.dp, buf);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'l':
 				pc++;
@@ -347,19 +357,19 @@ int printf(const char *format, ...)
 				{
 				case 'u':
 					sprintUInt(va_arg(vl, unsigned long long), buf);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'd':
 					sprintInt(va_arg(vl, long long), buf);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'x':
 					sprintHex(va_arg(vl, unsigned long long), buf, false);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'X':
 					sprintHex(va_arg(vl, unsigned int), buf, true);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				}
 				break;
@@ -371,19 +381,19 @@ int printf(const char *format, ...)
 			{
 			case 'u':
 				sprintUInt(va_arg(vl, unsigned short), buf);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'd':
 				sprintInt(va_arg(vl, short), buf);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'x':
 				sprintHex(va_arg(vl, unsigned short), buf, false);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'X':
 				sprintHex(va_arg(vl, unsigned short), buf, true);
-				bPrintBuf=true;
+				bPrintBuf = true;
 				break;
 			case 'h':
 				pc++;
@@ -391,19 +401,19 @@ int printf(const char *format, ...)
 				{
 				case 'u':
 					sprintUInt(va_arg(vl, unsigned char), buf);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'd':
 					sprintInt(va_arg(vl, char), buf);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'x':
 					sprintHex(va_arg(vl, unsigned char), buf, false);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				case 'X':
 					sprintHex(va_arg(vl, unsigned char), buf, true);
-					bPrintBuf=true;
+					bPrintBuf = true;
 					break;
 				}
 				break;
@@ -413,10 +423,10 @@ int printf(const char *format, ...)
 			printChar(*pc);
 			params--;
 		}
-		if(bPrintBuf)
+		if (bPrintBuf)
 		{
 			printStr(buf);
-			buf[0]=0;
+			buf[0] = 0;
 		}
 		pc++;
 	}

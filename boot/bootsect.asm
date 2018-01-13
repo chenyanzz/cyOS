@@ -9,10 +9,6 @@ KERNELSEG equ 1000h
 ;=========================================================
 jmp boot_main
 
-str:
-db 10,13,"cyOS is starting",10,13,"loading image...",10,13
-strend:
-
 ;bootloader main
 ;=========================================================
 boot_main:
@@ -27,9 +23,9 @@ boot_main:
     ;write str
     mov ax,cs
     mov es,ax;str segment
-    mov ax,str
+    mov ax,hellostr
     mov bp,ax;str addr
-    mov cx,strend-str;str len
+    mov cx,hellostr_end-hellostr;str len
     mov bx,7;color
     mov ax,1301h
     int 10h
@@ -67,6 +63,12 @@ load_sys:
     ;jmp load_sys;error->repeat
 load_success:
     jmp SETUPSEG:0
+
+
+hellostr:
+db 10,13,"cyOS is starting",10,13,"loading image...",10,13
+hellostr_end:
+
 ;ending
 ;=========================================================
 times 510-($-$$) db 0

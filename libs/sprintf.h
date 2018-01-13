@@ -48,7 +48,9 @@ int sprintDouble(double val, int dp, char *buf);
 */
 void parseAttr(const char *&pc, va_list vl);
 
-/** 
+/**
+ * @bug 从printf传过来的可变参数获取错误（好像和时钟中断有关？？！！） 
+ * 
  * 实现标准库中printf
  * @param  format: 格式字符串
  * @param  ...: 填充参数
@@ -56,6 +58,6 @@ void parseAttr(const char *&pc, va_list vl);
  * 		2.%x打印十六进制，%b打印十六进制。
  * 		默认都是一个字节，可以后面加d|ld|lld改变大小
  */
-int sprintf(char *buf, const char *const format, ...) __attribute__((format(printf, 2, 3)));
+// int sprintf(char *buf, const char *const format, ...) __attribute__((format(printf, 2, 3)));
 
 #endif //SPRINTF_H

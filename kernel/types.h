@@ -37,9 +37,7 @@ typedef uint16 	word;
 typedef uint32 	dword;
 typedef uint64 	qword;
 
-typedef void*	MEM_ADDR;
 typedef int16	SEGMENT;
-typedef int32	THREAD_ID;
 typedef void (*RUNNABLE)();
 
 enum RPL
@@ -47,5 +45,9 @@ enum RPL
 	KERNEL = 0,
 	USER = 3
 };
+
+typedef uint32 id_t;
+typedef uint32 id_count_t;
+typedef uint32 size_t;
 
 #endif //TYPES_H

@@ -1,25 +1,29 @@
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
+    "configurations": [{
+        "name": "Win32",
+        "includePath": [
+            "./",
+            "../",
+            "${workspaceRoot}/",
+            "${workspaceRoot}/kernel/",
+            "${workspaceRoot}/libs/"
+        ],
+        "defines": [
+            "_DEBUG",
+            "UNICODE"
+        ],
+        "intelliSenseMode": "msvc-x64",
+        "browse": {
+            "path": [
+                "./",
+                "../",
                 "${workspaceRoot}/",
                 "${workspaceRoot}/kernel/",
                 "${workspaceRoot}/libs/"
             ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE"
-            ],
-            "intelliSenseMode": "msvc-x64",
-            "browse": {
-                "path": [
-                    "${workspaceRoot}/"
-                ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            }
+            "limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""
         }
-    ],
+    }],
     "version": 3
 }

@@ -2,6 +2,7 @@
 #define ASM_H
 
 #include "types.h"
+#include "memory/page.h"
 
 /*汇编函数宏的实现*/
 
@@ -23,7 +24,6 @@ void outw(word port, word b);
 #define push_reg()	\
 	asm(			\
 		"pushad;"	\
-		"push ebp;"	\
 		"push ds;"	\
 		"push es;"	\
 		"push fs;"	\
@@ -38,7 +38,6 @@ void outw(word port, word b);
 		"pop fs;"	\
 		"pop es;"	\
 		"pop ds;"	\
-		"pop ebp;"	\
 		"popad;"	\
 	)
 
@@ -48,33 +47,6 @@ void outw(word port, word b);
 #define p_cursor_y ((u8 *)0x90001)
 #define p_extend_memory_size ((u16 *)0x90003)
 #define p_firstChar ((u8 *)0xB8000)
-
-struct MEM_LIST_ITEM
-{
-	/*
-	First uint64_t = Base address
-	Second uint64_t = Length of "region" (if this value is 0, ignore the entry)
-	Next uint32_t = Region "type"
-	*/
-	u64 base_addr;
-	u64 length;
-	enum MemType
-	{
-		/*
-		Type 1: Usable (normal) RAM
-		Type 2: Reserved - unusable
-		Type 3: ACPI reclaimable memory
-		Type 4: ACPI NVS memory
-		Type 5: Area containing bad memory
-		 */
-		Unused = 1,
-		Reserved = 2,
-		ACPI_RECLAIMABBLE = 3,
-		ACPI_NVS = 4,
-		Bad = 5
-	} type;
-	u32 attrbutes; //unused
-};
 
 #define p_count_mem_list ((u16 *)0x90030)
 #define p_mem_list_items ((MEM_LIST_ITEM *)0x90040)

@@ -55,7 +55,7 @@ struct segment_descriptor
 struct gdt_descriptor//in gdtr
 {
     word size;
-    MEM_ADDR addr;
+    void* addr;
 };
 
 typedef segment_descriptor global_descriptor;

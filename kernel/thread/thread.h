@@ -3,20 +3,24 @@
 
 #include "../types.h"
 
+#define MAX_THREADS 10000
 
 struct TCB//thread control block线程控制块
 {
-    THREAD_ID id;
+    id_t id;
 
     //栈指针
     SEGMENT ss;
-    MEM_ADDR esp;
+    void* esp;
 
     char name[31];
+
+    bool isRunning;
 };
 
-void test_thread();
-void switch_to_t1();
-void switch_to_t2();
+/**
+ * 
+ */
+id_t create_thread(TCB* tcb,RUNNABLE proc);
 
 #endif
