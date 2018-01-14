@@ -26,6 +26,7 @@ bool init_keyboard()
 	memset(charbuf, 0, sizeof(charbuf));
 	pRead = 0;
 	pWrite = 0;
+	start_irq(KEYBOARD_IRQ);
 	return true;
 }
 

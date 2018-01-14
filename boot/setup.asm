@@ -3,7 +3,9 @@
 KERNELSEG equ 1000h
 DATASEG equ 9000h
 SETUPSEG equ 9020h
-;KERNEL_SIZE_512 --later define on cmd -dxxx=xx
+;KERNEL_SIZE_512 ->later define on cmd -dxxx=xx
+
+KERNEL_TOTAL_SOZE equ (1024*1024*10)
 
 ;enable a20 for memory beyond 1MB
 ;---------------------------------------------------------
@@ -314,9 +316,12 @@ jump_to_protected_mode:
     mov es,ax
     mov fs,ax
     mov gs,ax
+    mov esp,KERNEL_TOTAL_SOZE
     cli
 
+    ;0x9020:0x1b6
     call 8:0;segment selector : 1 00 0;
+
     jmp $
     
 ;delay for I/O

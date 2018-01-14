@@ -26,11 +26,16 @@ void set_timer(int freq)
 	outb(0x40, divisor >> 8);
 }
 
+#include "thread/thread.h"
+
 extern "C"
 void timer_tick()
 {
 	ticks++;
+	/*注意！！！必须先接受下一次中断再调度，不然会死在线程里*/
 
 	//接受下一个中断
 	accept_new_irq();
+
+	schedule();
 }

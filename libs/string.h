@@ -3,6 +3,8 @@
 #ifndef STRING_H
 #define STRING_H
 
+#include "types.h"
+
 /**
  * 交换两个字符位置
  * @param a 待交换字符地址
@@ -30,7 +32,7 @@ void strFill(char* str, char c, int len);
  * @param str 字符串指针
  * @retval 长度，不包括结尾的0
  */
-int strlen(char* str);
+size_t strlen(char* str);
 
 /**
  * 字符串比较
@@ -46,10 +48,12 @@ int strcmp(char* s1,char* s2,bool isCaseSensitive=true);
 /**
  * 字符串拷贝
  * @param 把from拷贝到to
+ * @param maxlen 字符串最大长度
+ * 			如果为0，调用mxalen = strlen()
  * @note 拷贝结束条件是from[n]=0
  * @return strlen(from)
  */
-int strcpy(char* to,char* from);
+size_t strcpy(char* to,char* from,size_t maxlen=0);
 
 /**
  * 从字符串开头解析整数
@@ -57,16 +61,6 @@ int strcpy(char* to,char* from);
  * @return 那个整数（找不到为0）
  */
 int parseNum(const char* pc);
-
-/**
- * 未实现
- * 查找字符串
- * @param str 整个字符串
- * @param pat 寻找的子字符串
- * @return 字符串偏移
- * 	-1表示没找到
- */
-int strFind(char* str, char* pat);
 
 /**
  * 返回字符串是否为空：

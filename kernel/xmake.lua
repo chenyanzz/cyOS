@@ -13,7 +13,7 @@ target("kernel")
         os.vrun("nasm kernel/interrupt/deal_int.asm -o$(buildir)/kernel/kernel/interrupt/deal_int.o -p kernel/interrupt/int_handler.inc -f elf32")
 
         -- 链接kernel
-        os.vrun("gcc -ggdb3 $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds,-e,_start -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -lm -fno-builtin")
+        os.vrun("gcc -ggdb3 $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -lm -fno-builtin")
 
         -- 提取调试信息文件和纯二进制数据
         os.vrun("objcopy --only-keep-debug $(buildir)/kernel.o $(buildir)/kernel.dbg")

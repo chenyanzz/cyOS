@@ -9,6 +9,9 @@
 
 #define SIZE_MEM_PAGE (4096)
 
+//注意：这个是包含了程序、变量、栈的总大小
+#define KERNEL_TOTAL_SOZE (1024*1024*10)//与栈底保持相等
+
 struct MEM_LIST_ITEM
 {
 	/*

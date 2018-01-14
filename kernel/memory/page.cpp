@@ -21,7 +21,7 @@ bool init_mem_page()
 	count_mem_list = *p_count_mem_list;
 
 	//将操作系统使用的部分及boot使用部分设置为used
-	mem_list[count_mem_list++]={0x0,1024*1024*10,MEM_LIST_ITEM::SystemUsed,0};//kernel
+	mem_list[count_mem_list++]={0x0,KERNEL_TOTAL_SOZE,MEM_LIST_ITEM::SystemUsed,0};//kernel
 	mem_list[count_mem_list++]={0x90000,0x1000,MEM_LIST_ITEM::SystemUsed,0};//boot.data
 
 	//print_mem_list();
@@ -53,6 +53,7 @@ bool init_mem_page()
 			}
 		}
 	}
+	return true;
 }
 
 #ifdef OS_DEBUG

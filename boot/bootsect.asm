@@ -7,6 +7,9 @@ KERNELSEG equ 1000h
 
 ;program starts here
 ;=========================================================
+mov ax,0x7000
+mov ss,ax
+mov sp,0xFFFF
 jmp boot_main
 
 ;bootloader main

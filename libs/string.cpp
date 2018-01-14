@@ -1,3 +1,6 @@
+#include "string.h"
+#include "math.h"
+
 void swap(char *a, char *b)
 {
 	char buf = *a;
@@ -37,9 +40,9 @@ int parseNum(const char *pc)
 	return num;
 }
 
-int strlen(char *str)
+size_t strlen(char *str)
 {
-	int i;
+	size_t i;
 	for (i = 0; str[i] != 0; i++)
 		;
 	return i;
@@ -59,12 +62,18 @@ int strcmp(char *s1, char *s2, bool isCaseSensitive)
 	return s1[i] - s2[i];
 }
 
-int strcpy(char *to, char *from)
+size_t strcpy(char *to, char *from, size_t maxlen)
 {
-	int i;
-	for (i = 0; (to[i] = from[i]) != 0; i++)
+	if (maxlen <= 0)
+	{
+		maxlen = strlen(from);
+	}
+
+	size_t i;
+	for (i = 0; ((i < maxlen) && ((to[i] = from[i]) != 0)); i++)
 	{
 	}
+
 	return i;
 }
 

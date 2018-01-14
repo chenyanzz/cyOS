@@ -8,11 +8,9 @@
 
 void setup_irq()
 {
-	set_gate(IRQ(0),deal_irq_0,INT);//时钟
-	start_irq(0);
-
-	set_gate(IRQ(1),deal_irq_1,INT);//键盘
-	start_irq(1);
+	stop_all_irq();
+	set_gate(IRQ(TIMER_IRQ),deal_irq_0,INT);//时钟
+	set_gate(IRQ(KEYBOARD_IRQ),deal_irq_1,INT);//键盘
 }
 
 u8 start_irq(u8 index)
@@ -50,4 +48,14 @@ u8 restore_irq(u8 mode)
 void accept_new_irq()
 {
 	outb(0x20, 0x20);
+}
+
+u8 start_all_irq()
+{
+	u8 oldst = inb(0x21);
+
+	start_irq(TIMER_IRQ);
+	start_irq(KEYBOARD_IRQ);
+
+	return oldst;
 }

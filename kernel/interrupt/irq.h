@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+#define TIMER_IRQ (0)
+#define KEYBOARD_IRQ (1)
+
 /*关于int0x21
   ->某一位置一表示屏蔽此中断
 */
@@ -31,6 +34,12 @@ u8 stop_irq(u8 index);
  * @return 原先的irq寄存器
  */
 u8 stop_all_irq();
+
+/**
+ * 开启全部使用中的IRQ
+ * @return 原先的irq寄存器
+ */
+u8 start_all_irq();
 
 /**
  * 还原irq状态

@@ -46,7 +46,7 @@ enum RPL
 	USER = 3
 };
 
-typedef uint32 id_t;
+typedef int32 id_t;
 typedef uint32 id_count_t;
 typedef uint32 size_t;
 

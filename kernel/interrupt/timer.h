@@ -14,8 +14,9 @@ bool init_timer();
  */
 void set_timer(int freq);
 
-//处理时钟中断
-extern "C"
-void timer_tick();
+/**
+ * 处理时钟中断，切换线程
+ */
+extern "C" void timer_tick();
 
 #endif //TIMER_H
