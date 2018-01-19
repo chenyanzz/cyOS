@@ -50,15 +50,16 @@ void schedule()
 	//FIFO方式获取下一个线程
 	while (!isSwitchable(threads[pos]))
 	{
+
+		/*这里！！！必须先++在判断*/
+		pos++;
+
 		if (pos == MAX_THREADS)
 		{
 			pos = 0;
 			continue;
 		}
-
-		/*这里！！！必须先++在判断*/
-		pos++;
-
+		
 		//如果循环了一圈没有线程就退出
 		if (pos == oldPos)
 		{

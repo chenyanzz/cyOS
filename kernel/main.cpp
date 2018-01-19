@@ -59,7 +59,7 @@ extern "C" void start()
 	sti();
 	start_all_irq();
 
-	while(1);
+	
 }
 
 void nullLoop()

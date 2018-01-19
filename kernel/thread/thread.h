@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-#define MAX_THREADS 3
+#define MAX_THREADS 1000
 
 struct TCB //thread control block : 线程控制块
 {
