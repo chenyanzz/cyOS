@@ -72,7 +72,7 @@ void print_mem_list()
 
 #endif // OS_DEBUG
 
-void* getFreePage()
+void* allocPage()
 {
 	u32 i=0;
 	while(i<sizeof(pageUsage))
@@ -90,4 +90,10 @@ void* getFreePage()
 	}
 
 	return (void*)(i*SIZE_MEM_PAGE);
+}
+
+void freePage(void* page)
+{
+	u32 bit = (u32)page/4096;
+	clrb(pageUsage[bit/8],bit%8);
 }

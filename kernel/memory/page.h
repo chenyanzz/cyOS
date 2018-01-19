@@ -73,6 +73,11 @@ void print_mem_list();
  * @return 那一页的首地址
  * @retval -1 无空页？？！！
  */
-void* getFreePage();
+void* allocPage();
+
+/**
+ * 释放一内存页 
+ */
+void freePage(void* page);
 
 #endif //PAGE_H

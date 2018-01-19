@@ -317,8 +317,7 @@ jump_to_protected_mode:
     mov fs,ax
     mov gs,ax
     mov esp,KERNEL_TOTAL_SOZE
-    cli
-
+    
     ;0x9020:0x1b6
     call 8:0;segment selector : 1 00 0;
 

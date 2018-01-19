@@ -1,7 +1,8 @@
-.xmake/
 build/
 include/
 *.txt
 *.o
 *.a
 hdqemu.raw.lock
+.*/
+cmake-build-debug/

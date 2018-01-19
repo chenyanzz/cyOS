@@ -7,6 +7,7 @@ KERNELSEG equ 1000h
 
 ;program starts here
 ;=========================================================
+cli
 mov ax,0x7000
 mov ss,ax
 mov sp,0xFFFF

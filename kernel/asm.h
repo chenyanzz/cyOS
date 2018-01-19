@@ -12,6 +12,7 @@ void cli();
 void sti();
 
 void nop();
+void hlt();
 
 byte inb(word port);
 void outb(word port, byte b);
@@ -66,5 +67,8 @@ void outw(word port, word b);
 #define bit(n, nb) (((n) & (1 << nb)) != 0)
 #define setb(n, nb) ((n) |= (1 << nb))
 #define clrb(n, nb) ((n)&= ~(1<<nb))
+
+#define close_int() u8 irq_stat = stop_all_irq();	cli()
+#define start_int() sti();	restore_irq(irq_stat)
 
 #endif

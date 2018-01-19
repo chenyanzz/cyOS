@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include "asm.h"
 #include "map.h"
+#include "interrupt/irq.h"
 
 static char x, y; //屏幕光标位置
 
@@ -45,6 +46,7 @@ void setTerminalColor(TextColor tc, BgColor bc, bool blink)
 {
 	color = makeColor(tc, bc) | (blink << 7);
 }
+
 void setTerminalColorByte(byte c)
 {
 	color = c;
@@ -137,6 +139,8 @@ void setCursor(u8 nx, u8 ny)
 
 void printChar(char ch)
 {
+	close_int();
+	
 	if (ch == '\n') //换行回车
 	{
 		y++;
@@ -181,6 +185,8 @@ void printChar(char ch)
 		x++;
 	}
 	setCursor(x, y);
+
+	start_int();
 }
 
 void printStr(char *str, bool bStrip = false, int maxlen = 0, bool bFill = true)
@@ -436,6 +442,10 @@ int printf(const char *format, ...)
 
 void setXY(const int newx, const int newy)
 {
+	close_int();
+
 	x = newx;
 	y = newy;
+
+	start_int();
 }
