@@ -1,6 +1,6 @@
 /*实现一些经典的常用的字符串操作*/
 
-#ifndef STRING_H
+#pragma once
 #define STRING_H
 
 #include "types.h"
@@ -77,4 +77,3 @@ bool isEmpty(char* str);
  */
 int colorStrlen(char* str);
 
-#endif //STRING_H

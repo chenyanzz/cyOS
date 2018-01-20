@@ -1,3 +1,4 @@
+;导出这些函数，注意要带‘_’
 global _deal_int_13
 global _deal_int_0
 global _deal_irq_0
@@ -5,7 +6,8 @@ global _deal_irq_1
 
 [section .text]
 
-%macro push_reg 0
+;压栈环境
+%macro save_env 0
 	cli
 	pushad
 	push ds
@@ -17,7 +19,8 @@ global _deal_irq_1
 	sti
 %endmacro
 
-%macro pop_reg 0
+;弹栈环境
+%macro restore_env 0
 	cli
 	popf
 	pop gs
@@ -37,13 +40,13 @@ _deal_int_0:
 	iret
 
 _deal_irq_0:
-	push_reg
+	save_env
 	call _timer_tick
-	pop_reg
+	restore_env
 	iret
 
 _deal_irq_1:
-	push_reg
+	save_env
 	call _key_state_changed
-	pop_reg
+	restore_env
 	iret

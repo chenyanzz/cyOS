@@ -1,8 +1,9 @@
-#ifndef SPRINTF_H
+#pragma once
 #define SPRINTF_H
 
 #include "types.h"
 #include "stdarg.h"
+
 /******************************************************************************
  * 处理把格式字符串输出到buf中
  * @return 全部函数返回值是写的字符长度（不算上结尾0）
@@ -60,4 +61,4 @@ void parseAttr(const char *&pc, va_list vl);
  */
 // int sprintf(char *buf, const char *const format, ...) __attribute__((format(printf, 2, 3)));
 
-#endif //SPRINTF_H
+

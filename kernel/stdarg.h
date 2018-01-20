@@ -1,5 +1,4 @@
-#ifndef STDARG_H
-#define STDARG_H
+#pragma once
 
 typedef char *va_list;
 #define _INTSIZEOF(n) 	((sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1))
@@ -8,4 +7,3 @@ typedef char *va_list;
 #define va_arg(ap, t) 	(*(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))
 #define va_end(ap) 		((void)(ap = (va_list)0))
 
-#endif

@@ -1,5 +1,6 @@
-#ifndef FS_H
-#define FS_H
+#pragma once
+
+
 #include "types.h"
 #include "basic_io.h"
 
@@ -15,6 +16,7 @@
 
 #define root_dir_name "cyOS"
 
+///文件头部的特征
 struct fsAttr
 {
 	bool isNull : 1;
@@ -24,6 +26,7 @@ struct fsAttr
 	bool isHidden : 1;
 };
 
+///目录节点
 struct iFolder
 {
 	fsAttr attr;
@@ -38,6 +41,7 @@ struct iFolder
 	lba48 childs[folder_child_size]; //iFolder & iFile
 };
 
+///文件节点
 struct iFile
 {
 	fsAttr attr;
@@ -51,6 +55,7 @@ struct iFile
 	byte data[file_data_size];
 };
 
+///目录描述表
 struct FOLDER
 {
 	lba48 lba;
@@ -60,6 +65,7 @@ struct FOLDER
 	char name[31];
 };
 
+///文件描述表
 struct FILE
 {
 	lba48 lba;
@@ -79,9 +85,21 @@ bool init_fs();
  */
 void format_disk();
 
+/**
+ * 写节点
+ * @tparam DISK_NODE iFolder or iFile
+ * @param dn  那个节点
+ * @param lba 扇区号
+ */
 template<typename DISK_NODE> inline 
 void disk_node_write(DISK_NODE &dn, lba48 lba);
 
+/**
+ * 读节点
+ * @tparam DISK_NODE iFolder or iFile
+ * @param dn  那个节点
+ * @param lba 扇区号
+ */
 template<typename DISK_NODE> inline 
 void disk_node_read(DISK_NODE &dn, lba48 lba);
 
@@ -96,4 +114,3 @@ FILE create_file(char *name, void *data, u64 len, bool isHead = true);
  */
 void sync();
 
-#endif //FS_H

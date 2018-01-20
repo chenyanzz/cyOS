@@ -1,5 +1,4 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include "types.h"
 #include "stdlib.h"
@@ -21,4 +20,4 @@ typedef char VALUE;
  */
 VALUE getValue(KEY key, KEY keys[], VALUE values[], int size=-1, bool isCaseSensitive = false);
 
-#endif //MAP_H
+

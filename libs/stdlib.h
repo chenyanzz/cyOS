@@ -1,4 +1,4 @@
-#ifndef STDLIB_H
+#pragma once
 #define STDLIB_H
 
 #include "string.h"
@@ -14,4 +14,4 @@ void memcpy(void*to,void*from,int size);
  */
 void numLen(long long num);
 
-#endif //STDLIB_H
+

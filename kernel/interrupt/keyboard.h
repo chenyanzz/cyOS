@@ -1,5 +1,4 @@
-#ifndef KEYBOAR_H
-#define KEYBOAR_H
+#pragma once
 
 #define MAX_KEYBUF 200
 
@@ -28,4 +27,4 @@ char read_charbuf();
  */
 void func_key(char key);
 
-#endif //KEYBOAR_H
+

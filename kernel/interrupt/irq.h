@@ -1,5 +1,4 @@
-#ifndef IRQ_H
-#define IRQ_H
+#pragma once
 
 #include "types.h"
 
@@ -53,4 +52,4 @@ u8 restore_irq(u8 mode);
  */
 void accept_new_irq();
 
-#endif //IRQ_H
+

@@ -1,11 +1,8 @@
-#ifndef IDT_H
-#define IDT_H
+#pragma once
 
 #include "types.h"
 
 #define IDT_NUM 256
-
-#define NAKED __attribute__((fastcall))
 
 typedef void (*INTERRUPT_CALLBACK)();
 
@@ -42,4 +39,4 @@ void set_idt_item(u8 index, interrupt_decriptor item);
 
 void set_gate(u8 index, INTERRUPT_CALLBACK func, GateType gatetype);
 
-#endif //IDT_H
+

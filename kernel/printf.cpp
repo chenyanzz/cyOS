@@ -1,6 +1,6 @@
 #include "stdarg.h"
 #include "printf.h"
-#include "libs/sprintf.h"
+#include "sprintf.h"
 #include "stdlib.h"
 #include "asm.h"
 #include "map.h"

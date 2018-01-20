@@ -1,4 +1,4 @@
-#ifndef FGUI_H
+#pragma once
 #define FGUI_H
 
 //Fake Graphical User Interface
@@ -13,4 +13,3 @@
 
 #define HEIGHT 25
 
-#endif //FGUI_H

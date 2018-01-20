@@ -2,8 +2,7 @@
  * 内存分页相关
  */
 
-#ifndef PAGE_H
-#define PAGE_H
+#pragma once
 
 #include "types.h"
 
@@ -66,7 +65,7 @@ bool init_mem_page();
  * 打印从BIOS获取的mem_list
  */
 void print_mem_list();
-#endif
+
 
 /**
  * 获取没用过的一页
@@ -80,4 +79,4 @@ void* allocPage();
  */
 void freePage(void* page);
 
-#endif //PAGE_H
+#endif

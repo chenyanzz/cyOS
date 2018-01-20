@@ -1,5 +1,4 @@
-#ifndef KEY_MAP_H
-#define KEY_MAP_H
+#pragma once
 
 #include "types.h"
 
@@ -176,4 +175,4 @@ u8 keys[][2] =
 		{0x0, 0x0}	// DEL
 };
 
-#endif //KEY_MAP_H
+

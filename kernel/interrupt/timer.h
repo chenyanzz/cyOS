@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #define TICK_PER_SECOND 100
 
@@ -19,4 +18,4 @@ void set_timer(int freq);
  */
 extern "C" void timer_tick();
 
-#endif //TIMER_H
+

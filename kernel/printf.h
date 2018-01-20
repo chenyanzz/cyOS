@@ -1,5 +1,4 @@
-#ifndef PRINTF_H
-#define PRINTF_H
+#pragma once
 
 #include "types.h"
 
@@ -121,4 +120,4 @@ int cprintf(const char *format, ...) __attribute__((format(printf, 1, 2)));
  */
 void setXY(const int newx, const int newy);
 
-#endif //PRINTF_H
+

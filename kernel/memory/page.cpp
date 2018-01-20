@@ -4,7 +4,7 @@
 #include "stdlib.h"
 #include "math.h"
 
-MEM_LIST_ITEM *mem_list = (MEM_LIST_ITEM *)p_mem_list_items;
+MEM_LIST_ITEM *mem_list = p_mem_list_items;
 u16 count_mem_list;
 u32 memory_size;
 
@@ -70,7 +70,7 @@ void print_mem_list()
 	}
 }
 
-#endif // OS_DEBUG
+#endif
 
 void* allocPage()
 {
@@ -86,7 +86,7 @@ void* allocPage()
 	}
 	if(i==sizeof(pageUsage))
 	{
-		return -1;
+		return (void*)-1;
 	}
 
 	return (void*)(i*SIZE_MEM_PAGE);

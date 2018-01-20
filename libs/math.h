@@ -1,4 +1,4 @@
-#ifndef MATH_H
+#pragma once
 #define MATH_H
 
 //取整
@@ -8,4 +8,3 @@
 #define max(a,b) ((a)>(b)?(a):(b))
 #define min(a,b) ((a)<(b)?(a):(b))
 
-#endif  //METH_H

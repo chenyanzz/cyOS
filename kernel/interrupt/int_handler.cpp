@@ -9,7 +9,8 @@
 
 #define COMMON_HANDLE_INT(index)
 
-#endif //OS_DEBUG
+#endif
+
 
 #define FATAL(msg) printf("${RED}FATAL:%s\nPlease reboot!!!\n", msg)
 
@@ -17,7 +18,7 @@ extern "C" {
 
 /**
  * int 13 一般性保护异常
- * todo: 红字报错，死循环
+ * 红字报错，死循环
  */
 void general_protection_fault_handler()
 {
@@ -31,7 +32,7 @@ void general_protection_fault_handler()
 
 /**
  * int 0 除0错
- * todo: 红字报错，死循环
+ * 处理方法：红字报错，死循环
  */
 void devide_zero_handler()
 {

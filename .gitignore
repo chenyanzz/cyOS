@@ -6,3 +6,4 @@ include/
 hdqemu.raw.lock
 .*/
 cmake-build-debug/
+doc/

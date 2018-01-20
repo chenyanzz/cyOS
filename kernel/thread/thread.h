@@ -1,5 +1,4 @@
-#ifndef THREAD_H
-#define THREAD_H
+#pragma once
 
 #include "../types.h"
 
@@ -59,7 +58,7 @@ void schedule();
 /**
  * 寻找isPresent=false的TCB并返回指针
  * @retval nullptr 如果没有空TCB
- */ 
+ */
 TCB* findNewTCB();
 
 /**
@@ -84,4 +83,3 @@ void sleep();
  */ 
 void wake(id_t thread_id);
 
-#endif

@@ -1,5 +1,5 @@
-#ifndef ASM_H
-#define ASM_H
+#pragma once
+
 
 #include "types.h"
 #include "memory/page.h"
@@ -71,4 +71,3 @@ void outw(word port, word b);
 #define close_int() u8 irq_stat = stop_all_irq();	cli()
 #define start_int() sti();	restore_irq(irq_stat)
 
-#endif
