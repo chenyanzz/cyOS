@@ -3,55 +3,57 @@ org 7c00h
 SETUPSEG equ 9020h
 KERNELSEG equ 1000h
 
-;KERNEL_SIZE_512,SETUP_SIZE_512 --later define on cmd -dxxx=xx
+;KERNEL_SIZE_512,SETUP_SIZE_512 --在xmake编译时以命令行-dxxx=xx形式传入
 
-;program starts here
+;这个操作系统的最最最开始
 ;=========================================================
+
+;一点点寄存器初始化工作
 cli
 mov ax,0x7000
 mov ss,ax
 mov sp,0xFFFF
 jmp boot_main
 
-;bootloader main
+;主程序部分
 ;=========================================================
 boot_main:
 
-;display str
+;显示个hello字符串
 ;---------------------------------------------------------
-    ;get current cursor position
+    ;获取当前光标
     mov bx,0;page
     mov ax,0300h
     int 10h
 
-    ;write str
+    ;利用中断打印字符串
     mov ax,cs
-    mov es,ax;str segment
+    mov es,ax;字符串所在段
     mov ax,hellostr
-    mov bp,ax;str addr
-    mov cx,hellostr_end-hellostr;str len
-    mov bx,7;color
+    mov bp,ax;字符串所在地址
+    mov cx,hellostr_end-hellostr;字符串长度
+    mov bx,7;颜色（黑底白字）
     mov ax,1301h
     int 10h
 
 load_setup:
-    ;read disk
-    mov dx,0;diskA head0
-    mov cl,2;start sector
+    ;读取硬盘
+    mov dx,0;diskA head0 磁盘A磁头0
+    mov cl,2;第2扇区是setup.o
     mov ax,SETUPSEG
-    mov es,ax;read-to segment
-    mov bx,0;read-to offset
+    mov es,ax;read-to segment 读到的段
+    mov bx,0;read-to offset 读到的地址
     mov ah,2;int 13,ah=2 -> read from device
-    mov al,SETUP_SIZE_512;count sector(512byte)s
+    mov al,SETUP_SIZE_512;count sector(512byte)s 扇区计数
     int 13h
-    jnc load_setup_end;jump if read success
-    jmp load_setup;error->repeat
+    jnc load_setup_end;jump if read success 成功就继续
+    jmp load_setup;error->repeat 失败就重复
 load_setup_end:
 
-;load system to memory
+;load system to memory 把整个操作系统读入系统
 ;---------------------------------------------------------
 load_sys:
-    ;read disk
+    ;read disk 读，同上
     mov dx,0;diskA head0
     mov ch,0
     mov cl,2+SETUP_SIZE_512;sector
@@ -66,6 +68,7 @@ load_sys:
     ;cuz kernel size is changing
     ;jmp load_sys;error->repeat
 load_success:
+    ;跳到setup
     jmp SETUPSEG:0
 
 
@@ -76,4 +79,4 @@ hellostr_end:
 ;ending
 ;=========================================================
 times 510-($-$$) db 0
-dw 0xaa55;mbr end
+dw 0xaa55;mbr end MBR记录结尾的可引导扇区标志

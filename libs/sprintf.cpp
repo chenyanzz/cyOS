@@ -64,6 +64,7 @@ int sprintHex(unsigned long long val, char *buf, bool isCapital)
 		{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'}};
 
 	int pos = 0;
+
 	do
 	{
 		buf[pos] = nums[isCapital][val % 16];

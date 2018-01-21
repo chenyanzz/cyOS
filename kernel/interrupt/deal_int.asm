@@ -9,26 +9,26 @@ global _deal_irq_1
 ;压栈环境
 %macro save_env 0
 	cli
-	pushad
+	pushf
 	push ds
 	push es
-	push ss
 	push fs
 	push gs
-	pushf
+	push ss
+	pushad
 	sti
 %endmacro
 
 ;弹栈环境
 %macro restore_env 0
 	cli
-	popf
+	popad
+	pop ss
 	pop gs
 	pop fs
-	pop ss
 	pop es
 	pop ds
-	popad
+	popf
 	sti
 %endmacro
 

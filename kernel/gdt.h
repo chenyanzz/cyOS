@@ -3,10 +3,10 @@
 #include "types.h"
 #include "asm.h"
 
-
-//number of global descriptors
+//GDT的项数
 #define GDT_NUM 256
 
+///段的类型
 enum SEGMENT_TYPE {
     DATA_R = 0b0000,
     DATA_RW = 0b0010,
@@ -14,7 +14,9 @@ enum SEGMENT_TYPE {
     CODE_RW = 0b1010
 };
 
-//for more info,see Intel Manual P.2756
+
+///段表 表项
+///@note for more info,see Intel Manual P.2756
 struct segment_descriptor {
     //0
     unsigned seglmt_0_15        :16;
@@ -32,32 +34,48 @@ struct segment_descriptor {
     bool present                :1;//是否存在
     //48
     unsigned seglmt_16_19        :4;
-    unsigned AVL                :1;//available for use by system software
+    unsigned AVL                :1;//available for use by system software？？！！
     bool is_bit_64                    :1;
     bool is_bit_16                    :1;
     enum UNIT_SIZE {
-        SIZE_1BYTE = 0,//bytes=limit*1
-        SIZE_4K = 1//bytes=limit*4k
+        UNIT_1BYTE = 0,//bytes=limit*1
+        UNIT_4K = 1//bytes=limit*4k
     } unit_size                :1;
     unsigned baseaddr_24_31        :8;
 
 };
 
-#define make_descriptor(limit, baseaddr, SEGMENT_TYPE, RPL, UNIT_SIZE)    \
+
+///构建一个段描述符
+#define make_descriptor(limit, baseaddr, SEGMENT_TYPE, RPL)    \
+(segment_descriptor)    \
 {   \
-    limit,baseaddr,baseaddr>>16,SEGMENT_TYPE,segment_descriptor::CODE_DATA,segment_descriptor::RPL,true,limit>>24,  \
-    false,false,false,segment_descriptor::UNIT_SIZE,baseaddr>>24  \
+    (limit)/4096,(baseaddr),(baseaddr)>>16,(SEGMENT_TYPE),segment_descriptor::CODE_DATA,(RPL),true,((limit)/4096)>>16,  \
+    false,false,false,segment_descriptor::UNIT_4K,baseaddr>>24  \
 }
 
-struct gdt_descriptor//in gdtr
+struct gdt_descriptor//in gdtr GDTR寄存器里的东西
 {
     word size;
     void *addr;
 };
 
+///GDT表项
 typedef segment_descriptor global_descriptor;
+
+///LDT表项
 typedef segment_descriptor local_descriptor;
 
-// void set_GDT(int index,global_descriptor gd);
-bool init_GDT();
+/**
+ * 设置一个GDT描述符
+ * @param index 第几个
+ * @param item 描述符
+ */
+void set_gdt_item(u8 index, global_descriptor item);
 
+/**
+ * 初始化GDT表
+ * GDT[0]内核代码段
+ * GDT[1]内核数据段
+ */
+bool init_GDT();

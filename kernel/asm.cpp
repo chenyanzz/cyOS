@@ -9,6 +9,8 @@ void nop() { asm("nop"); }
 
 void hlt() { asm("hlt"); }
 
+
+
 byte inb(word port)
 {
     byte b;

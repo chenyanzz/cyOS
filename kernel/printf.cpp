@@ -314,7 +314,7 @@ int printf(const char *format, ...)
 			printStr(va_arg(vl, char *));
 			break;
 		case 'u':
-			sprintUInt(va_arg(vl, char *), buf);
+			sprintUInt(va_arg(vl,unsigned int), buf);
 			bPrintBuf = true;
 			break;
 		case 'd':
@@ -322,10 +322,12 @@ int printf(const char *format, ...)
 			bPrintBuf = true;
 			break;
 		case 'x':
+			printStr("0x");
 			sprintHex(va_arg(vl, unsigned int), buf, false);
 			bPrintBuf = true;
 			break;
 		case 'X':
+			printStr("0x");
 			sprintHex(va_arg(vl, unsigned int), buf, true);
 			bPrintBuf = true;
 			break;
@@ -370,10 +372,12 @@ int printf(const char *format, ...)
 					bPrintBuf = true;
 					break;
 				case 'x':
+					printStr("0x");
 					sprintHex(va_arg(vl, unsigned long long), buf, false);
 					bPrintBuf = true;
 					break;
 				case 'X':
+					printStr("0x");
 					sprintHex(va_arg(vl, unsigned int), buf, true);
 					bPrintBuf = true;
 					break;
@@ -394,10 +398,12 @@ int printf(const char *format, ...)
 				bPrintBuf = true;
 				break;
 			case 'x':
+				printStr("0x");
 				sprintHex(va_arg(vl, unsigned short), buf, false);
 				bPrintBuf = true;
 				break;
 			case 'X':
+				printStr("0x");
 				sprintHex(va_arg(vl, unsigned short), buf, true);
 				bPrintBuf = true;
 				break;
@@ -414,10 +420,12 @@ int printf(const char *format, ...)
 					bPrintBuf = true;
 					break;
 				case 'x':
+					printStr("0x");
 					sprintHex(va_arg(vl, unsigned char), buf, false);
 					bPrintBuf = true;
 					break;
 				case 'X':
+					printStr("0x");
 					sprintHex(va_arg(vl, unsigned char), buf, true);
 					bPrintBuf = true;
 					break;

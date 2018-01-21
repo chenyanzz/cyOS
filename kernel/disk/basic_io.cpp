@@ -2,19 +2,25 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-const word P_DATA 			= 0x1F0;
-const word P_ERROR			= 0x1F1;
-const word P_COUNT_SECTOR 	= 0x1F2;
+///一堆硬盘端口的定义
+///LBA方式
 
-//LBA方式
-const word P_LBA_LOW 		= 0x1F3;
-const word P_LBA_MID 		= 0x1F4;
-const word P_LBA_HIGH 		= 0x1F5;
+const word P_DATA 			= 0x1F0;///<数据
+const word P_ERROR			= 0x1F1;///<错误码
+const word P_COUNT_SECTOR 	= 0x1F2;///<操作的扇区计数
 
-const word P_DRIVE			= 0x1F6;
-const word P_COMMAND 		= 0x1F7;
-const word P_STATUS 		= 0x1F7;
 
+const word P_LBA_LOW 		= 0x1F3;///<lba低8位
+const word P_LBA_MID 		= 0x1F4;///<lba中8位
+const word P_LBA_HIGH 		= 0x1F5;///<lba高8位
+
+const word P_DRIVE			= 0x1F6;///<磁盘驱动端口（选择操作 主/副 硬盘）
+const word P_COMMAND 		= 0x1F7;///<命令
+const word P_STATUS 		= 0x1F7;///<状态
+
+/**
+ * 等待到磁盘不再忙碌
+ */
 void wait_busy()
 {
 	while((bit(inb(P_STATUS),7)==1))
@@ -25,6 +31,9 @@ void wait_busy()
 	// printf("busy wait over.\n");
 }
 
+/**
+ * 等待磁盘有数据
+ */
 void wait_data()
 {
 	wait_busy();
@@ -36,6 +45,9 @@ void wait_data()
 	// printf("data wait over.\n");
 }
 
+/**
+ * 判断状态是否为出错
+ */
 bool iserr()
 {
 	byte rs = inb(P_STATUS);

@@ -1,9 +1,13 @@
 #include "stdio.h"
 #include "timer.h"
+#include "asm.h"
+
+///通用处理中断的代码
 
 #ifdef OS_DEBUG
 
-#define COMMON_HANDLE_INT(index) printf("${YELLOW}int%d called!\n", index)
+#define COMMON_HANDLE_INT(index)	\
+	printf("${yellow}int%d called!\n", index)
 
 #else //OS_DEBUG
 
@@ -11,14 +15,14 @@
 
 #endif
 
-
+///致命错误的报错
 #define FATAL(msg) printf("${RED}FATAL:%s\nPlease reboot!!!\n", msg)
 
 extern "C" {
 
 /**
  * int 13 一般性保护异常
- * 红字报错，死循环
+ * 处理方法：红字报错，死循环
  */
 void general_protection_fault_handler()
 {

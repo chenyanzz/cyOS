@@ -9,7 +9,7 @@
 #define SIZE_MEM_PAGE (4096)
 
 //注意：这个是包含了程序、变量、栈的总大小
-#define KERNEL_TOTAL_SOZE (1024*1024*10)//与栈底保持相等
+#define KERNEL_TOTAL_SIZE (1024*1024*10)//与栈底保持相等
 
 struct MEM_LIST_ITEM
 {
@@ -49,7 +49,7 @@ struct MEM_LIST_ITEM
 
 extern MEM_LIST_ITEM *mem_list;
 extern u16 count_mem_list;
-extern u32 memory_size;
+extern u64 memory_total_size;
 #define MAX_MEMORY_MB (1024 * 4)
 
 //1代表使用中，0代表未使用

@@ -6,9 +6,8 @@
 #include "irq.h"
 
 interrupt_decriptor IDT[IDT_NUM];
-idt_descriptor IDTR;
 
-inline void lidt(idt_descriptor idtr)
+inline void lidt(idt_descriptor &idtr)
 {
 	asm("lidt [%0]" ::"a"(&idtr));
 }
@@ -34,14 +33,15 @@ void set_gate(u8 index, INTERRUPT_CALLBACK callback, GateType gatetype)
 
 bool init_IDT()
 {
+	static idt_descriptor IDTR;
 
 	//初始化idt表
 	memset(IDT, 0, sizeof(IDT));
-	memset(&IDTR, 0, sizeof(IDTR));
 
 	IDTR.addr = IDT;
 	IDTR.size = IDT_NUM * 8;
 	lidt(IDTR);
+
 
 	//设置各种中断函数
 	set_gate(13,deal_int_13,FAULT);//一般性保护异常
@@ -49,7 +49,8 @@ bool init_IDT()
 
 	setup_irq();
 
-	sti();
+
+
 	return true;
 }
 

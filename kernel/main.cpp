@@ -10,11 +10,12 @@
 #include "interrupt/keyboard.h"
 #include "memory/page.h"
 #include "thread/thread.h"
+#include "gdt.h"
 
 /**
  * 初始化用的宏，用来打印是否成功
  */
-#ifdef OS_DEBUG
+#ifndef OS_DEBUG
 #define init(name) init_##name()
 #else
 #define init(name)                           	\
@@ -43,32 +44,36 @@ void t2();
  * 32位主程序入口
  * 注意：此函数必须是main.cpp的第一个函数
  */
-extern "C" void start() {
+extern "C"
+void start() {
     //各种初始化
     init(terminal);
     init(IDT);
+    init(GDT);
     init(keyboard);
     init(mem_page);
-    // init(timer);
-    init(thread);
-
-    // init(disk);
-    // init(fs);
-
-    create_thread(nullLoop, "nullLoop");
-    create_thread(t1, "t1");
-    create_thread(t2, "t2");
-
-
-    //开启中断
-    sti();
-    start_all_irq();
-
+//    init(timer);
+//    init(thread);
+//
+//    // init(disk);
+//    // init(fs);
+//
+//    create_thread(nullLoop, "nullLoop");
+//    create_thread(t1, "t1");
+//    create_thread(t2, "t2");
+//
+//
+//    //开启中断
+//    sti();
+//    start_all_irq();
 
 }
 
 void nullLoop() {
-    while (true);
+    while (true) {
+        for (int i = 0; i < 0xFFFFF; i++);
+        printChar('z');
+    }
 }
 
 void t1() {

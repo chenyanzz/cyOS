@@ -1,5 +1,9 @@
 #pragma once
 
+/**
+ * 关于可变参数的定义
+ */
+
 typedef char *va_list;
 #define _INTSIZEOF(n) 	((sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1))
 #define _ADDRESSOF(v) 	(&(v))

@@ -3,6 +3,7 @@
 
 #include "string.h"
 
+/*参见标准C函数的使用方法*/
 
 void memset(void*addr,char val,int size);
 void memcpy(void*to,void*from,int size);

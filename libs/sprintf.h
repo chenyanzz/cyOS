@@ -12,6 +12,7 @@
 
 #define MAX_DP 50
 
+///打印控制属性
 struct output_attrbutes
 {
 	char sign;			 //符号(符号正号空格等)——默认0

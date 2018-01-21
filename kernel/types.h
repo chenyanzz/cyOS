@@ -37,15 +37,12 @@ typedef uint16 word;
 typedef uint32 dword;
 typedef uint64 qword;
 
-typedef int16 SEGMENT;
-
-typedef void (*RUNNABLE)();
-
+/*权限级别*/
 enum RPL {
-    KERNEL = 0,
-    USER = 3
+    KERNEL = 0,///<ring 0
+    USER = 3///<ring 3
 };
 
-typedef int32 id_t;
+typedef uint32 id_t;
 typedef uint32 id_count_t;
 typedef uint32 size_t;

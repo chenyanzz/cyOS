@@ -87,6 +87,7 @@
 #define KEY_INSERT 0x52		 // INSERT
 #define KEY_DEL 0x53		 // DEL
 
+///大写与小写状态时的字符映射
 u8 keys[][2] =
 	{
 		{0x0, 0x0},   //对齐到1开头

@@ -3,6 +3,7 @@
 #include "asm.h"
 #include "stdlib.h"
 #include "interrupt/irq.h"
+#include "memory/page.h"
 
 
 TCB threads[MAX_THREADS];
@@ -76,13 +77,13 @@ void schedule()
 	switch_to(tcb);
 }
 
-id_t create_thread(RUNNABLE proc, char *name, bool bWait)
+id_t create_thread(THREAD_MAIN_POC proc, char *name, bool bWait)
 {
 	static id_t id = 1;
 
 	TCB *ptcb = findNewTCB();
 	ptcb->id = id++;
-	ptcb->ss = (SEGMENT)KNL_DATA_SEG;
+	ptcb->ss = (u32)KNL_DATA_SEG;
 	ptcb->esp = allocPage() + SIZE_MEM_PAGE - 1;
 
 	ptcb->isPresent = true;
@@ -141,9 +142,10 @@ void deleteCurrentThread()
 	current->isEnd=true;
 	current->isPresent = false;
 	current->id=0;
+
+    start_int();
 	schedule();
 
-	start_int();
 }
 
 void exit(int retCode)
