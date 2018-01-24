@@ -70,7 +70,7 @@ bool init_mem_page()
 		}
 	}
 
-    print_mem_list();
+//    print_mem_list();
 
 	return true;
 }

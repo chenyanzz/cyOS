@@ -18,16 +18,16 @@
 #ifndef OS_DEBUG
 #define init(name) init_##name()
 #else
-#define init(name)                           	\
-    if (init_##name())                       	\
-    {                                        	\
-        printf("${blue}[succeed]");        		\
-        printf("${normal}init %s\n", #name); 	\
-    }                                        	\
-    else                                     	\
-    {                                        	\
-        printf("${red}[failed!]");          	\
-        printf("${normal}init %s\n", #name); 	\
+#define init(name)                            \
+    if (init_##name())                        \
+    {                                            \
+        printf("${blue}[succeed]");                \
+        printf("${normal}init %s\n", #name);    \
+    }                                            \
+    else                                        \
+    {                                            \
+        printf("${red}[failed!]");            \
+        printf("${normal}init %s\n", #name);    \
     }
 #endif
 
@@ -44,28 +44,27 @@ void t2();
  * 32位主程序入口
  * 注意：此函数必须是main.cpp的第一个函数
  */
-extern "C"
-void start() {
+extern "C" void start() {
+
     //各种初始化
     init(terminal);
     init(IDT);
     init(GDT);
     init(keyboard);
     init(mem_page);
-//    init(timer);
-//    init(thread);
-//
-//    // init(disk);
-//    // init(fs);
-//
-//    create_thread(nullLoop, "nullLoop");
-//    create_thread(t1, "t1");
-//    create_thread(t2, "t2");
-//
-//
-//    //开启中断
-//    sti();
-//    start_all_irq();
+    init(timer);
+    init(thread);
+
+    // init(disk);
+    // init(fs);
+
+    create_thread(nullLoop, "nullLoop");
+    create_thread(t1, "t1");
+    create_thread(t2, "t2");
+
+    //开启中断
+    sti();
+    start_all_irq();
 
 }
 
