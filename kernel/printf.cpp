@@ -439,7 +439,7 @@ int printf(const char *format, ...)
 		}
 		if (bPrintBuf)
 		{
-			printStr(buf);
+			printStr(buf,true,attr.width,true);
 			buf[0] = 0;
 		}
 		pc++;

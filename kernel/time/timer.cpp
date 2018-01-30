@@ -2,7 +2,7 @@
 #include "printf.h"
 #include "asm.h"
 #include "types.h"
-#include "irq.h"
+#include "kernel/interrupt/irq.h"
 
 u32 ticks;
 
@@ -32,9 +32,16 @@ extern "C"
 void timer_tick()
 {
 	ticks++;
-	/*注意！！！必须先接受下一次中断再调度，不然会死在线程里*/
 
-	//接受下一个中断
+	///@note 因为不再iret，要保持堆栈平衡
+	asm(
+		"pop cx;"//pop eip
+		"pop ecx;"//pop cs
+		"pop ecx;"//pop eflags
+		:::"ecx"
+	);
+
+	///@note 注意！！！必须先接受下一次中断再调度，不然会死在线程里
 	accept_new_irq();
 
 	schedule();

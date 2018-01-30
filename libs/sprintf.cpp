@@ -123,19 +123,16 @@ int sprintDouble(double val, int dp, char *buf)
 
 void parseAttr(const char *&pc, va_list vl)
 {
+	attr={0};
+
 	//sign
 	if (*pc == '+' || *pc == ' ' || *pc == '#')
 	{
 		attr.sign = *pc;
 		pc++;
 	}
-	else
-	{
-		attr.sign = 0;
-	}
 
-	//width.dp
-	attr.width = 0;
+	//宽度
 	while (*pc >= '0' && *pc <= '9')
 	{
 		attr.width *= 10;
@@ -146,7 +143,8 @@ void parseAttr(const char *&pc, va_list vl)
 	{
 		return;
 	}
-	attr.dp = 0;
+
+	//小数点后位数
 	while (*pc >= '0' && *pc <= '9')
 	{
 		attr.dp *= 10;

@@ -56,6 +56,7 @@ u8 start_all_irq()
 
 	start_irq(TIMER_IRQ);
 	start_irq(KEYBOARD_IRQ);
+    accept_new_irq();
 
 	return oldst;
 }

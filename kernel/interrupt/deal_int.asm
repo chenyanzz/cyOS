@@ -10,24 +10,14 @@ global _deal_irq_1
 %macro save_env 0
 	cli
 	pushf
-	push ds
-	push es
-	push fs
-	push gs
-	push ss
 	pushad
-	sti
+	;sti
 %endmacro
 
 ;弹栈环境
 %macro restore_env 0
-	cli
+	;cli
 	popad
-	pop ss
-	pop gs
-	pop fs
-	pop es
-	pop ds
 	popf
 	sti
 %endmacro
@@ -40,10 +30,8 @@ _deal_int_0:
 	iret
 
 _deal_irq_0:
-	save_env
-	call _timer_tick
-	restore_env
-	iret
+    ;这个timer_tick()由于涉及到线程调度，是不会返回的
+	jmp _timer_tick
 
 _deal_irq_1:
 	save_env

@@ -6,7 +6,7 @@
 #include "thread/thread.h"
 #include "interrupt/idt.h"
 #include "interrupt/irq.h"
-#include "interrupt/timer.h"
+#include "kernel/time/timer.h"
 #include "interrupt/keyboard.h"
 #include "memory/page.h"
 #include "thread/thread.h"
@@ -49,7 +49,7 @@ extern "C" void start() {
     //各种初始化
     init(terminal);
     init(IDT);
-    init(GDT);
+//    init(GDT);
     init(keyboard);
     init(mem_page);
     init(timer);
@@ -63,8 +63,8 @@ extern "C" void start() {
     create_thread(t2, "t2");
 
     //开启中断
-    sti();
     start_all_irq();
+    sti();
 
 }
 

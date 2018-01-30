@@ -1,3 +1,8 @@
+/**
+ * 这个timer是IRQ0那个timer
+ */
+
+
 #pragma once
 
 #define TICK_PER_SECOND 100
