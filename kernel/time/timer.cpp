@@ -33,16 +33,9 @@ void timer_tick()
 {
 	ticks++;
 
-	///@note 因为不再iret，要保持堆栈平衡
-	asm(
-		"pop cx;"//pop eip
-		"pop ecx;"//pop cs
-		"pop ecx;"//pop eflags
-		:::"ecx"
-	);
-
 	///@note 注意！！！必须先接受下一次中断再调度，不然会死在线程里
 	accept_new_irq();
 
 	schedule();
+
 }

@@ -46,12 +46,12 @@ void t2();
  */
 extern "C" void start() {
 
-    //各种初始化
     init(terminal);
     init(IDT);
-//    init(GDT);
-    init(keyboard);
+    //要先初始化内存再初始化GDT
     init(mem_page);
+    init(GDT);
+    init(keyboard);
     init(timer);
     init(thread);
 
@@ -70,15 +70,18 @@ extern "C" void start() {
 
 void nullLoop() {
     while (true) {
-        for (int i = 0; i < 0xFFFFF; i++);
-        printChar('z');
+        //延时一会
+        for (int i = 0; i < 0xFFFFF; i++) {
+
+        }
+        printChar('.');
     }
 }
 
 void t1() {
-    printf("a");
+    printf("t1 run\n");
 }
 
 void t2() {
-    printf("b");
+    printf("t2 run\n");
 }

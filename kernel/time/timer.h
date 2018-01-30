@@ -5,7 +5,7 @@
 
 #pragma once
 
-#define TICK_PER_SECOND 100
+#define TICK_PER_SECOND 2
 
 /**
  * 初始化

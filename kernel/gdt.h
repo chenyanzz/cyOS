@@ -19,40 +19,40 @@ enum SEGMENT_TYPE {
 ///@note for more info,see Intel Manual P.2756
 struct segment_descriptor {
     //0
-    unsigned seglmt_0_15        :16;
+    unsigned seglmt_0_15 :16;
     //16
-    unsigned baseaddr_0_15        :16;
-    //32
-    unsigned baseaddr_16_23        :8;
-    enum SEGMENT_TYPE segtype    :4;
+    unsigned baseaddr_0_23 :24;
+    //40
+
+    enum SEGMENT_TYPE segtype :4;
     enum S//选择符类型
     {
-        SYSTEM = 0,//莫名其妙，一般选第二个
+        SYSTEM = 0,///<莫名其妙，一般选第二个
         CODE_DATA = 1
-    } s                        :1;
-    RPL rpl                        :2;
-    bool present                :1;//是否存在
+    } s :1;
+    RPL rpl :2;
+    bool present :1;///<是否存在
     //48
-    unsigned seglmt_16_19        :4;
-    unsigned AVL                :1;//available for use by system software？？！！
-    bool is_bit_64                    :1;
-    bool is_bit_16                    :1;
-    enum UNIT_SIZE {
+    unsigned seglmt_16_19 :4;
+    unsigned AVL :1;//available for use by system software？？！！
+    unsigned zero :1;
+    enum D {
+        BIT_32=1,
+        BIT_16=0
+    } d :1;
+    enum G {    //limit的单位
         UNIT_1BYTE = 0,//bytes=limit*1
         UNIT_4K = 1//bytes=limit*4k
-    } unit_size                :1;
-    unsigned baseaddr_24_31        :8;
+    } g :1;
+    unsigned baseaddr_24_31 :8;
 
 };
 
 
-///构建一个段描述符
-#define make_descriptor(limit, baseaddr, SEGMENT_TYPE, RPL)    \
-(segment_descriptor)    \
-{   \
-    (limit)/4096,(baseaddr),(baseaddr)>>16,(SEGMENT_TYPE),segment_descriptor::CODE_DATA,(RPL),true,((limit)/4096)>>16,  \
-    false,false,false,segment_descriptor::UNIT_4K,baseaddr>>24  \
-}
+/**
+ * 构建一个段描述符
+ */
+segment_descriptor make_descriptor(int limit, int baseaddr, SEGMENT_TYPE segment_type, RPL rpl);
 
 struct gdt_descriptor//in gdtr GDTR寄存器里的东西
 {

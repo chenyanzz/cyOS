@@ -23,15 +23,18 @@ global _deal_irq_1
 %endmacro
 
 _deal_int_13:
-	jmp _general_protection_fault_handler
+	call _general_protection_fault_handler
+    iret
 
 _deal_int_0:
 	call _devide_zero_handler
 	iret
 
 _deal_irq_0:
-    ;这个timer_tick()由于涉及到线程调度，是不会返回的
-	jmp _timer_tick
+    save_env
+    call _timer_tick
+	restore_env
+    iret
 
 _deal_irq_1:
 	save_env
