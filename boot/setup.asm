@@ -8,7 +8,7 @@ DATASEG equ 9000h
 SETUPSEG equ 9020h
 ;KERNEL_SIZE_512 ->later define on cmd -dxxx=xx
 
-AFTER_KERNEL_SIZE equ 1024*10
+AFTER_KERNEL_SIZE equ 1024*1024*10
 
 ;enable a20 for memory beyond 1MB 打开A20
 ;---------------------------------------------------------
@@ -351,19 +351,19 @@ gdt_data:
     dw 0,0,0,0
     
     ;kernel code segment 第一项是内核代码段
-    dw 0xFFFF;limit:8MB
+    dw 0xFFFF;limit
     dw 0;base addr
     db 0
     db 10011010b;attr
-    db 11000000b
+    db 11001111b
     db 0;base addr
     
     ;kernel data segment 第二项内核数据段
-    dw 0xFFFF;limit:8MB
+    dw 0xFFFF;limit
     dw 0;base addr
     db 0;base addr
     db 10010010b;attr
-    db 11000000b
+    db 11001111b
     db 0;base addr
 
 ;IDTR的内容 先置空，到时候在C/C++层再做
