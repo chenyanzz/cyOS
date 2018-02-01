@@ -8,12 +8,9 @@ MEM_LIST_ITEM *mem_list = p_mem_list_items;
 u16 count_mem_list;
 u64 memory_total_size = 1024ll*1024*1024*4;
 
-//1 bit 	-> 4k
-//1 byte	-> 32K
-//32 bytes 	-> 1M
-//1M		-> 32G
-const int MAX_MEM_PAGES = MAX_MEMORY_MB * 32;
-byte pageUsage[MAX_MEM_PAGES];
+
+#define MAX_MEM_PAGES  (MAX_MEMORY/4096)
+byte pageUsage[MAX_MEM_PAGES/8];//总共128KB大概
 
 
 bool init_mem_page()

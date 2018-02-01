@@ -6,17 +6,6 @@
 #include "page.h"
 #include "stdlib.h"
 
-static void* current_page;
+void* malloc(int size) {
 
-
-// bool init_memory()
-// {
-//     initNewPage();
-// }
-
-// void initNewPage()
-// {
-//     void *p = allocPage();
-//     memset(p,128,0);
-//     current_page  = p;
-// }
+}

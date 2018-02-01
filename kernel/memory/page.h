@@ -50,7 +50,7 @@ struct MEM_LIST_ITEM
 extern MEM_LIST_ITEM *mem_list;
 extern u16 count_mem_list;
 extern u64 memory_total_size;
-#define MAX_MEMORY_MB (1024 * 4)
+#define MAX_MEMORY (0xFFFFFFFF) ///<最大内存4G
 
 //1代表使用中，0代表未使用
 extern byte pageUsage[];

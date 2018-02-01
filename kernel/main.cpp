@@ -6,33 +6,16 @@
 #include "disk/fs.h"
 #include "FGUI.h"
 #include "stdlib.h"
-#include "thread/thread.h"
+#include "process/process.h"
 #include "interrupt/idt.h"
 #include "interrupt/irq.h"
 #include "kernel/time/APIC_timer.h"
 #include "interrupt/keyboard.h"
 #include "memory/page.h"
-#include "thread/thread.h"
+#include "process/process.h"
 #include "gdt.h"
 #include "time/RTC.h"
-
-/**
- * 初始化用的宏，用来打印是否成功
- */
-#ifndef OS_DEBUG
-#define init(name) init_##name()
-#else
-#define init(name)\
-    printf("${normal}init " #name "\t");\
-    if (init_##name())\
-    {\
-        printf("${blue}[succeed]\n");\
-    }\
-    else\
-    {\
-        printf("${red}[failed!]\n");\
-    }
-#endif
+#include "init.h"
 
 /**
  * 为了防止没线程后schedule飞走，加的空循环
@@ -60,14 +43,14 @@ extern "C" void start() {
     init(time);//系统时间
     init(RTC_timer);//任务调度中断
     init(PIT_timer);//时钟tick中断
-    init(thread);
+    init(process);
 
     // init(disk);
     // init(fs);
 
-    create_thread(nullLoop, "nullLoop");
-    create_thread(t1, "t1");
-    create_thread(t2, "t2");
+//    create_process(nullLoop, "nullLoop");
+//    create_process(t1, "t1");
+//    create_process(t2, "t2");
 
     //开启中断
     sti();
@@ -76,14 +59,13 @@ extern "C" void start() {
 
 void nullLoop() {
     while (true) {
-
     }
 }
 
 void t1() {
-    printf("t1 run\n");
+//    printf("t1 run\n");
 }
 
 void t2() {
-    printf("t2 run\n");
+//    printf("t2 run\n");
 }
