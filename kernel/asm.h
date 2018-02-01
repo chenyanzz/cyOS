@@ -50,7 +50,7 @@ void outw(word port, word b);
 	)
 
 ///关闭中断和IRQ
-#define close_int() u8 irq_stat = stop_all_irq();	cli()
+#define close_int() u16 irq_stat = stop_all_irq();	cli()
 
 ///开启中断和IRQ（必须先close_int）
 #define start_int() restore_irq(irq_stat);	sti()

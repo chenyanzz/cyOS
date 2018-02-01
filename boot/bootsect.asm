@@ -56,18 +56,15 @@ load_sys:
     ;read disk 读，同上
     mov dx,0;diskA head0
     mov ch,0
-    mov cl,2+SETUP_SIZE_512;sector
+    mov cl,2+SETUP_SIZE_512;sector起始扇区, @note 所以最多只能读256sectors=128KB
     mov ax,KERNELSEG
     mov es,ax;read-to segment
     mov bx,0;read-to offset
     mov al,KERNEL_SIZE_512;count sector(512byte)s
     mov ah,2
     int 13h
-    jnc load_success;jump if read success
 
-    ;cuz kernel size is changing
-    ;jmp load_sys;error->repeat
-load_success:
+load_complete:
     ;跳到setup
     jmp SETUPSEG:0
 

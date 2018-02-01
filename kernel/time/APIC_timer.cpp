@@ -1,20 +1,18 @@
-#include "timer.h"
+#include "APIC_timer.h"
 #include "printf.h"
 #include "asm.h"
 #include "types.h"
 #include "kernel/interrupt/irq.h"
+#include "time.h"
 
-u32 ticks;
-
-bool init_timer()
+bool init_APIC_timer()
 {
 	ticks=0;
-	set_timer(TICK_PER_SECOND);
-	
+	set_APIC_timer(APIC_TIMER_TICKS_PER_SECOND);
 	return true;
 }
 
-void set_timer(int freq)
+void set_APIC_timer(int freq)
 {
 	//计算divisor
 	u32 divisor = 1193180 / freq;
@@ -27,15 +25,12 @@ void set_timer(int freq)
 }
 
 #include "thread/thread.h"
+#include "time.h"
 
 extern "C"
-void timer_tick()
+void APIC_timer_tick()
 {
 	ticks++;
-
-	///@note 注意！！！必须先接受下一次中断再调度，不然会死在线程里
-	accept_new_irq();
-
-	schedule();
-
+	addTime();
+	accept_new_irq(APIC_TIMER_IRQ);
 }

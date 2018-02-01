@@ -72,6 +72,7 @@ size_t strcpy(char *to, char *from, size_t maxlen)
 	size_t i;
 	for (i = 0; ((i < maxlen) && ((to[i] = from[i]) != 0)); i++)
 	{
+
 	}
 
 	return i;

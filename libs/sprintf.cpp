@@ -123,7 +123,7 @@ int sprintDouble(double val, int dp, char *buf)
 
 void parseAttr(const char *&pc, va_list vl)
 {
-	attr={0};
+	attr={0,0,0};
 
 	//sign
 	if (*pc == '+' || *pc == ' ' || *pc == '#')

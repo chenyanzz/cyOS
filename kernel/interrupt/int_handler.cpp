@@ -1,13 +1,10 @@
 #include "stdio.h"
-#include "kernel/time/timer.h"
+#include "kernel/time/APIC_timer.h"
 #include "asm.h"
 
 ///通用处理中断的代码
 
 #ifdef OS_DEBUG
-
-#define COMMON_HANDLE_INT(index)	\
-	printf("${yellow}int%d called!\n", index)
 
 #else //OS_DEBUG
 
@@ -16,7 +13,7 @@
 #endif
 
 ///致命错误的报错
-#define FATAL(msg) printf("${RED}FATAL:%s\nPlease reboot!!!\n", msg)
+#define FATAL(msg) printf("${RED}FATAL:"#msg"\nPlease reboot!!!\n")
 
 extern "C" {
 
@@ -26,7 +23,6 @@ extern "C" {
  */
 void general_protection_fault_handler()
 {
-	COMMON_HANDLE_INT(13);
 	FATAL("general_protection_fault");
 
 	while (true)
@@ -40,7 +36,6 @@ void general_protection_fault_handler()
  */
 void devide_zero_handler()
 {
-	COMMON_HANDLE_INT(0);
 	FATAL("devided by zero");
 
 	while (true)
@@ -48,8 +43,10 @@ void devide_zero_handler()
 	}
 }
 
-extern void timer_tick();
+extern void PIT_timer_tick();
 
 extern void key_state_changed();
+
+extern void RTC_timer_tick();
 
 } //extern "C"

@@ -1,8 +1,10 @@
 ;导出这些函数，注意要带‘_’
 global _deal_int_13
 global _deal_int_0
+
 global _deal_irq_0
 global _deal_irq_1
+global _deal_irq_8
 
 [section .text]
 
@@ -11,28 +13,28 @@ global _deal_irq_1
 	cli
 	pushf
 	pushad
-	;sti
+	sti
 %endmacro
 
 ;弹栈环境
 %macro restore_env 0
-	;cli
+	cli
 	popad
 	popf
 	sti
 %endmacro
 
 _deal_int_13:
-	call _general_protection_fault_handler
+	jmp _general_protection_fault_handler
     iret
 
 _deal_int_0:
-	call _devide_zero_handler
+	jmp _devide_zero_handler
 	iret
 
 _deal_irq_0:
     save_env
-    call _timer_tick
+    call _PIT_timer_tick
 	restore_env
     iret
 
@@ -41,3 +43,9 @@ _deal_irq_1:
 	call _key_state_changed
 	restore_env
 	iret
+
+_deal_irq_8:
+    save_env
+    call _RTC_timer_tick
+    restore_env
+    iret

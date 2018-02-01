@@ -84,7 +84,7 @@ id_t create_thread(THREAD_MAIN_POC proc, char *name, bool bWait)
 	TCB *ptcb = findNewTCB();
 	ptcb->id = id++;
 	ptcb->ss = (u32)KNL_DATA_SEG;
-	ptcb->esp = allocPage() + SIZE_MEM_PAGE - 1;
+	ptcb->esp = (u32)allocPage() + SIZE_MEM_PAGE - 1;
 
 	ptcb->isPresent = true;
 	ptcb->isEnd = false;

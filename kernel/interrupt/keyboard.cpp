@@ -81,7 +81,7 @@ extern "C" void key_state_changed()
 	//清除键盘状态可以接受新按键
 	outb(0x61, 0x7f);
 	//通知PIC1可以接受新中断
-	accept_new_irq();
+	accept_new_irq(KEYBOARD_IRQ);
 }
 
 //把可能超出[0,MAX_CHARBUF]的值转换为正常下标

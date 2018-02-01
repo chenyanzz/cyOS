@@ -6,7 +6,7 @@
 
 MEM_LIST_ITEM *mem_list = p_mem_list_items;
 u16 count_mem_list;
-u64 memory_total_size = 1024*1024*1024*4;
+u64 memory_total_size = 1024ll*1024*1024*4;
 
 //1 bit 	-> 4k
 //1 byte	-> 32K
