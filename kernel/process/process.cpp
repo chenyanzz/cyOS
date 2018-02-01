@@ -89,7 +89,7 @@ id_t create_process(PROCESS_MAIN_PROC proc, char *name, bool bWait)
 	PCB *ptcb = findNewPCB();
 	ptcb->id = id++;
 	ptcb->ss = (u32)KNL_DATA_SEG;
-	ptcb->esp = (u32)allocPage() + SIZE_MEM_PAGE - 1;
+	ptcb->esp = ((u32)allocPage()) + SIZE_MEM_PAGE - 1;
 
 	ptcb->isPresent = true;
 	ptcb->isEnd = false;

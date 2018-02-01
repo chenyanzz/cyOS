@@ -33,11 +33,9 @@ void t2();
 extern "C" void start() {
     //不先初始化输出后面stdio就崩
     init_terminal();
-
     init(IDT);
-    init(GDT);
-
     //要先初始化内存再初始化GDT
+    init(GDT);
     init(mem_page);
     init(keyboard);
     init(time);//系统时间

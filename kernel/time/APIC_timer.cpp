@@ -24,7 +24,7 @@ void set_APIC_timer(int freq)
 	outb(0x40, divisor >> 8);
 }
 
-#include "thread/thread.h"
+#include "process/process.h"
 #include "time.h"
 
 extern "C"

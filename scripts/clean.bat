@@ -1,3 +1,3 @@
 xmake clean --all
 del build
-./cfg.bat
+./scripts/cfg.bat

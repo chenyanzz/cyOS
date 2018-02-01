@@ -28,9 +28,7 @@ set_strip("all")
 
 add_moduledirs("./")
 
-if is_mode("debug") then
-    add_defines("OS_DEBUG")
-end
+add_defines("OS_DEBUG")
 
 target("cyOS")
     add_deps("kernel","boot")
@@ -55,10 +53,10 @@ target("cyOS")
 
     if is_mode("release") then
         on_run(function ()
-            os.run("./scripts/run.bat")
+            os.run("start ./scripts/run.bat")
         end)
     else
         on_run(function ()
-            os.run("./scripts/debug.bat")
+            os.run("start ./scripts/debug.bat")
         end)
     end

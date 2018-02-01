@@ -6,6 +6,11 @@
 #include "page.h"
 #include "stdlib.h"
 
-void* malloc(int size) {
+void *malloc(int size) {
+    static u32 page = (u32)allocPage();
+    static u32 offset = 0;
+    u32 ret;
 
+
+    return ret;
 }

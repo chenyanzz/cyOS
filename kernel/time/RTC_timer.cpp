@@ -2,7 +2,7 @@
  * Created by chenyan on 2018/1/30.
  */
 
-#include "thread/thread.h"
+#include "process/process.h"
 #include "interrupt/irq.h"
 #include "RTC_timer.h"
 #include "RTC.h"

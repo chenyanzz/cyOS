@@ -2,7 +2,7 @@ target("kernel")
     set_kind("object")
     add_deps("libs")
     --source
-    add_files("**.cpp","**.c")
+    add_files("**.cpp")
     
     add_includedirs("$(projectdir)")
     add_includedirs("$(projectdir)/libs")
@@ -17,7 +17,9 @@ target("kernel")
 
         -- 提取调试信息文件和纯二进制数据
         os.vrun("objcopy --only-keep-debug $(buildir)/kernel.o $(buildir)/kernel.dbg")
+        os.vrun("strip -S $(buildir)/kernel.o")
 	    os.vrun("objcopy -O binary $(buildir)/kernel.o $(buildir)/kernel.bin")
+
 
         -- 导出反汇编信息
         local ret,_ = os.iorun("objdump -S build/kernel.o -M intel")
