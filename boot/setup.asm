@@ -8,7 +8,7 @@ DATASEG equ 9000h
 SETUPSEG equ 9020h
 ;KERNEL_SIZE_512 ->later define on cmd -dxxx=xx
 
-AFTER_KERNEL_SIZE equ 1024*1024*10
+KERNEL_TOTAL_SIZE equ 1024*1024*10;代码段+数据段空间+栈段
 
 ;enable a20 for memory beyond 1MB 打开A20
 ;---------------------------------------------------------
@@ -328,7 +328,7 @@ jump_to_protected_mode:
     mov es,ax
     mov fs,ax
     mov gs,ax
-    mov esp,(KERNEL_SIZE_512*512)+AFTER_KERNEL_SIZE;把栈顶设在kernel的尾巴上（栈往前存储）
+    mov esp,KERNEL_TOTAL_SIZE;把栈顶设在kernel的尾巴上（栈往前存储）
     
     ;0x9020:0x1b6
     call 8:0;segment selector : 1 00 0; 调到C的main函数

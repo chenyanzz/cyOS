@@ -29,11 +29,13 @@ void set_PIT_timer() {
 
 extern "C"
 void PIT_timer_tick() {
-    printChar('t');
-//    ticks++;
-//    if (ticks % 100 == 0) {
-//        currTime.ms++;
-//    }
-//    addTime();
-//    accept_new_irq(PIT_TIMER_IRQ);
+//    printChar('P');
+    close_int();
+    ticks++;
+    if (ticks % 100 == 0) {
+        currTime.ms++;
+    }
+    addTime();
+    start_int();
+    accept_new_irq(PIT_TIMER_IRQ);
 }

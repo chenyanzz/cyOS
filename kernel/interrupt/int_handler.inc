@@ -1,5 +1,6 @@
 extern _general_protection_fault_handler
 extern _devide_zero_handler
+extern _unexpected_int_handler
 
 extern _PIT_timer_tick
 extern _RTC_timer_tick

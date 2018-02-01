@@ -1,1 +1,1 @@
-qemu-system-i386 -boot a -fda build/cyOS.img -hda ./hdqemu.raw -m 4096M -d guest_errors,cpu_reset
+qemu-system-i386 -boot a -fda build/cyOS.img -hda ./hdqemu.raw -m 4096M -d guest_errors,cpu_reset -localtime

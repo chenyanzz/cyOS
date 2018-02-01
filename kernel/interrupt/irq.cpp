@@ -16,6 +16,8 @@
 #define PIC_EOI        0x20        /* End-of-interrupt command code */
 
 void setup_irq() {
+    stop_all_irq();
+
 //	set_gate(IRQ(APIC_TIMER_IRQ),deal_irq_0,INT);//ACPI时钟
     set_gate(IRQ(PIT_TIMER_IRQ), deal_irq_0, INT);//PIT时钟
     set_gate(IRQ(RTC_TIMER_IRQ), deal_irq_8, INT);//RTC实时时钟
@@ -85,7 +87,7 @@ u16 start_all_irq() {
 
     start_irq(SLAVE_IRQ);
     start_irq(KEYBOARD_IRQ);
-//    start_irq(PIT_TIMER_IRQ);
+    start_irq(PIT_TIMER_IRQ);
     start_irq(RTC_TIMER_IRQ);
 
 

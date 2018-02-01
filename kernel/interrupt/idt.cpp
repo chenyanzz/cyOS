@@ -35,8 +35,10 @@ bool init_IDT()
 {
 	static idt_descriptor IDTR;
 
-	//初始化idt表
-	memset(IDT, 0, sizeof(IDT));
+	for(int i=0;i<IDT_NUM;i++)
+	{
+		set_gate(i,deal_unexpected_int,FAULT);
+	}
 
 	IDTR.addr = IDT;
 	IDTR.size = IDT_NUM * 8;

@@ -43,6 +43,19 @@ void devide_zero_handler()
 	}
 }
 
+/**
+ * int 其他的 不明中断
+ * 处理方法：红字报错，死循环
+ */
+void unexpected_int_handler()
+{
+	FATAL("unexpected interrupt");
+
+	while (true)
+	{
+	}
+}
+
 extern void PIT_timer_tick();
 
 extern void key_state_changed();

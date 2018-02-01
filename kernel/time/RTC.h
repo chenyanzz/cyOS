@@ -6,16 +6,7 @@
 #pragma once
 
 #include "types.h"
-
-struct time_t {
-    byte ms;    ///<毫秒
-    byte second; ///<秒
-    byte minute; ///<分
-    byte hour;   ///<时
-    byte day;    ///<一个月里第几天
-    byte month;  ///<月
-    int year;   ///<年
-};
+#include "time.h"
 
 extern const word P_RTC_REG;
 extern const word P_RTC_DATA;
@@ -26,7 +17,7 @@ enum RTCReg {
     Second = 0x00,
     Minute = 0x02,
     Hour = 0x04,
-    Weekday = 0x06,
+    Weekday = 0x06,///<从没人改，自然也没得读
     Day = 0x07,
     Month = 0x08,
     Year = 0x09,
@@ -55,11 +46,5 @@ void setRTCRegValue(RTCReg reg, byte val);
  * @return 时间结构体
  */
 time_t RTCgetTime();
-
-/**
- * 打印时间 YYYY mm:dd HH:MM:SS
- * @param time
- */
-void printTime(time_t time);
 
 

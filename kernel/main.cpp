@@ -22,15 +22,15 @@
 #ifndef OS_DEBUG
 #define init(name) init_##name()
 #else
-#define init(name)                            \
-    printf("${normal}init "#name"\t");    \
-    if (init_##name())                        \
-    {                                            \
-        printf("${blue}[succeed]\n");                \
-    }                                            \
-    else                                        \
-    {                                            \
-        printf("${red}[failed!]\n");            \
+#define init(name)\
+    printf("${normal}init " #name "\t");\
+    if (init_##name())\
+    {\
+        printf("${blue}[succeed]\n");\
+    }\
+    else\
+    {\
+        printf("${red}[failed!]\n");\
     }
 #endif
 
@@ -58,37 +58,25 @@ extern "C" void start() {
     init(mem_page);
     init(keyboard);
     init(time);//系统时间
+    init(RTC_timer);//任务调度中断
     init(PIT_timer);//时钟tick中断
-//    init(RTC_timer);//任务调度中断
     init(thread);
 
     // init(disk);
     // init(fs);
 
-//    create_thread(nullLoop, "nullLoop");
-//    create_thread(t1, "t1");
-//    create_thread(t2, "t2");
+    create_thread(nullLoop, "nullLoop");
+    create_thread(t1, "t1");
+    create_thread(t2, "t2");
 
     //开启中断
     sti();
     start_all_irq();
-//
-//    while (true) {
-//        //延时一会
-//        for (int i = 0; i < 0xFFFFF; i++) {
-//
-//        }
-//        printTime(currTime);
-//    }
 }
 
 void nullLoop() {
     while (true) {
-        //延时一会
-        for (int i = 0; i < 0xFFFF; i++) {
 
-        }
-        printTime(currTime);
     }
 }
 
