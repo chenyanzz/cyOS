@@ -10,15 +10,15 @@ target("kernel")
     after_build(function ()
 
         os.mkdir("$(buildir)/kernel/kernel/interrupt")
-        os.vrun("nasm kernel/interrupt/deal_int.asm -o$(buildir)/kernel/kernel/interrupt/deal_int.o -p kernel/interrupt/int_handler.inc -f elf32")
+        os.vrun("nasm kernel/interrupt/deal_int.asm -o$(buildir)/kernel/kernel/interrupt/deal_int.o -f elf32")
 
         -- 链接kernel
-        os.vrun("gcc -ggdb3 $(buildir)/kernel/**.o $(buildir)/libs/**.o -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -lstdc++ -nostartfiles -m32 -static-libstdc++ -static -lm -fno-builtin")
+        os.vrun("g++ -ggdb3 -o $(buildir)/kernel.o -Wl,-Tkernel/link.lds -static -nostartfiles -m32 -ffreestanding $(buildir)/kernel/**.o $(buildir)/libs/**.o")
 
         -- 提取调试信息文件和纯二进制数据
         os.vrun("objcopy --only-keep-debug $(buildir)/kernel.o $(buildir)/kernel.dbg")
-        os.vrun("strip -S $(buildir)/kernel.o")
-	    os.vrun("objcopy -O binary $(buildir)/kernel.o $(buildir)/kernel.bin")
+        os.vrun("strip -s -o $(buildir)/kernel.stripped $(buildir)/kernel.o")
+	    os.vrun("objcopy -O binary $(buildir)/kernel.stripped $(buildir)/kernel.bin")
 
 
         -- 导出反汇编信息

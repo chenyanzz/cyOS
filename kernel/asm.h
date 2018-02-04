@@ -11,15 +11,19 @@
 ///以下函数对应汇编指令
 
 void cli();
+
 void sti();
 
 void nop();
+
 void hlt();
 
 byte inb(word port);
+
 void outb(word port, byte b);
 
 word inw(word port);
+
 void outw(word port, word b);
 
 #define int(index) asm("int "#index)
@@ -27,33 +31,33 @@ void outw(word port, word b);
 /* 一些函数的汇编宏实现 */
 
 ///压栈状态
-#define push_reg()	\
-	asm(			\
-		"pushad;"	\
-		"push ds;"	\
-		"push es;"	\
-		"push fs;"	\
-		"push gs;"	\
-		"pushf;"	\
+#define push_reg()    \
+    asm(            \
+        "pushad;"    \
+        "push ds;"    \
+        "push es;"    \
+        "push fs;"    \
+        "push gs;"    \
+        "pushf;"    \
     )
 
 
 ///出栈状态
-#define pop_reg()	\
-	asm(			\
-		"popf;"		\
-		"pop gs;"	\
-		"pop fs;"	\
-		"pop es;"	\
-		"pop ds;"	\
-		"popad;"	\
-	)
+#define pop_reg()    \
+    asm(            \
+        "popf;"        \
+        "pop gs;"    \
+        "pop fs;"    \
+        "pop es;"    \
+        "pop ds;"    \
+        "popad;"    \
+    )
 
 ///关闭中断和IRQ
-#define close_int() u16 irq_stat = stop_all_irq();	cli()
+#define close_int() u16 irq_stat = stop_all_irq();    cli()
 
 ///开启中断和IRQ（必须先close_int）
-#define start_int() restore_irq(irq_stat);	sti()
+#define start_int() restore_irq(irq_stat);    sti()
 
 /*汇编程序里的变量指针*/
 

@@ -129,7 +129,7 @@ FindResult find_folder_empty_child(FOLDER &fd)
 			fr.isSucceed = false;
 			return fr;
 		}
-	} while (ifolder.usage == ((1 << (folder_child_size + 1)) - 1)); //while(usage.last $size bits are all 1)
+	} while (ifolder.usage == ((1 << (folder_child_size + 1)) - 1)); //while(usage.last $size bytes are all 1)
 
 	fr.ifolder = ifolder;
 	fr.isSucceed = true;

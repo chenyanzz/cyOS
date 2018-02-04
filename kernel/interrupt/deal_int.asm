@@ -1,3 +1,5 @@
+[section .text]
+
 ;导出这些函数，注意要带‘_’
 global _deal_int_13
 global _deal_int_0
@@ -7,7 +9,6 @@ global _deal_irq_0
 global _deal_irq_1
 global _deal_irq_8
 
-[section .text]
 
 ;压栈环境
 %macro save_env 0
@@ -24,6 +25,8 @@ global _deal_irq_8
 	popf
 	sti
 %endmacro
+
+%include "kernel/interrupt/int_handler.inc"
 
 _deal_int_13:
 	jmp _general_protection_fault_handler
@@ -51,4 +54,3 @@ _deal_irq_8:
     call _RTC_timer_tick
     restore_env
     iret
-

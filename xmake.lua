@@ -10,7 +10,7 @@ add_includedirs("$(projectdir)/kernel/")
 --gcc params
 add_cxflags("-fpermissive","-W","-Wall","-werror")--dealing compiler error
 add_cxflags("-fno-builtin","-fpack-struct=1",
-            "-mno-ms-bitfields","-masm=intel")--compiling&linking
+            "-mno-ms-bitfields","-masm=intel")--compiling
 add_cxflags("-m32")--platform
 add_cxflags("-ggdb3")--debugging
 

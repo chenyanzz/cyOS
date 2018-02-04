@@ -331,9 +331,8 @@ jump_to_protected_mode:
     mov esp,KERNEL_TOTAL_SIZE;把栈顶设在kernel的尾巴上（栈往前存储）
     
     ;0x9020:0x1b6
-    call 8:0;segment selector : 1 00 0; 调到C的main函数
-
-    jmp $;main退出了就死循环死在这里，多半是出错了
+    jmp 8:0;segment selector : 1 00 0; 调到C的main函数
+    hlt
     
 ;delay for I/O
 delay:

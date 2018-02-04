@@ -11,8 +11,9 @@ u64 memory_total_size = 0;
 
 
 #define MAX_MEM_PAGES  (MAX_MEMORY/4096)
-//byte pageUsage[MAX_MEM_PAGES/8];//总共128KB大概
-create_bitmap(MAX_MEM_PAGES, pageUsage);
+byte pageUsage[MAX_MEM_PAGES/8];//总共128KB大概
+
+BITMAP page_bp{pageUsage,MAX_MEM_PAGES};
 
 bool init_mem_page() {
 //	printf("\n%ld",(&AAA)-pageUsage);
@@ -47,9 +48,9 @@ bool init_mem_page() {
         memory_total_size = max(memory_total_size, (item.base_addr + item.length));
 
         if (item.type == MEM_LIST_ITEM::Unused) {
-            setBits(pageUsage, startp, startp + lenp, 0);
+            setBits(page_bp, startp, lenp, 0);
         } else {
-            setBits(pageUsage, startp, startp + lenp, 1);
+            setBits(page_bp, startp, lenp, 1);
         }
     }
 
@@ -74,13 +75,14 @@ void print_mem_list() {
 
 #endif
 
-void *allocPage() {
-    BIT bit = findBit(pageUsage, MAX_MEM_PAGES, 0);
-    setBit(pageUsage, bit, 1);
+///@todo 没改呢 多页情况
+void *allocPage(int count) {
+    BIT bit = findBit(page_bp, 0);
+    setBit(page_bp, bit, 1);
     return (void *) (bit * SIZE_MEM_PAGE);
 }
 
 void freePage(void *page) {
     BIT bit = (u32) page / 4096;
-    setBit(pageUsage, bit, 0);
+    setBit(page_bp, bit, 0);
 }

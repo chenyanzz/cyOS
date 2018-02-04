@@ -247,7 +247,7 @@ int printf(const char *format, ...) {
 
     int params = 0;
 
-    char buf[100];
+    static char buf[100]={0};
 
     const char *pc = format;
     while (*pc != 0) {
@@ -266,7 +266,6 @@ int printf(const char *format, ...) {
 
         //%[sign][width][.dp]  捕获%后面属性
         parseAttr(pc, vl);
-        bool bPrintBuf = false;
         params++;
         switch (*pc) {
             case 'c':

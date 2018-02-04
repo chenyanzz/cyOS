@@ -35,13 +35,13 @@ extern "C" void start() {
     init_terminal();
     init(IDT);
     //要先初始化内存再初始化GDT
-    init(GDT);
     init(mem_page);
-    init(keyboard);
-    init(time);//系统时间
-    init(RTC_timer);//任务调度中断
-    init(PIT_timer);//时钟tick中断
-    init(process);
+    init(GDT);
+//    init(keyboard);
+//    init(time);//系统时间
+//    init(RTC_timer);//任务调度中断
+//    init(PIT_timer);//时钟tick中断
+//    init(process);
 
     // init(disk);
     // init(fs);
@@ -50,9 +50,13 @@ extern "C" void start() {
 //    create_process(t1, "t1");
 //    create_process(t2, "t2");
 
+    printf("zy%d",520);
     //开启中断
-    sti();
-    start_all_irq();
+//    sti();
+//    start_all_irq();
+
+
+    while (true);///@note 这里一定要死循环
 }
 
 void nullLoop() {

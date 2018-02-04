@@ -54,8 +54,9 @@ load_setup_end:
 ;---------------------------------------------------------
 load_sys:
     ;read disk 读，同上
-    mov dx,0;diskA head0
-    mov ch,0
+    mov dh,0
+    mov dl,0
+    mov ch,0;cylinder
     mov cl,2+SETUP_SIZE_512;sector起始扇区, @note 所以最多只能读256sectors=128KB
     mov ax,KERNELSEG
     mov es,ax;read-to segment
@@ -63,6 +64,8 @@ load_sys:
     mov al,KERNEL_SIZE_512;count sector(512byte)s
     mov ah,2
     int 13h
+    jnc load_setup_end;jump if read success 成功就继续
+    jmp load_setup;error->repeat 失败就重复
 
 load_complete:
     ;跳到setup

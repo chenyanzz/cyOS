@@ -66,11 +66,12 @@ void print_mem_list();
 
 
 /**
- * 获取没用过的一页
+ * 获取新页
+ * @param count 总共申请几页
  * @return 那一页的首地址
  * @retval -1 无空页？？！！
  */
-void* allocPage();
+void* allocPage(int count=1);
 
 /**
  * 释放一内存页 
