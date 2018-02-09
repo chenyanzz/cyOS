@@ -1,4 +1,4 @@
-target("boot")
+target("bootsect and setup")
     add_deps("kernel") --to get the size of kernel and write it in asm
 
     on_build(function ()

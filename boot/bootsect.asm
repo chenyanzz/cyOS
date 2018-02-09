@@ -46,11 +46,9 @@ load_setup:
     mov ah,2;int 13,ah=2 -> read from device
     mov al,SETUP_SIZE_512;count sector(512byte)s 扇区计数
     int 13h
-    jnc load_setup_end;jump if read success 成功就继续
-    jmp load_setup;error->repeat 失败就重复
 load_setup_end:
 
-;load system to memory 把整个操作系统读入系统
+;load system to memory 把整个bootloader读入系统
 ;---------------------------------------------------------
 load_sys:
     ;read disk 读，同上
@@ -64,8 +62,7 @@ load_sys:
     mov al,KERNEL_SIZE_512;count sector(512byte)s
     mov ah,2
     int 13h
-    jnc load_setup_end;jump if read success 成功就继续
-    jmp load_setup;error->repeat 失败就重复
+
 
 load_complete:
     ;跳到setup
