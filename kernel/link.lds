@@ -1,4 +1,24 @@
+ENTRY(_kernel_main)
+
 SECTIONS
 {
-.text 0:{build/kernel/kernel/main.cpp.o (.text) *(.text)}
+    . = 1M;
+
+    .boot :
+    {
+        *(.grub_sig)
+    }
+    .text :
+    {
+        build/kernel/kernel/main.cpp.o (.text)
+        *(.text)
+    }
+    .data :
+    {
+        *(.data)
+    }
+    .bss :
+    {
+        *(.bss)
+    }
 }

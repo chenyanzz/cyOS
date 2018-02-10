@@ -1,4 +1,3 @@
-floppya: 1_44="build/cyOS.img", status=inserted
 boot: floppy
 display_library: win32
 log: bochsout.txt

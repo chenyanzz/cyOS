@@ -8,11 +8,16 @@ add_includedirs("$(projectdir)/libs/")
 add_includedirs("$(projectdir)/kernel/")
 
 --gcc params
-add_cxflags("-fpermissive","-W","-Wall","-werror")--dealing compiler error
-add_cxflags("-fno-builtin","-fpack-struct=1",
-            "-mno-ms-bitfields","-masm=intel")--compiling
-add_cxflags("-m32")--platform
-add_cxflags("-ggdb3")--debugging
+add_cxflags(
+    "-fpermissive","-W","-Wall",  --error-dealing
+    "-fno-builtin","-fpack-struct=1","-nostdlib",
+    --"-ffunction-sections","-fdata-sections",
+    "-mno-ms-bitfields","-masm=intel",  --compiling
+    "-m32", --platform
+    "-ggdb3",   --debugging
+    {force=true})
+
+add_defines("OS_DEBUG")
 
 add_subdirs("./boot/")
 add_subdirs("./libs/")
@@ -23,40 +28,21 @@ set_objectdir("$(buildir)")
 set_targetdir("$(buildir)")
 set_headerdir("include")
 
-set_strip("all")
-
-
 add_moduledirs("./")
 
-add_defines("OS_DEBUG")
-
 target("cyOS")
-    add_deps("kernel","boot")
-    
-	on_build(function ()
-        import("filelen")
-        local kernel_len_512 = math.ceil(filelen.kb("$(buildir)/kernel.bin")*2)
-        local boot_len_512 = math.ceil(filelen.kb("$(buildir)/boot.bin")*2)
-        
-        os.run("dd if=$(buildir)/boot.bin of=$(buildir)/cyOS.img \
-            bs=512 count=%d"
-            ,boot_len_512)
-        os.run("dd if=$(buildir)/kernel.bin of=$(buildir)/cyOS.img \
-            bs=512 count=%d seek=%d"
-            ,kernel_len_512,boot_len_512)
+    add_deps("cyOS.iso")
+
+    after_build(function ()
         cprint("${blue}cyOS has been built successfully")
     end)
 
-    on_clean(function () 
-        os.rmdir("build")
-    end)
+target("cyOS.iso")
+    add_deps("kernel")
 
-    if is_mode("release") then
-        on_run(function ()
-            os.run("start ./scripts/run.bat")
-        end)
-    else
-        on_run(function ()
-            os.run("start ./scripts/debug.bat")
-        end)
-    end
+	on_build(function ()
+        -- os.mkdir("iso")
+        -- os.cp("$(buildir)/kernel.o","iso/")
+        
+        -- os.vrun("ubuntu run grub-mkrescue -o cyOS.iso iso")
+    end)
