@@ -6,35 +6,41 @@
 这是一个岩岩小天使正在做的操作系统【有参考linux】  
 目前正在超级超级  **初级**  开发阶段.....
 
-### 已完成
+### done-list
 
 - 进入main函数之前的引导部分
+- xmake自动化编译
 - 屏幕输出相关stdio函数
 - 用户态双线程切换
-- xmake自动化编译
-- vscode调试代码
+- 基于vscode调试代码
 - 基于lba的扇区读写
 - timer (irq0)
 - 获取键盘输入 (irq1)
 - 简易内存页管理（getFreePage）
-- 基于timer的双线程切换
+- 基于timer的多线程切换
+- 使用clion+qemu调试代码
+- 3种timer（APIC PIT RTC）
+- 获取系统时间
+- 实现grub引导
 
-### 下一步方向
+### todo-list
 
-- 文件系统
-- 内存管理
-- tui交互界面
+近期
+- 读取grub数据
+- scanf函数
 
-
+长期
+- 完善文件系统
+- 交互界面
+- malloc
 
 ## 依赖软件
 
 - xmake 用做构建系统
-- mingw 用来编译生成
-- bochs 用来调试与执行,推荐 
-- qemu 功能与bochs相同，但是速度比bochs快，只不过调试用的是gdb（我不会用）
-- 一款好用的开发环境，我用的是vscode，插件一堆一堆的
-
+- mingw,nasm 用来编译生成
+- qemu + clion 调试真是绝配
+- 引导：一个带有grub引导的U盘+ubuntu虚拟机 暂时没找到更好的方案
+- 一款好用的开发环境，我用的是vscode+clion
 
 
 ## 关于作者
