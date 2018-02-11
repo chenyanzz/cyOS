@@ -8,7 +8,7 @@
 
 PCB processes[MAX_PROCESSES];
 PCB PCB_kernel;///< 为了带一次调度的时候正常
-PCB *current = &PCB_kernel;///< 为了带一次调度的时候正常
+PCB *current = &PCB_kernel;///< 为了第一次调度的时候正常
 
 int count_processes;
 

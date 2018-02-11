@@ -5,22 +5,22 @@
 #include "deal_int.h"
 #include "irq.h"
 
-interrupt_decriptor IDT[IDT_NUM];
+Interrupt_Decriptor IDT[IDT_NUM];
 
-inline void lidt(idt_descriptor &idtr)
+inline void lidt(Idt_Descriptor &idtr)
 {
 	asm("lidt [%0]" ::"a"(&idtr));
 }
 
-void set_idt_item(u8 index, interrupt_decriptor item)
+void set_idt_item(u8 index, Interrupt_Decriptor item)
 {
-	memcpy(&IDT[index], &item, sizeof(interrupt_decriptor));
+	memcpy(&IDT[index], &item, sizeof(Interrupt_Decriptor));
 }
 
 void set_gate(u8 index, INTERRUPT_CALLBACK callback, GateType gatetype)
 {
 	u32 func = (u32)callback;
-	interrupt_decriptor item;
+	Interrupt_Decriptor item;
 	item.segment_selector = KNL_PROGRAM_SEG;
 	item.offset_0_15 = (u16)func;
 	item.offset_16_31 = (u16)(func >> 15);
@@ -33,7 +33,7 @@ void set_gate(u8 index, INTERRUPT_CALLBACK callback, GateType gatetype)
 
 bool init_IDT()
 {
-	static idt_descriptor IDTR;
+	static Idt_Descriptor IDTR;
 
 	for(int i=0;i<IDT_NUM;i++)
 	{

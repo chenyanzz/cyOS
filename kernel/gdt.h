@@ -7,7 +7,7 @@
 #define GDT_NUM 256
 
 ///段的类型
-enum SEGMENT_TYPE {
+enum SegmentType {
     DATA_R = 0b0000,
     DATA_RW = 0b0010,
     CODE_R = 0b1000,
@@ -24,7 +24,7 @@ struct segment_descriptor {
     unsigned baseaddr_0_23 :24;
     //40
 
-    enum SEGMENT_TYPE segtype :4;
+    enum SegmentType segtype :4;
     enum S//选择符类型
     {
         SYSTEM = 0,///<莫名其妙，一般选第二个
@@ -52,7 +52,7 @@ struct segment_descriptor {
 /**
  * 构建一个段描述符
  */
-segment_descriptor make_descriptor(int limit, int baseaddr, SEGMENT_TYPE segment_type, RPL rpl);
+segment_descriptor make_descriptor(int limit, int baseaddr, SegmentType segment_type, RPL rpl);
 
 struct gdt_descriptor//in gdtr GDTR寄存器里的东西
 {

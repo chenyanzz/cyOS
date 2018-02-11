@@ -60,7 +60,7 @@ u16 stop_irq(u8 index) {
 u16 stop_all_irq() {
     u8 oldst_m = inb(P_PIC_MASTER);
     u8 oldst_s = inb(P_PIC_SLAVE);
-    outb(P_PIC_MASTER, 0b11111111);
+    outb(P_PIC_MASTER, 0b11111011);
     outb(P_PIC_SLAVE, 0b11111111);
     return (oldst_m << 8) + oldst_s;
 }

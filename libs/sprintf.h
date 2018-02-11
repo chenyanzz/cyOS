@@ -13,7 +13,7 @@
 #define MAX_DP 50
 
 ///打印控制属性
-struct output_attrbutes
+struct OutputAttrbutes
 {
 	char sign;			 //符号(符号正号空格等)——默认0
 	unsigned char width; //变量整体宽度——默认-1（无限）

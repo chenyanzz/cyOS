@@ -13,6 +13,7 @@ void *malloc(int size) {
     static u32 offset = 0;
     u32 ret;
 
+
     close_int();
     offset+=size;
     ret = page+offset;

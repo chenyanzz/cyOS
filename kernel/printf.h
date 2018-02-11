@@ -91,11 +91,10 @@ void printChar(char c);
 /** 
  * 控制台打印字符串
  * @param  str: 字符串
- * @param  bStrip:是否截取、补足字符串
- * @param  maxlen:截取、补足长度
- * @param  bFill:是否补足
+ * @param  maxlen: 字符串最大长度，同时也是补足到的长度；默认len=0，表示len=strlen(str)
+ * @param  bFill: 是否补足长度到len
  */
-void printStr(char *str, bool bStrip = false, int maxlen = 0, bool bFill = true);
+void printStr(char *str, int maxlen = 0, bool bFill = false);
 
 /**
  * 标准库中的没有做attr的printf

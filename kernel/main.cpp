@@ -30,13 +30,14 @@ void t2();
  * kernel主程序入口
  */
 extern "C" void kernel_main() {
+    cli();
+    stop_all_irq();
+
     //不先初始化输出后面stdio就崩
     init_terminal();
     init(GDT);
     init(IDT);
-    printChar('z');
-    //要先初始化内存再初始化GDT
-    //init(mem_page);
+
 //    init(keyboard);
 //    init(time);//系统时间
 //    init(RTC_timer);//任务调度中断

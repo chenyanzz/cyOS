@@ -6,7 +6,7 @@
 
 typedef void (*INTERRUPT_CALLBACK)();
 
-struct idt_descriptor //in idtr 
+struct Idt_Descriptor //in idtr
 {
 	//word SPACER;
 	word size;
@@ -20,7 +20,7 @@ enum GateType
 	TRAP = 0b01111,  ///<执行触发的命令的下一条
 };
 
-struct interrupt_decriptor
+struct Interrupt_Decriptor
 {
 	u16 offset_0_15;	  ///< offset bits 0..15 地址低16位
 	u16 segment_selector; ///< a code segment selector in GDT or LDT 段号
@@ -39,14 +39,14 @@ bool init_IDT();
 /**
  * 同汇编lidt，加载idtr
  */
-void lidt(interrupt_decriptor idtr);
+void lidt(Interrupt_Decriptor idtr);
 
 /**
  * 设置IDT表项
  * @param index 第几个中断
  * @param item 那个中断描述符
  */
-void set_idt_item(u8 index, interrupt_decriptor item);
+void set_idt_item(u8 index, Interrupt_Decriptor item);
 
 /**
  * 设置一个门

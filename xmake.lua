@@ -41,8 +41,6 @@ target("cyOS.iso")
     add_deps("kernel")
 
 	on_build(function ()
-        -- os.mkdir("iso")
-        -- os.cp("$(buildir)/kernel.o","iso/")
-        
-        -- os.vrun("ubuntu run grub-mkrescue -o cyOS.iso iso")
+        --os.cp("$(buildir)/kernel.o","iso/")
+        --os.vrun("ubuntu run grub-mkrescue -o cyOS.iso iso/")
     end)

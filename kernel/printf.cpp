@@ -5,6 +5,7 @@
 #include "asm.h"
 #include "map.h"
 #include "interrupt/irq.h"
+#include "math.h"
 
 static char x, y; //屏幕光标位置
 
@@ -13,15 +14,15 @@ static char color; //当前颜色设置
 const int width = 80;
 const int height = 25;
 
-extern output_attrbutes attr;
+extern OutputAttrbutes attr;
 
 //显存里字符结构体
-struct character {
+struct Character {
     char text;
     char color;
 };
 
-struct character *screen[80]; //[40][80]{text,color} 字符显存
+struct Character *screen[80]; //[40][80]{text,color} 字符显存
 
 char *color_key[] =
         {
@@ -42,7 +43,7 @@ char color_value[] =
 
                 defaultColor, defaultColor, defaultColor};
 
-extern struct output_attrbutes attr;
+extern struct OutputAttrbutes attr;
 
 void setTerminalColor(TextColor tc, BgColor bc, bool blink) {
     color = makeColor(tc, bc) | (blink << 7);
@@ -52,13 +53,36 @@ void setTerminalColorByte(byte c) {
     color = c;
 }
 
+/**
+ * 获取显卡寄存器里的光标位置带x,y变量里
+ */
+void get_reg_xy() {
+    //告诉地址寄存器要接下来要使用14号寄存器
+    outb(14, 0x03d4);
+
+    //从光标位置高位寄存器读取值
+    u8 cursor_pos_h = inb(0x03d5);
+
+    //告诉地址寄存器要接下来要使用15号寄存器
+    outb(15, 0x03d4);
+
+    //从光标位置高位寄存器读取值
+    u8 cursor_pos_l = inb(0x03d5);
+
+    int cursor_pos = (cursor_pos_h << 8) + cursor_pos_l;
+
+    y = cursor_pos / 80;
+    x = cursor_pos % 80;
+
+}
+
 bool init_terminal() {
     //获取当前光标位置
-    x = *p_cursor_x;
-    y = *p_cursor_y;
+    get_reg_xy();
+
     setTerminalColor(defaultTextColor, defaultBgColor, false);
     //填补screen数组
-    screen[0] = (struct character *) p_firstChar;
+    screen[0] = (struct Character *) p_firstChar;
     for (int i = 1; i < height; i++) {
         screen[i] = screen[i - 1] + width;
     }
@@ -125,65 +149,83 @@ void setCursor(u8 nx, u8 ny) {
 }
 
 void printChar(char ch) {
+
     close_int();
 
-    if (ch == '\n') //换行回车
-    {
-        y++;
-        x = 0;
-    } else if (ch == '\r') //回车
-    {
-        x = 0;
-    } else if (ch == '\b') //退格
-    {
-        x--;
-        if (x < 0) {
-            x = width - 1;
-            y--;
-            if (y < 0)
-                y = 0;
+    switch (ch) {
+        case '\n': {    //换行回车
+            y++;
+            x = 0;
+            break;
         }
-        screen[y][x].text = ' ';
-    } else if (ch == '\t') //制表
-    {
-        x = (x / tab_size + 1) * tab_size;
-    } else if (ch == '\f') //换页
-    {
-        cls();
-    } else if (ch == '\r') //回行首
-    {
-        x = 0;
-    } else if (ch == '\v') //垂直制表
-    {
-        //打印机才有用..
-    } else {
-        screen[y][x].text = ch;
-        screen[y][x].color = color;
-        x++;
+        case '\b': {    //退格
+            x--;
+            if (x < 0) {
+                x = width - 1;
+                y--;
+                if (y < 0)
+                    y = 0;
+            }
+            screen[y][x].text = ' ';
+            break;
+        }
+        case '\t': {    //制表
+            x = (x / tab_size + 1) * tab_size;
+            break;
+        }
+        case '\f': {    //换页
+            cls();
+            break;
+        }
+        case '\r': {    //回行首
+            x = 0;
+            break;
+        }
+        case '\v': {    //垂直制表
+            //打印机才有用..
+            break;
+        }
+        default: {
+            screen[y][x].text = ch;
+            screen[y][x].color = color;
+            x++;
+        }
     }
+
+
     setCursor(x, y);
 
     start_int();
 }
 
-void printStr(char *str, bool bStrip = false, int maxlen = 0, bool bFill = true) {
-    //获取字符串总长
-    int len = strlen(str);
-    if (bStrip) {
-        len = (len > maxlen ? maxlen : len);
-    }
-
-    //前面填补空格
-    if (bStrip && bFill) {
-        for (int i = len; i < maxlen; i++) {
-            printChar(' ');
-        }
-    }
-
+/**
+ * 简单的根据所给长度打印字符串
+ * @param str 字符串
+ * @param len 长度
+ */
+void printStrSimple(char *str, int len) {
     //打印字符串
     for (int i = 0; i < len; i++) {
         printChar(str[i]);
     }
+}
+
+void printStr(char *str, int maxlen, bool bFill) {
+
+    //字符串真实长度
+    int real_len = strlen(str);
+
+    //要打印的长度
+    int print_len = maxlen == 0 ? real_len : maxlen;
+
+    //前面填补空格
+    if (bFill) {
+        for (int i = real_len; i < maxlen; i++) {
+            printChar(' ');
+        }
+    }
+
+    printStrSimple(str, print_len);
 }
 
 void parseColor(const char *&pc) {
@@ -247,7 +289,7 @@ int printf(const char *format, ...) {
 
     int params = 0;
 
-    static char buf[100]={0};
+    static char buf[100] = {0};
 
     const char *pc = format;
     while (*pc != 0) {
@@ -269,11 +311,11 @@ int printf(const char *format, ...) {
         params++;
         switch (*pc) {
             case 'c':
-                buf[0]=va_arg(vl, char);
-                buf[1]=0;
+                buf[0] = va_arg(vl, char);
+                buf[1] = 0;
                 break;
             case 's':
-                printStr(va_arg(vl, char *), true, attr.width, true);
+                printStr(va_arg(vl, char *), attr.width, true);
                 pc++;
                 continue;
             case 'u':
@@ -382,7 +424,7 @@ int printf(const char *format, ...) {
                 printChar(*pc);
                 params--;
         }
-        printStr(buf, true, attr.width, true);
+        printStr(buf, attr.width, true);
         buf[0] = 0;
 
         pc++;

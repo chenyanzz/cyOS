@@ -11,7 +11,7 @@ void set_gdt_item(u8 index, global_descriptor item) {
     memcpy(&GDT[index], &item, sizeof(global_descriptor));
 }
 
-segment_descriptor make_descriptor(int limit, int baseaddr, SEGMENT_TYPE segment_type, RPL rpl)
+segment_descriptor make_descriptor(int limit, int baseaddr, SegmentType segment_type, RPL rpl)
 {
     segment_descriptor sd;
     sd.present=true;

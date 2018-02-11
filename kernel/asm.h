@@ -53,11 +53,17 @@ void outw(word port, word b);
         "popad;"    \
     )
 
+
+
 ///关闭中断和IRQ
-#define close_int() u16 irq_stat = stop_all_irq();    cli()
+#define close_int() //u16 irq_stat = stop_all_irq();
+
 
 ///开启中断和IRQ（必须先close_int）
-#define start_int() restore_irq(irq_stat);    sti()
+///@todo start_int 会死机!!
+#define start_int() //restore_irq(irq_stat);
+
+
 
 /*汇编程序里的变量指针*/
 

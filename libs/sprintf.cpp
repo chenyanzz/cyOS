@@ -2,7 +2,7 @@
 #include "sprintf.h"
 #include "stdlib.h"
 
-output_attrbutes attr;
+OutputAttrbutes attr;
 
 int sprintInt(long long val, char *buf)
 {
